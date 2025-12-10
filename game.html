@@ -160,7 +160,7 @@ async function loadFilesFromFolder(){
   const hint = document.getElementById('autoLoadHint');
   if(hint) hint.style.display = 'none';
   try{
-    const [r1, r2] = await Promise.allSettled([fetch('words.json'), fetch('sentences.json')]);
+    const [r1, r2] = await Promise.allSettled([fetch('./words.json'), fetch('./sentences.json')]);
 
     // words.json
     if(r1.status === 'fulfilled' && r1.value.ok){
