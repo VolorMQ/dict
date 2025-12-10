@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #e0c3fc, #fbc2eb); /* новый градиент */
+  padding: 30px;
+  color: #333;
+}
+
+input[type="file"] {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+th {
+  background: linear-gradient(to right, #a18cd1, #fbc2eb);
+  color: white;
+}
+
+td input {
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+tr:nth-child(even) {
+  background: #f6f0ff;
+}
+
+button {
+  margin: 5px 5px 5px 0;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #a18cd1, #fbc2eb);
+  color: white;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+</style>
+</head>
+<body>
+
+<input type="file" id="fileInput" accept=".json">
+<table id="jsonTable">
+<thead>
+<tr>
+<th>id</th><th>wordId</th><th>text</th><th>actions</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<button onclick="addRow()">Добавить строку</button>
+<button onclick="downloadJSON()">Скачать JSON</button>
+
+<script>
+let data = [];
+
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    try {
+      data = JSON.parse(event.target.result);
+      render();
+    } catch(err) {
+      alert("Ошибка: неверный JSON");
+    }
+  };
+  reader.readAsText(file);
+});
+
+function render() {
+  const tbody = document.querySelector("#jsonTable tbody");
+  tbody.innerHTML = "";
+  data.forEach((row, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td contenteditable="true">${row.id || ""}</td>
+      <td contenteditable="true">${row.wordId || ""}</td>
+      <td contenteditable="true">${row.text || ""}</td>
+      <td><button onclick="deleteRow(${i})">Удалить</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function addRow() {
+  data.push({"id":"","wordId":"","text":""});
+  render();
+}
+
+function deleteRow(index) {
+  data.splice(index,1);
+  render();
+}
+
+function downloadJSON() {
+  const tbody = document.querySelector("#jsonTable tbody");
+  data = Array.from(tbody.rows).map(row => ({
+    id: row.cells[0].innerText.trim(),
+    wordId: row.cells[1].innerText.trim(),
+    text: row.cells[2].innerText.trim()
+  }));
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "sentences.json";
+  a.click();
+}
+</script>
+
+</body>
+</html>

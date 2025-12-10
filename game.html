@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Игровой тренажёр слов с картинками</title>
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Comic Neue','Luckiest Guy',cursive,Arial,sans-serif;margin:0;padding:0;background:linear-gradient(135deg,#74ebd5,#ACB6E5);display:flex;flex-direction:column;align-items:center;min-height:100vh}
+h1{margin:20px 0;color:#fff;font-size:2.2em;text-shadow:2px 2px 5px #000;text-align:center}
+.card{border-radius:12px;padding:15px;margin:8px auto;width:380px;background:rgba(255,255,255,0.9);box-shadow:0 6px 12px rgba(0,0,0,0.4);font-size:1.2em;text-align:center}
+button{padding:10px 18px;margin:5px;width:180px;border:none;border-radius:10px;background:#74b9ff;color:#fff;font-weight:bold;cursor:pointer;font-size:1.1em;text-shadow:1px 1px 2px #000}
+button.correct{background:#55efc4} button.wrong{background:#ff7675}
+#score,#timer{font-size:1.5em;color:#fff;text-shadow:2px 2px 5px #000;margin:5px}
+img.wordImage{max-width:100%;border-radius:12px;margin-bottom:12px;box-shadow:0 4px 10px rgba(0,0,0,0.3)}
+input[type=file]{font-size:1.1em;margin:4px}
+#difficulty{margin:10px;font-size:1.1em;padding:5px;border-radius:8px}
+#openLoadModal{position:fixed;top:10px;right:10px;padding:8px 12px;font-size:1em;border-radius:8px;background:#fd79a8;color:#fff;border:none;cursor:pointer;z-index:1000}
+#loadModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:999}
+#loadModal .modalContent{background:#fff;padding:20px;border-radius:12px;text-align:center;width:420px;box-shadow:0 4px 12px rgba(0,0,0,0.4)}
+#loadModal button{margin-top:5px;cursor:pointer}
+.small{font-size:0.9em;color:#444}
+#fileStatus{position:fixed;top:12px;left:12px;background:rgba(255,255,255,0.95);padding:8px 10px;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.2);font-size:0.95em;z-index:1000}
+#gameControls{margin-top:6px}
+.notice{background:#fff3b0;color:#6b4a00;padding:8px;border-radius:8px;margin-top:8px;font-size:0.95em}
+/* Новые стили для блока с вариантами и кнопок */
+#options {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* две колонки */
+  gap: 10px;                      /* промежутки между кнопками */
+  width: 420px;                    /* шире, чтобы длинные слова помещались */
+  min-height: 200px;               /* увеличиваем высоту окна */
+  margin: 0 auto;
+  padding: 10px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+#options button {
+  width: 100%;                     /* кнопка занимает всю колонку */
+  padding: 12px 8px;
+  font-size: 1.1em;
+  white-space: nowrap;             /* текст внутри кнопки не переносится */
+  overflow: hidden;
+  text-overflow: ellipsis;         /* если слово длинное — показываем многоточие */
+  box-sizing: border-box;
+}
+</style>
+</head>
+<body>
+<h1>Игра: Найди правильное слово</h1>
+<div id="score">Очки: 0 | Комбо: 1</div>
+<div id="timer">Время: 60</div>
+
+<label for="difficulty">Выберите уровень сложности:</label>
+<select id="difficulty">
+  <option value="easy">Лёгкий</option>
+  <option value="medium">Средний</option>
+  <option value="hard">Сложный</option>
+</select>
+
+<div id="question" class="card"></div>
+<div id="options" class="card"></div>
+
+<div id="gameControls">
+  <button id="startBtn">Начать игру</button>
+  <button id="restartBtn" style="display:none;">Начать новую игру</button>
+</div>
+
+<button id="openLoadModal">Загрузить JSON</button>
+
+<div id="fileStatus">
+  words: <span id="wordsName">words.json</span><br>
+  sentences: <span id="sentName">sentences.json</span>
+</div>
+
+<div id="loadModal">
+  <div class="modalContent">
+    <h2>Загрузить JSON-файлы</h2>
+    <div class="small" style="margin-bottom:8px">По умолчанию показаны <strong>words.json</strong> и <strong>sentences.json</strong> — нажмите «Загрузить файлы из папки», чтобы подтянуть их из той же папки, где лежит HTML. Если страница открыта по <code>file://</code>, автозагрузка может быть невозможна — тогда загрузите файлы вручную ниже.</div>
+
+    <!-- Кнопка для fetch из папки (пользователь нажмёт её, чтобы "подхватить" файлы) -->
+    <button id="loadFromFolder">Загрузить файлы из папки</button><br><br>
+
+    <div class="small" style="margin-top:8px">Или выберите вручную:</div>
+    <input id="wordsFile" type="file" accept=".json"><br><br>
+    <input id="sentFile" type="file" accept=".json"><br><br>
+
+    <button id="loadDefault">Загрузить пример</button>
+    <button id="closeModal" style="margin-left:8px">Закрыть</button>
+
+    <div id="autoLoadHint" class="notice" style="display:none;margin-top:12px"></div>
+    <div class="small" style="margin-top:8px;color:#666">После успешной загрузки обоих файлов кнопка "Начать игру" станет активной.</div>
+  </div>
+</div>
+
+<div style="margin-top:10px;">
+  <label for="sentenceLimit">Макс. предложений для игры:</label>
+  <input type="number" id="sentenceLimit" value="9999" min="1" style="width:60px;">
+</div>
+
+<script>
+// --- Данные ---
+let words = [], sentences = [];
+let remainingWords = [];
+let remainingSentences = []; // Пул предложений для игры
+let score=0, combo=1, time=10, timerInterval, currentWord;
+
+// Новые счётчики ответов
+let correctCount = 0, wrongCount = 0, skippedCount = 0;
+
+// Флаги и имена файлов — показываем по умолчанию как выбранные,
+// но реальные данные будут загружены только после нажатия "Загрузить файлы из папки" или ручной загрузки.
+let wordsLoaded = false, sentencesLoaded = false;
+let wordsFileName = 'words.json', sentencesFileName = 'sentences.json';
+
+// Словарь типов слов
+const posNames = {
+  noun:"Substantiv", verb:"Verbum", adj:"Adjektiv", adv:"Adverbium",
+  pron:"Pronomen", prep:"Præposition", conj:"Konjunktion", interj:"Interjektion",
+  num:"Numeral", art:"Artikel", aux:"Hilfsverb", part:"Partikel",
+  det:"Determinativ", modal:"Modalverbum", poss:"Possessivpronomen", reflex:"Refleksivpronomen"
+};
+
+// Примеры данных (для кнопки «Загрузить пример»)
+function loadDefaultData(){
+  words = [
+    {id:"w1", word:"hus", value:"дом", pos:"noun", imageUrl:"hus.jpg"},
+    {id:"w2", word:"kat", value:"кот", pos:"noun", imageUrl:"kat.jpg"},
+    {id:"w3", word:"løbe", value:"бежать", pos:"verb"},
+    {id:"w4", word:"stol", value:"стул", pos:"noun"},
+    {id:"w5", word:"grøn", value:"зелёный", pos:"adj"},
+    {id:"w6", word:"vand", value:"вода", pos:"noun"}
+  ];
+  sentences = [
+    {id:"s1", wordId:"w1","text":"Jeg bor i et lille {{word}}."},
+    {id:"s2", wordId:"w2","text":"{{word}} sover på sofaen."},
+    {id:"s3", wordId:"w3","text":"Han kan {{word}} hurtigt."},
+    {id:"s4", wordId:"w4","text":"Sæt dig på en anden {{word}}."},
+    {id:"s5", wordId:"w5","text":"Himlen er {{word}} i dag."}
+  ];
+  wordsLoaded = true; sentencesLoaded = true;
+  wordsFileName = 'пример'; sentencesFileName = 'пример';
+  updateFileStatus(); checkStartButton();
+}
+
+// UI: обновление статуса файлов
+function updateFileStatus(){
+  document.getElementById('wordsName').textContent = wordsFileName || '—';
+  document.getElementById('sentName').textContent = sentencesFileName || '—';
+}
+
+// Проверка возможности старта
+function checkStartButton(){
+  const startBtn = document.getElementById('startBtn');
+  startBtn.disabled = !(wordsLoaded && sentencesLoaded);
+}
+
+// Загрузка файлов из той же папки (fetch) — вызывается при клике "Загрузить файлы из папки"
+async function loadFilesFromFolder(){
+  const hint = document.getElementById('autoLoadHint');
+  if(hint) hint.style.display = 'none';
+  try{
+    const [r1, r2] = await Promise.allSettled([fetch('words.json'), fetch('sentences.json')]);
+
+    // words.json
+    if(r1.status === 'fulfilled' && r1.value.ok){
+      try{
+        const data = await r1.value.json();
+        if(Array.isArray(data)){
+          words = data; wordsLoaded = true; wordsFileName = 'words.json';
+        } else {
+          console.warn('words.json не массив, игнорируется');
+        }
+      }catch(e){ console.warn('Ошибка парсинга words.json', e); }
+    } else {
+      console.warn('fetch words.json failed or not ok', r1);
+    }
+
+    // sentences.json
+    if(r2.status === 'fulfilled' && r2.value.ok){
+      try{
+        const data2 = await r2.value.json();
+        if(Array.isArray(data2)){
+          sentences = data2; sentencesLoaded = true; sentencesFileName = 'sentences.json';
+        } else {
+          console.warn('sentences.json не массив, игнорируется');
+        }
+      }catch(e){ console.warn('Ошибка парсинга sentences.json', e); }
+    } else {
+      console.warn('fetch sentences.json failed or not ok', r2);
+    }
+  }catch(e){
+    console.warn('Ошибка при попытке загрузки файлов из папки', e);
+  }
+
+  updateFileStatus();
+  checkStartButton();
+
+  if(!(wordsLoaded && sentencesLoaded)){
+    if(hint) hint.style.display = 'block';
+    if(location.protocol === 'file:'){
+      if(hint) hint.innerHTML = 'Автозагрузка невозможна через <code>file://</code>. Откройте страницу через локальный сервер (например <code>python -m http.server</code>) или загрузите файлы вручную ниже.';
+      document.getElementById('loadModal').style.display = 'flex';
+    } else {
+      if(hint) hint.innerHTML = 'Не удалось загрузить файлы автоматически. Убедитесь, что файлы находятся в той же папке, или загрузите их вручную.';
+    }
+  } else {
+    if(hint) { hint.style.display = 'block'; hint.innerHTML = 'Файлы загружены из папки — можно начать игру.'; setTimeout(()=>{ hint.style.display = 'none'; }, 2500); }
+  }
+}
+
+// Ручная загрузка (FileReader)
+document.getElementById('wordsFile').addEventListener('change', e=>{
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    try{
+      const parsed = JSON.parse(ev.target.result);
+      if(!Array.isArray(parsed)) throw new Error('words.json должен быть массивом объектов');
+      words = parsed; wordsLoaded = true; wordsFileName = file.name;
+      updateFileStatus(); checkStartButton();
+      alert('words.json успешно загружен: ' + file.name);
+    }catch(err){
+      wordsLoaded = false; wordsFileName = ''; updateFileStatus(); checkStartButton();
+      alert('Ошибка чтения words.json: ' + err);
+    }
+  };
+  reader.readAsText(file,'utf-8');
+});
+document.getElementById('sentFile').addEventListener('change', e=>{
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev=>{
+    try{
+      const parsed = JSON.parse(ev.target.result);
+      if(!Array.isArray(parsed)) throw new Error('sentences.json должен быть массивом объектов');
+      sentences = parsed; sentencesLoaded = true; sentencesFileName = file.name;
+      updateFileStatus(); checkStartButton();
+      alert('sentences.json успешно загружен: ' + file.name);
+    }catch(err){
+      sentencesLoaded = false; sentencesFileName = ''; updateFileStatus(); checkStartButton();
+      alert('Ошибка чтения sentences.json: ' + err);
+    }
+  };
+  reader.readAsText(file,'utf-8');
+});
+
+// load from folder button
+const loadFromFolderBtn = document.getElementById('loadFromFolder');
+if(loadFromFolderBtn) loadFromFolderBtn.addEventListener('click', loadFilesFromFolder);
+
+// Кнопка: загрузить пример
+document.getElementById('loadDefault').addEventListener('click', ()=>{
+  loadDefaultData();
+  alert('Пример загружен (встроенные слова и предложения).');
+  document.getElementById('loadModal').style.display = 'none';
+});
+
+// Модал управление
+const openModalBtn = document.getElementById('openLoadModal');
+const loadModal = document.getElementById('loadModal');
+const closeModalBtn = document.getElementById('closeModal');
+openModalBtn.addEventListener('click', ()=>{ loadModal.style.display='flex'; });
+closeModalBtn.addEventListener('click', ()=>{ loadModal.style.display='none'; });
+window.addEventListener('click', e=>{ if(e.target===loadModal) loadModal.style.display='none'; });
+
+// Игра
+const startBtn = document.getElementById('startBtn');
+const restartBtn = document.getElementById('restartBtn');
+startBtn.disabled = true;
+
+startBtn.addEventListener('click', ()=>{
+  startGame();
+  startBtn.style.display = 'none';
+  restartBtn.style.display = 'inline-block';
+  loadModal.style.display = 'none';
+});
+restartBtn.addEventListener('click', ()=>{
+  clearInterval(timerInterval);
+  score = 0; combo = 1; time = 60;
+  // сбрасываем счётчики при рестарте
+  correctCount = 0; wrongCount = 0; skippedCount = 0;
+  showScore();
+  // при рестарте пересоздаём пул предложений и начинаем заново
+  resetRemainingSentences();
+  resetRemainingWords();
+  nextQuestion();
+});
+
+let answerTimeout; // таймер на выбор слова
+
+// ---------------- НОВОЕ: пул слов/предложений и утилиты ----------------
+// Перемешивание (Fisher–Yates)
+function shuffleArray(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+// Заполнение/сброс пула remainingWords (может быть полезен, оставляем)
+function resetRemainingWords(){
+  remainingWords = words.slice();
+  shuffleArray(remainingWords);
+}
+
+// ---------------- НОВОЕ: пул предложений и ограничение ----------------
+function resetRemainingSentences(){
+  // Копируем предложения
+  remainingSentences = sentences.slice();
+
+  // Определяем лимит по предложениям из поля #sentenceLimit (если есть)
+  let limit = 9999;
+  const el = document.getElementById('sentenceLimit');
+  if(el){
+    const parsed = parseInt(el.value, 10);
+    if(!isNaN(parsed) && parsed >= 1) limit = parsed;
+  }
+
+  shuffleArray(remainingSentences);
+
+  if(limit < remainingSentences.length){
+    remainingSentences = remainingSentences.slice(0, limit);
+  }
+}
+
+// ---------------- ИГРА ----------------
+function startGame(){
+  score = 0; combo = 1;
+  // сбрасываем счётчики при старте
+  correctCount = 0; wrongCount = 0; skippedCount = 0;
+  showScore();
+  // подготовим пул предложений — игра пойдёт по предложениями, ограниченным полем
+  resetRemainingSentences();
+  // оставляем пул слов для вариантов (если нужен)
+  resetRemainingWords();
+  nextQuestion();
+}
+
+function showScore(){ 
+  document.getElementById('score').textContent = `Очки: ${score} | Комбо: ${combo} | ✅ ${correctCount} ❌ ${wrongCount} ⏭ ${skippedCount}`; 
+}
+
+// Берёт слово случайно из remainingWords (оставлено как есть)
+function pickWord(){ return remainingWords.length>0 ? remainingWords.pop() : null; }
+
+// Берём следующее предложение из remainingSentences (без повторов)
+function pickSentence(){
+  if(!remainingSentences || remainingSentences.length === 0) return null;
+  return remainingSentences.pop();
+}
+
+function makeOptions(correct){
+  let opts = [correct];
+  let candidates = words.filter(w => w.id !== correct.id);
+  while(opts.length < 4 && candidates.length > 0){
+    let idx = Math.floor(Math.random() * candidates.length);
+    opts.push(candidates.splice(idx, 1)[0]);
+  }
+  for(let i = opts.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+  return opts;
+}
+
+function endGame(){
+  clearInterval(answerTimeout);  // остановка таймера текущего слова
+  clearInterval(timerInterval);  // остановка общего таймера игры, если есть
+  const buttons = document.querySelectorAll('#options button');
+  buttons.forEach(b => b.disabled = true);  // блокируем все кнопки
+  // Выводим статистику вместо очков
+  alert(`Игра окончена!
+Правильных: ${correctCount}
+Неправильных: ${wrongCount}
+Пропущенных: ${skippedCount}`);
+  // Возврат к стартовой кнопке
+  document.getElementById('startBtn').style.display = 'inline-block';
+  document.getElementById('restartBtn').style.display = 'none';
+}
+
+function nextQuestion(){
+  // Сброс предыдущего таймера
+  if(answerTimeout) clearInterval(answerTimeout);
+
+  // Если нет слов или предложений — просьба загрузить
+  if(!words.length || !sentences.length){
+    document.getElementById('question').innerHTML = '<div class="small">Сначала загрузите файлы или пример.</div>';
+    return;
+  }
+
+  // Берём следующее предложение (из ограниченного пула)
+  const sentenceObj = pickSentence();
+  if(!sentenceObj){
+    // пул предложений пуст — конец игры
+    endGame();
+    return;
+  }
+
+  // Находим слово, привязанное к предложению
+  currentWord = words.find(w => w.id === sentenceObj.wordId);
+  if(!currentWord){
+    // Если слово не найдено, переходим к следующему предложению
+    if(remainingSentences.length === 0) { endGame(); return; }
+    else { setTimeout(nextQuestion, 0); return; }
+  }
+
+  const sentenceText = sentenceObj.text ? sentenceObj.text.replace("{{word}}","_____") : "_____";
+  const typeWord = posNames[currentWord.pos] || "Ord";
+
+  let qHtml = "";
+  if(currentWord.imageUrl){
+    qHtml += `<div style="margin-bottom:12px;"><img class="wordImage" src="${currentWord.imageUrl}" alt="Изображение слова"></div>`;
+  }
+
+  const difficulty = document.getElementById('difficulty').value;
+  qHtml += `<div style="margin-top:10px;"><strong>Найди слово</strong><br>${sentenceText}</div>`;
+  if(difficulty === "easy") qHtml += `<br><em>Тип слова: ${typeWord}</em><br><span class="small">Перевод: ${currentWord.value}</span>`;
+  else if(difficulty === "medium") qHtml += `<br><em>Тип слова: ${typeWord}</em>`;
+
+  document.getElementById('question').innerHTML = qHtml;
+
+  const optionsDiv = document.getElementById('options');
+  optionsDiv.innerHTML = '';
+  makeOptions(currentWord).forEach(o => {
+    let btn = document.createElement('button');
+    btn.textContent = o.word;
+    btn.onclick = () => {
+      clearInterval(answerTimeout); // остановка таймера при ответе
+      checkAnswer(o, btn);
+    };
+    optionsDiv.appendChild(btn);
+  });
+
+  // Таймер для выбора ответа (например, 10 секунд)
+  let timePerWord = 10;
+  document.getElementById('timer').textContent = `Время: ${timePerWord}`;
+  answerTimeout = setInterval(() => {
+    timePerWord--;
+    document.getElementById('timer').textContent = `Время: ${timePerWord}`;
+    if(timePerWord <= 0){
+      clearInterval(answerTimeout);
+      // Блокируем кнопки без подсветки правильного ответа
+      const buttons = document.querySelectorAll('#options button');
+      buttons.forEach(b => b.disabled = true);
+
+      // увеличиваем счётчик пропущенных
+      skippedCount++;
+      showScore();
+
+      // Если пул предложений пуст — конец игры, иначе следующий вопрос
+      if(!remainingSentences || remainingSentences.length === 0){
+        setTimeout(endGame, 500);
+      } else {
+        setTimeout(nextQuestion, 500); // короткая пауза перед следующим словом
+      }
+    }
+  }, 1000);
+}
+
+function checkAnswer(selected, btn){
+  const buttons = document.querySelectorAll('#options button');
+  buttons.forEach(b => b.disabled = true);
+
+  if(selected.id === currentWord.id){
+    btn.classList.add('correct');
+    correctCount++;
+    score += 10 * combo;
+    combo++;
+    time += 2;
+  } else {
+    btn.classList.add('wrong');
+    wrongCount++;
+    combo = 1;
+    time -= 2;
+    // убрано: никаких подсветок правильного ответа
+  }
+
+  showScore();
+
+  // Если пул предложений закончился, завершить игру после паузы, иначе — следующий вопрос
+  if(!remainingSentences || remainingSentences.length === 0){
+    setTimeout(endGame, 1000);
+  } else {
+    setTimeout(nextQuestion, 1000);
+  }
+}
+
+// Показываем по умолчанию имена файлов (как будто выбраны)
+// но кнопка старта будет активна только после реальной загрузки
+updateFileStatus();
+checkStartButton();
+</script>
+
+
+
+</body>
+</html>

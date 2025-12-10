@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartoon Game Hub</title>
+  <!-- Подключаем Google Fonts для мультяшного стиля -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+  <style>
+    /* Общие стили */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Neue', cursive;
+      background: linear-gradient(120deg, #fbc2eb, #a6c1ee);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 4rem;
+      text-shadow: 3px 3px 0 #ff6f61, 6px 6px 0 #ffb347;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    /* Кнопки */
+    .button {
+      background: #ffdd59;
+      color: #333;
+      border: 4px solid #ff6f61;
+      border-radius: 20px;
+      padding: 20px 50px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 5px 5px 0 #ff6f61;
+    }
+
+    .button:hover {
+      transform: translateY(-5px) rotate(-3deg);
+      box-shadow: 8px 8px 0 #ff6f61;
+    }
+
+    /* Забавные облака на фоне */
+    .cloud {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0.7;
+      animation: float 10s linear infinite;
+    }
+
+    .cloud:nth-child(1) { width: 200px; height: 60px; top: 50px; left: -250px; }
+    .cloud:nth-child(2) { width: 150px; height: 50px; top: 150px; left: -200px; }
+    .cloud:nth-child(3) { width: 180px; height: 55px; top: 300px; left: -220px; }
+
+    @keyframes float {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(120vw); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Облака -->
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+
+  <h1>🎉 Din egen ordbog. Lær nemt nye ord. 🎮</h1>
+
+  <!-- Кнопки навигации -->
+  <button class="button" onclick="location.href='game.html'">Start Game</button>
+  <button class="button" onclick="location.href='setupSentences.html'">Setup Sentences</button>
+  <button class="button" onclick="location.href='setupWord.html'">Setup Words</button>
+</body>
+</html>

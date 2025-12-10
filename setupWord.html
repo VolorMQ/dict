@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+  padding: 30px;
+  color: #333;
+}
+
+input[type="file"] {
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+th, td {
+  padding: 10px 12px;
+  text-align: left;
+}
+
+th {
+  background: linear-gradient(to right, #6a82fb, #fc5c7d);
+  color: white;
+}
+
+td select, td input {
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+td select {
+  background: #f9f9f9;
+}
+
+tr:nth-child(even) {
+  background: #f6f8ff;
+}
+
+button {
+  margin: 5px 5px 5px 0;
+  padding: 8px 14px;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #6a82fb, #fc5c7d);
+  color: white;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+input[type=range] {
+  vertical-align: middle;
+}
+</style>
+</head>
+<body>
+
+<input type="file" id="fileInput" accept=".json">
+<table id="jsonTable">
+<thead>
+<tr>
+<th>id</th><th>word</th><th>value</th><th>pos</th><th>imageUrl</th><th>actions</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<button onclick="addRow()">Добавить строку</button>
+<button onclick="downloadJSON()">Скачать JSON</button>
+
+<script>
+const posNames = {
+  noun:"Substantiv", verb:"Verbum", adj:"Adjektiv", adv:"Adverbium",
+  pron:"Pronomen", prep:"Præposition", conj:"Konjunktion", interj:"Interjektion",
+  num:"Numeral", art:"Artikel", aux:"Hilfsverb", part:"Partikel",
+  det:"Determinativ", modal:"Modalverbum", poss:"Possessivpronomen", reflex:"Refleksivpronomen"
+};
+
+let data = [];
+
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    try {
+      data = JSON.parse(event.target.result);
+      render();
+    } catch(err) {
+      alert("Ошибка: неверный JSON");
+    }
+  };
+  reader.readAsText(file);
+});
+
+function render() {
+  const tbody = document.querySelector("#jsonTable tbody");
+  tbody.innerHTML = "";
+  data.forEach((row, i) => {
+    const posOptions = Object.entries(posNames).map(([key, label]) => 
+      `<option value="${key}" ${row.pos===key?'selected':''}>${label}</option>`
+    ).join('');
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td contenteditable="true">${row.id || ""}</td>
+      <td contenteditable="true">${row.word || ""}</td>
+      <td contenteditable="true">${row.value || ""}</td>
+      <td><select>${posOptions}</select></td>
+      <td contenteditable="true">${row.imageUrl || ""}</td>
+      <td>
+        <button onclick="playWord(${i})">▶️</button>
+        <input type="range" min="0.5" max="2" step="0.1" value="1" id="speed-${i}" style="width:80px;">
+        <button onclick="deleteRow(${i})">Удалить</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+
+function addRow() {
+  data.push({"id":"","word":"","value":"","pos":"noun","imageUrl":""});
+  render();
+}
+
+function deleteRow(index) {
+  data.splice(index,1);
+  render();
+}
+
+function downloadJSON() {
+  const tbody = document.querySelector("#jsonTable tbody");
+  data = Array.from(tbody.rows).map(row => ({
+    id: row.cells[0].innerText.trim(),
+    word: row.cells[1].innerText.trim(),
+    value: row.cells[2].innerText.trim(),
+    pos: row.cells[3].querySelector("select").value,
+    imageUrl: row.cells[4].innerText.trim()
+  }));
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "word.json";
+  a.click();
+}
+
+let danishVoice = null;
+
+// Обновляем список голосов, когда браузер их загрузит
+speechSynthesis.onvoiceschanged = () => {
+  const voices = speechSynthesis.getVoices();
+  // Ищем датский голос
+  danishVoice = voices.find(v => v.lang === "da-DK" && v.localService) || voices[0];
+};
+
+function playWord(index) {
+  const row = data[index];
+  if (!row || !row.word) return;
+
+  const speed = parseFloat(document.getElementById(`speed-${index}`).value);
+  const utterance = new SpeechSynthesisUtterance(row.word);
+  utterance.lang = "da-DK";
+  if (danishVoice) utterance.voice = danishVoice;
+  utterance.rate = speed;
+
+  speechSynthesis.speak(utterance);
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,387 @@
+[
+  {
+    "id": "w1",
+    "word": "vidst",
+    "value": "знал / кажется, видимо",
+    "pos": "verb",
+    "imageUrl": "jpg/vidst.jpg"
+  },
+  {
+    "id": "w2",
+    "word": "både",
+    "value": "и … и … / как … так и …",
+    "pos": "conj",
+    "imageUrl": "jpg/b1de.jpg"
+  },
+  {
+    "id": "w3",
+    "word": "side",
+    "value": "сторона / бок / страница / позиция",
+    "pos": "noun",
+    "imageUrl": "jpg/side.jpg"
+  },
+  {
+    "id": "w4",
+    "word": "søge",
+    "value": "искать / стремиться к / подавать заявку",
+    "pos": "verb",
+    "imageUrl": "jpg/s1ge.jpg"
+  },
+  {
+    "id": "w5",
+    "word": "blive",
+    "value": "становиться / быть / оставаться / превращаться",
+    "pos": "verb",
+    "imageUrl": "jpg/blive.jpg"
+  },
+  {
+    "id": "w6",
+    "word": "optaget",
+    "value": "занятый / занято / увлечённый / записанный",
+    "pos": "adj",
+    "imageUrl": "jpg/optaget.jpg"
+  },
+  {
+    "id": "w7",
+    "word": "frivillig",
+    "value": "добровольный / волонтёрский / доброволец",
+    "pos": "adj",
+    "imageUrl": "jpg/frivillig.jpg"
+  },
+  {
+    "id": "w8",
+    "word": "behov",
+    "value": "потребность / нужда / запрос",
+    "pos": "noun",
+    "imageUrl": "jpg/behov.jpg"
+  },
+  {
+    "id": "w9",
+    "word": "indimellem",
+    "value": "иногда / время от времени / порой",
+    "pos": "adv",
+    "imageUrl": "jpg/indimellem.jpg"
+  },
+  {
+    "id": "w10",
+    "word": "ene",
+    "value": "единственный / один / только",
+    "pos": "adj",
+    "imageUrl": "jpg/ene.jpg"
+  },
+  {
+    "id": "w11",
+    "word": "udholdenhed",
+    "value": "выносливость / терпение / стойкость",
+    "pos": "noun",
+    "imageUrl": "jpg/udholdenhed.jpg"
+  },
+  {
+    "id": "w12",
+    "word": "krævende",
+    "value": "требовательный / напряжённый / сложный",
+    "pos": "adj",
+    "imageUrl": "jpg/kr1vende.jpg"
+  },
+  {
+    "id": "w13",
+    "word": "armbøjninger",
+    "value": "отжимания / сгибания рук",
+    "pos": "noun",
+    "imageUrl": "jpg/armb1jninger.jpg"
+  },
+  {
+    "id": "w14",
+    "word": "så",
+    "value": "так / тогда / настолько",
+    "pos": "adv",
+    "imageUrl": "jpg/s1.jpg"
+  },
+  {
+    "id": "w15",
+    "word": "tager",
+    "value": "брать / принимать / занимать / ехать / справляться",
+    "pos": "verb",
+    "imageUrl": "jpg/tager.jpg"
+  },
+  {
+    "id": "w16",
+    "word": "dygtig",
+    "value": "умелый / способный / квалифицированный",
+    "pos": "adj",
+    "imageUrl": "jpg/dygtig.jpg"
+  },
+  {
+    "id": "w17",
+    "word": "begge",
+    "value": "оба / обе",
+    "pos": "pron",
+    "imageUrl": "jpg/begge.jpg"
+  },
+  {
+    "id": "w18",
+    "word": "dele",
+    "value": "делить / распределять / часть",
+    "pos": "verb",
+    "imageUrl": "jpg/dele.jpg"
+  },
+  {
+    "id": "w19",
+    "word": "bare",
+    "value": "только / просто / вовсе",
+    "pos": "adv",
+    "imageUrl": "jpg/bare.jpg"
+  },
+  {
+    "id": "w20",
+    "word": "spændt",
+    "value": "напряжённый / взволнованный / натянутый",
+    "pos": "adj",
+    "imageUrl": "jpg/sp1ndt.jpg"
+  },
+  {
+    "id": "w21",
+    "word": "mener",
+    "value": "думать / полагать / иметь мнение",
+    "pos": "verb",
+    "imageUrl": "jpg/mener.jpg"
+  },
+  {
+    "id": "w22",
+    "word": "egnet",
+    "value": "пригодный / подходящий / соответствующий",
+    "pos": "adj",
+    "imageUrl": "jpg/egnet.jpg"
+  },
+  {
+    "id": "w23",
+    "word": "optagelsesprøve",
+    "value": "вступительный экзамен / приёмный тест",
+    "pos": "noun",
+    "imageUrl": "jpg/optagelsespr1ve.jpg"
+  },
+  {
+    "id": "w24",
+    "word": "prøve",
+    "value": "пробовать / экзамен / образец",
+    "pos": "verb",
+    "imageUrl": "jpg/pr1ve.jpg"
+  },
+  {
+    "id": "w25",
+    "word": "nogle",
+    "value": "некоторые / несколько / какие-то",
+    "pos": "pron",
+    "imageUrl": "jpg/nogle.jpg"
+  },
+  {
+    "id": "w26",
+    "word": "sker",
+    "value": "происходит / случается / происходит в данный момент",
+    "pos": "verb",
+    "imageUrl": "jpg/sker.jpg"
+  },
+  {
+    "id": "w27",
+    "word": "nemlig",
+    "value": "именно / как раз / ведь (усиливающее слово)",
+    "pos": "adv",
+    "imageUrl": "jpg/nemlig.jpg"
+  },
+  {
+    "id": "w28",
+    "word": "især",
+    "value": "особенно / главным образом / в частности",
+    "pos": "adv",
+    "imageUrl": "jpg/is1r.jpg"
+  },
+  {
+    "id": "w29",
+    "word": "ligeglade",
+    "value": "безразличные / равнодушные",
+    "pos": "adj",
+    "imageUrl": "jpg/ligeglade.jpg"
+  },
+  {
+    "id": "w30",
+    "word": "færdig",
+    "value": "готовый / закончивший / завершённый",
+    "pos": "adj",
+    "imageUrl": "jpg/f1rdig.jpg"
+  },
+  {
+    "id": "w31",
+    "word": "nysgerrige",
+    "value": "любопытные / любознательные",
+    "pos": "adj",
+    "imageUrl": "jpg/nysgerrige.jpg"
+  },
+  {
+    "id": "w32",
+    "word": "spændende",
+    "value": "захватывающий / увлекательный / интересный",
+    "pos": "adj",
+    "imageUrl": "jpg/sp1ndende.jpg"
+  },
+  {
+    "id": "w33",
+    "word": "være",
+    "value": "быть / являться / находиться / существовать",
+    "pos": "verb",
+    "imageUrl": "jpg/v1re.jpg"
+  },
+  {
+    "id": "w34",
+    "word": "samtale",
+    "value": "разговор / беседа / диалог",
+    "pos": "noun",
+    "imageUrl": "jpg/samtale.jpg"
+  },
+  {
+    "id": "w35",
+    "word": "få",
+    "value": "получать / приобретать / добиваться, достигать / становиться / заставить кого-то что-то сделать / иметь (в значении «иметь возможность»)",
+    "pos": "verb",
+    "imageUrl": "jpg/f1.jpg"
+  },
+  {
+    "id": "w36",
+    "word": "imod",
+    "value": "против / навстречу / по направлению к (редко, старое значение)",
+    "pos": "prep",
+    "imageUrl": "jpg/imod.jpg"
+  },
+  {
+    "id": "w37",
+    "word": "genert",
+    "value": "застенчивый / стеснительный / скромный (в поведении)",
+    "pos": "adj",
+    "imageUrl": "jpg/genert.jpg"
+  },
+  {
+    "id": "w38",
+    "word": "hvisker",
+    "value": "шепчет / шептать",
+    "pos": "verb",
+    "imageUrl": "jpg/hvisker.jpg"
+  },
+  {
+    "id": "w39",
+    "word": "ligesom",
+    "value": "как, словно / так же, как и / вроде, типа (разговорное)",
+    "pos": "conj",
+    "imageUrl": "jpg/ligesom.jpg"
+  },
+  {
+    "id": "w40",
+    "word": "siger",
+    "value": "говорит / сказать, выражать словами / утверждает, заявляет",
+    "pos": "verb",
+    "imageUrl": "jpg/siger.jpg"
+  },
+  {
+    "id": "w41",
+    "word": "takker",
+    "value": "благодарит / благодарить / выражает признательность",
+    "pos": "verb",
+    "imageUrl": "jpg/takker.jpg"
+  },
+  {
+    "id": "w43",
+    "word": "beløb",
+    "value": "сумма (денег) / количество",
+    "pos": "noun",
+    "imageUrl": "jpg/bel1b.jpg"
+  },
+  {
+    "id": "w44",
+    "word": "aftalt",
+    "value": "согласованный / договорённый",
+    "pos": "adj",
+    "imageUrl": "jpg/aftalt.jpg"
+  },
+  {
+    "id": "w45",
+    "word": "sur",
+    "value": "сердитый, раздражённый / кислый (о вкусе)",
+    "pos": "adj",
+    "imageUrl": "jpg/sur.jpg"
+  },
+  {
+    "id": "w46",
+    "word": "ked",
+    "value": "скучный / несчастный, огорчённый (kede sig — «скучать»)",
+    "pos": "adj",
+    "imageUrl": "jpg/ked.jpg"
+  },
+  {
+    "id": "w47",
+    "word": "eget",
+    "value": "свой / собственный",
+    "pos": "adj",
+    "imageUrl": "jpg/eget.jpg"
+  },
+  {
+    "id": "w48",
+    "word": "råd",
+    "value": "совет / рекомендация / средства, возможности (have råd — «иметь средства»)",
+    "pos": "noun",
+    "imageUrl": "jpg/r1d.jpg"
+  },
+  {
+    "id": "w49",
+    "word": "lyst",
+    "value": "желание / охота, интерес / свет (редко, контекстуально)",
+    "pos": "noun",
+    "imageUrl": "jpg/lyst.jpg"
+  },
+  {
+    "id": "w50",
+    "word": "andel",
+    "value": "доля, часть / участие, вклад",
+    "pos": "noun",
+    "imageUrl": "jpg/andel.jpg"
+  },
+  {
+    "id": "w51",
+    "word": "skulle",
+    "value": "должен, следует / собирался, намеревался",
+    "pos": "modal",
+    "imageUrl": "jpg/skulle.jpg"
+  },
+  {
+    "id": "w52",
+    "word": "overrasket",
+    "value": "удивлённый / поражённый, ошеломлённый",
+    "pos": "adj",
+    "imageUrl": "jpg/overrasket.jpg"
+  },
+  {
+    "id": "w53",
+    "word": "skynder",
+    "value": "торопится / спешит",
+    "pos": "verb",
+    "imageUrl": "jpg/skynder.jpg"
+  },
+  {
+    "id": "w54",
+    "word": "gerne",
+    "value": "охотно, с удовольствием / любить (делать что-то)",
+    "pos": "adv",
+    "imageUrl": "jpg/gerne.jpg"
+  },
+  {
+    "id": "w55",
+    "word": "foreslået",
+    "value": "предложенный / рекомендованный",
+    "pos": "adj",
+    "imageUrl": "jpg/foresl1et.jpg"
+  },
+  {
+    "id": "w56",
+    "word": "beholde",
+    "value": "удерживать / хранить, сохранять / оставлять себе",
+    "pos": "verb",
+    "imageUrl": "jpg/beholde.jpg"
+  }  
+]
