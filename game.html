@@ -50,7 +50,7 @@ input[type=file]{font-size:1.1em;margin:4px}
 <body>
 <h1>Игра: Найди правильное слово</h1>
 <div id="score">Очки: 0 | Комбо: 1</div>
-<div id="timer">Время: 60</div>
+<div id="timer">Время: 10</div>
 
 <label for="difficulty">Выберите уровень сложности:</label>
 <select id="difficulty">
@@ -323,7 +323,7 @@ if (startBtn) startBtn.addEventListener('click', ()=>{
 });
 if (restartBtn) restartBtn.addEventListener('click', ()=>{
   clearInterval(timerInterval);
-  score = 0; combo = 1; time = 60;
+  score = 0; combo = 1; time = 10;
   correctCount = 0; wrongCount = 0; skippedCount = 0;
   showScore();
   resetRemainingSentences();
