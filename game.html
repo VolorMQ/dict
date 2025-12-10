@@ -157,65 +157,72 @@ function checkStartButton(){
   if (startBtn) startBtn.disabled = !(wordsLoaded && sentencesLoaded);
 }
 
-// ----------------- Загрузка с сервера (fetch) + совместимость с loadFilesFromFolder -----------------
+// ------ Простая загрузка с сервера (fetch), аналогично levels.json примеру ------
 
-// Универсальная функция загрузки JSON с сервера.
-// basePath может быть './', './data/', '/dict/' или полный URL 'https://.../path/'.
-// Если basePath пустой, будет использован './'.
-async function loadFilesFromServer(basePath = './') {
+// Вспомогательная: нормализует basePath (делает либо '' либо 'path/' либо full URL ending '/')
+function normalizeBasePath(p) {
+  if (!p) return '';
+  p = p.trim();
+  // если полная ссылка (начинается с http) или абсолютный путь '/', оставляем
+  if (p.startsWith('http://') || p.startsWith('https://') || p.startsWith('/')) {
+    if (!p.endsWith('/')) p += '/';
+    return p;
+  }
+  // относительный путь
+  if (!p.endsWith('/')) p += '/';
+  return p;
+}
+
+// Загружает JSON по указанному относительному/абсолютному пути + имени файла
+async function fetchJsonUrl(url) {
+  try {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+    return data;
+  } catch (e) {
+    console.warn('fetch error', url, e);
+    return null;
+  }
+}
+
+// Универсальная функция: загрузить оба файла по basePath (по умолчанию '' — т.е. та же папка)
+async function loadFilesFromFolder(basePath = '') {
   const hint = document.getElementById('autoLoadHint');
   if (hint) hint.style.display = 'none';
 
-  // Нормализуем basePath: пусть всегда заканчивается на '/'
-  if (!basePath) basePath = './';
-  basePath = basePath.trim();
-  if (!basePath.endsWith('/')) basePath += '/';
+  const bp = normalizeBasePath(basePath);
 
-  // Соберём URL и добавим параметр для сброса кэша
-  const urls = [
-    `${basePath}words.json?_=${Date.now()}`,
-    `${basePath}sentences.json?_=${Date.now()}`
-  ];
+  // Формируем URL (без cache-busting — если нужно добавить ?_=${Date.now()} — делай)
+  const wordsUrl = bp + 'words.json';
+  const sentUrl  = bp + 'sentences.json';
 
-  // Сбрасываем флаги перед попыткой
+  // Сбрасываем флаги на старте попытки
   wordsLoaded = false; sentencesLoaded = false;
+  wordsFileName = ''; sentencesFileName = '';
 
-  try {
-    const [r1, r2] = await Promise.allSettled([fetch(urls[0]), fetch(urls[1])]);
+  // Попытка загрузить сначала words, затем sentences (как в твоём рабочем примере)
+  const wordsDataPromise = fetchJsonUrl(wordsUrl);
+  const sentDataPromise  = fetchJsonUrl(sentUrl);
 
-    // words.json
-    if (r1.status === 'fulfilled' && r1.value.ok) {
-      try {
-        const data = await r1.value.json();
-        if (Array.isArray(data)) {
-          words = data; wordsLoaded = true; wordsFileName = urls[0].split('?')[0];
-        } else {
-          console.warn('words.json не массив, игнорируется');
-        }
-      } catch (e) {
-        console.warn('Ошибка парсинга words.json', e);
-      }
-    } else {
-      console.warn('fetch words.json failed or not ok', r1);
-    }
+  const [wordsData, sentData] = await Promise.all([wordsDataPromise, sentDataPromise]);
 
-    // sentences.json
-    if (r2.status === 'fulfilled' && r2.value.ok) {
-      try {
-        const data2 = await r2.value.json();
-        if (Array.isArray(data2)) {
-          sentences = data2; sentencesLoaded = true; sentencesFileName = urls[1].split('?')[0];
-        } else {
-          console.warn('sentences.json не массив, игнорируется');
-        }
-      } catch (e) {
-        console.warn('Ошибка парсинга sentences.json', e);
-      }
-    } else {
-      console.warn('fetch sentences.json failed or not ok', r2);
-    }
-  } catch (e) {
-    console.warn('Ошибка при попытке загрузки файлов с сервера', e);
+  if (Array.isArray(wordsData)) {
+    words = wordsData;
+    wordsLoaded = true;
+    wordsFileName = wordsUrl;
+    console.log('words.json загружен:', wordsUrl);
+  } else {
+    console.warn('words.json не загружен или не массив:', wordsUrl);
+  }
+
+  if (Array.isArray(sentData)) {
+    sentences = sentData;
+    sentencesLoaded = true;
+    sentencesFileName = sentUrl;
+    console.log('sentences.json загружен:', sentUrl);
+  } else {
+    console.warn('sentences.json не загружен или не массив:', sentUrl);
   }
 
   updateFileStatus();
@@ -224,30 +231,20 @@ async function loadFilesFromServer(basePath = './') {
   if (!(wordsLoaded && sentencesLoaded)) {
     if (hint) {
       hint.style.display = 'block';
-      hint.innerHTML = `Не удалось загрузить файлы по адресам:<br><code>${urls[0].split('?')[0]}</code><br><code>${urls[1].split('?')[0]}</code><br>Откройте DevTools → Network и посмотрите статус (404/403/CORS).`;
+      hint.innerHTML = `Не удалось загрузить файлы по адресам:<br><code>${wordsUrl}</code><br><code>${sentUrl}</code><br>Откройте DevTools → Network и посмотрите статус (404/403/CORS).`;
     }
-    // Открываем модал для ручной загрузки если есть
     const loadModalEl = document.getElementById('loadModal');
     if (loadModalEl) loadModalEl.style.display = 'flex';
   } else {
     if (hint) {
       hint.style.display = 'block';
       hint.innerHTML = 'Файлы загружены с сервера — можно начать игру.';
-      setTimeout(() => { if(hint) hint.style.display = 'none'; }, 2500);
+      setTimeout(()=>{ if(hint) hint.style.display = 'none'; }, 2000);
     }
   }
 }
 
-// Сохраняем обратную совместимость: если кто-то вызывает loadFilesFromFolder() без аргументов.
-function loadFilesFromFolder(){
-  // Если есть input#serverPath — используем его, иначе './'
-  const serverInput = document.getElementById('serverPath');
-  const basePath = serverInput && serverInput.value.trim() ? serverInput.value.trim() : './';
-  // Если пользователь нажал кнопку, скорее всего хотят просто './' — но поддерживаем ввод пути.
-  return loadFilesFromServer(basePath);
-}
-
-// ----------------- Ручная загрузка (FileReader) — без изменений -----------------
+// ----------------- Ручная загрузка (FileReader) — оставлена как есть -----------------
 const wordsFileEl = document.getElementById('wordsFile');
 if (wordsFileEl) wordsFileEl.addEventListener('change', e=>{
   const file = e.target.files[0]; if(!file) return;
@@ -286,14 +283,13 @@ if (sentFileEl) sentFileEl.addEventListener('change', e=>{
   reader.readAsText(file,'utf-8');
 });
 
-// load from folder button — теперь позволяет указать путь через input#serverPath (опционально)
+// load from folder button — теперь поддерживает необязательное поле input#serverPath
 const loadFromFolderBtn = document.getElementById('loadFromFolder');
 if (loadFromFolderBtn) {
   loadFromFolderBtn.addEventListener('click', ()=>{
-    // если есть поле serverPath — используем его, иначе './'
     const serverInput = document.getElementById('serverPath');
-    const basePath = serverInput && serverInput.value.trim() ? serverInput.value.trim() : './';
-    loadFilesFromServer(basePath);
+    const basePath = serverInput && serverInput.value.trim() ? serverInput.value.trim() : '';
+    loadFilesFromFolder(basePath);
   });
 }
 
@@ -515,16 +511,12 @@ function checkAnswer(selected, btn){
 updateFileStatus();
 checkStartButton();
 
-// ------------------- Автозагрузка JSON через fetch при старте -------------------
+// ------------------- Автозагрузка JSON через простые fetch при старте -------------------
 window.addEventListener('DOMContentLoaded', () => {
-  // Попытка автозагрузки из той же папки, где лежит HTML
-  loadFilesFromServer('./');
+  // Попытка автозагрузки из той же папки, где лежит HTML (как в твоём рабочем примере)
+  loadFilesFromFolder('');
 });
 </script>
-
-
-
-
 
 </body>
 </html>
