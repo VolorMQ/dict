@@ -109,8 +109,7 @@ let score=0, combo=1, time=10, timerInterval, currentWord;
 // Новые счётчики ответов
 let correctCount = 0, wrongCount = 0, skippedCount = 0;
 
-// Флаги и имена файлов — показываем по умолчанию как выбранные,
-// но реальные данные будут загружены только после нажатия "Загрузить файлы из папки" или ручной загрузки.
+// Флаги и имена файлов
 let wordsLoaded = false, sentencesLoaded = false;
 let wordsFileName = 'words.json', sentencesFileName = 'sentences.json';
 
@@ -122,7 +121,7 @@ const posNames = {
   det:"Determinativ", modal:"Modalverbum", poss:"Possessivpronomen", reflex:"Refleksivpronomen"
 };
 
-// Примеры данных (для кнопки «Загрузить пример»)
+// Примеры данных
 function loadDefaultData(){
   words = [
     {id:"w1", word:"hus", value:"дом", pos:"noun", imageUrl:"hus.jpg"},
@@ -156,7 +155,7 @@ function checkStartButton(){
   startBtn.disabled = !(wordsLoaded && sentencesLoaded);
 }
 
-// Загрузка файлов из той же папки (fetch) — вызывается при клике "Загрузить файлы из папки"
+// Загрузка файлов из папки через fetch
 async function loadFilesFromFolder(){
   const hint = document.getElementById('autoLoadHint');
   if(hint) hint.style.display = 'none';
@@ -210,7 +209,7 @@ async function loadFilesFromFolder(){
   }
 }
 
-// Ручная загрузка (FileReader)
+// Ручная загрузка
 document.getElementById('wordsFile').addEventListener('change', e=>{
   const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
@@ -279,19 +278,16 @@ startBtn.addEventListener('click', ()=>{
 restartBtn.addEventListener('click', ()=>{
   clearInterval(timerInterval);
   score = 0; combo = 1; time = 60;
-  // сбрасываем счётчики при рестарте
   correctCount = 0; wrongCount = 0; skippedCount = 0;
   showScore();
-  // при рестарте пересоздаём пул предложений и начинаем заново
   resetRemainingSentences();
   resetRemainingWords();
   nextQuestion();
 });
 
-let answerTimeout; // таймер на выбор слова
+let answerTimeout;
 
 // ---------------- НОВОЕ: пул слов/предложений и утилиты ----------------
-// Перемешивание (Fisher–Yates)
 function shuffleArray(arr){
   for(let i = arr.length - 1; i > 0; i--){
     const j = Math.floor(Math.random() * (i + 1));
@@ -299,27 +295,20 @@ function shuffleArray(arr){
   }
 }
 
-// Заполнение/сброс пула remainingWords (может быть полезен, оставляем)
 function resetRemainingWords(){
   remainingWords = words.slice();
   shuffleArray(remainingWords);
 }
 
-// ---------------- НОВОЕ: пул предложений и ограничение ----------------
 function resetRemainingSentences(){
-  // Копируем предложения
   remainingSentences = sentences.slice();
-
-  // Определяем лимит по предложениям из поля #sentenceLimit (если есть)
   let limit = 9999;
   const el = document.getElementById('sentenceLimit');
   if(el){
     const parsed = parseInt(el.value, 10);
     if(!isNaN(parsed) && parsed >= 1) limit = parsed;
   }
-
   shuffleArray(remainingSentences);
-
   if(limit < remainingSentences.length){
     remainingSentences = remainingSentences.slice(0, limit);
   }
@@ -328,12 +317,9 @@ function resetRemainingSentences(){
 // ---------------- ИГРА ----------------
 function startGame(){
   score = 0; combo = 1;
-  // сбрасываем счётчики при старте
   correctCount = 0; wrongCount = 0; skippedCount = 0;
   showScore();
-  // подготовим пул предложений — игра пойдёт по предложениями, ограниченным полем
   resetRemainingSentences();
-  // оставляем пул слов для вариантов (если нужен)
   resetRemainingWords();
   nextQuestion();
 }
@@ -342,10 +328,8 @@ function showScore(){
   document.getElementById('score').textContent = `Очки: ${score} | Комбо: ${combo} | ✅ ${correctCount} ❌ ${wrongCount} ⏭ ${skippedCount}`; 
 }
 
-// Берёт слово случайно из remainingWords (оставлено как есть)
 function pickWord(){ return remainingWords.length>0 ? remainingWords.pop() : null; }
 
-// Берём следующее предложение из remainingSentences (без повторов)
 function pickSentence(){
   if(!remainingSentences || remainingSentences.length === 0) return null;
   return remainingSentences.pop();
@@ -366,42 +350,31 @@ function makeOptions(correct){
 }
 
 function endGame(){
-  clearInterval(answerTimeout);  // остановка таймера текущего слова
-  clearInterval(timerInterval);  // остановка общего таймера игры, если есть
+  clearInterval(answerTimeout);  
+  clearInterval(timerInterval);  
   const buttons = document.querySelectorAll('#options button');
-  buttons.forEach(b => b.disabled = true);  // блокируем все кнопки
-  // Выводим статистику вместо очков
+  buttons.forEach(b => b.disabled = true);
   alert(`Игра окончена!
 Правильных: ${correctCount}
 Неправильных: ${wrongCount}
 Пропущенных: ${skippedCount}`);
-  // Возврат к стартовой кнопке
   document.getElementById('startBtn').style.display = 'inline-block';
   document.getElementById('restartBtn').style.display = 'none';
 }
 
 function nextQuestion(){
-  // Сброс предыдущего таймера
   if(answerTimeout) clearInterval(answerTimeout);
 
-  // Если нет слов или предложений — просьба загрузить
   if(!words.length || !sentences.length){
     document.getElementById('question').innerHTML = '<div class="small">Сначала загрузите файлы или пример.</div>';
     return;
   }
 
-  // Берём следующее предложение (из ограниченного пула)
   const sentenceObj = pickSentence();
-  if(!sentenceObj){
-    // пул предложений пуст — конец игры
-    endGame();
-    return;
-  }
+  if(!sentenceObj){ endGame(); return; }
 
-  // Находим слово, привязанное к предложению
   currentWord = words.find(w => w.id === sentenceObj.wordId);
   if(!currentWord){
-    // Если слово не найдено, переходим к следующему предложению
     if(remainingSentences.length === 0) { endGame(); return; }
     else { setTimeout(nextQuestion, 0); return; }
   }
@@ -427,13 +400,12 @@ function nextQuestion(){
     let btn = document.createElement('button');
     btn.textContent = o.word;
     btn.onclick = () => {
-      clearInterval(answerTimeout); // остановка таймера при ответе
+      clearInterval(answerTimeout); 
       checkAnswer(o, btn);
     };
     optionsDiv.appendChild(btn);
   });
 
-  // Таймер для выбора ответа (например, 10 секунд)
   let timePerWord = 10;
   document.getElementById('timer').textContent = `Время: ${timePerWord}`;
   answerTimeout = setInterval(() => {
@@ -441,19 +413,14 @@ function nextQuestion(){
     document.getElementById('timer').textContent = `Время: ${timePerWord}`;
     if(timePerWord <= 0){
       clearInterval(answerTimeout);
-      // Блокируем кнопки без подсветки правильного ответа
       const buttons = document.querySelectorAll('#options button');
       buttons.forEach(b => b.disabled = true);
-
-      // увеличиваем счётчик пропущенных
       skippedCount++;
       showScore();
-
-      // Если пул предложений пуст — конец игры, иначе следующий вопрос
       if(!remainingSentences || remainingSentences.length === 0){
         setTimeout(endGame, 500);
       } else {
-        setTimeout(nextQuestion, 500); // короткая пауза перед следующим словом
+        setTimeout(nextQuestion, 500);
       }
     }
   }, 1000);
@@ -474,12 +441,10 @@ function checkAnswer(selected, btn){
     wrongCount++;
     combo = 1;
     time -= 2;
-    // убрано: никаких подсветок правильного ответа
   }
 
   showScore();
 
-  // Если пул предложений закончился, завершить игру после паузы, иначе — следующий вопрос
   if(!remainingSentences || remainingSentences.length === 0){
     setTimeout(endGame, 1000);
   } else {
@@ -487,11 +452,16 @@ function checkAnswer(selected, btn){
   }
 }
 
-// Показываем по умолчанию имена файлов (как будто выбраны)
-// но кнопка старта будет активна только после реальной загрузки
+// Показываем по умолчанию имена файлов
 updateFileStatus();
 checkStartButton();
+
+// ------------------- Автозагрузка JSON через fetch при старте -------------------
+window.addEventListener('DOMContentLoaded', () => {
+  loadFilesFromFolder();
+});
 </script>
+
 
 
 
