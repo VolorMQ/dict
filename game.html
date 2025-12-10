@@ -145,72 +145,111 @@ function loadDefaultData(){
 
 // UI: обновление статуса файлов
 function updateFileStatus(){
-  document.getElementById('wordsName').textContent = wordsFileName || '—';
-  document.getElementById('sentName').textContent = sentencesFileName || '—';
+  const wEl = document.getElementById('wordsName');
+  const sEl = document.getElementById('sentName');
+  if (wEl) wEl.textContent = wordsFileName || '—';
+  if (sEl) sEl.textContent = sentencesFileName || '—';
 }
 
 // Проверка возможности старта
 function checkStartButton(){
   const startBtn = document.getElementById('startBtn');
-  startBtn.disabled = !(wordsLoaded && sentencesLoaded);
+  if (startBtn) startBtn.disabled = !(wordsLoaded && sentencesLoaded);
 }
 
-// Загрузка файлов из папки через fetch
-async function loadFilesFromFolder(){
+// ----------------- Загрузка с сервера (fetch) + совместимость с loadFilesFromFolder -----------------
+
+// Универсальная функция загрузки JSON с сервера.
+// basePath может быть './', './data/', '/dict/' или полный URL 'https://.../path/'.
+// Если basePath пустой, будет использован './'.
+async function loadFilesFromServer(basePath = './') {
   const hint = document.getElementById('autoLoadHint');
-  if(hint) hint.style.display = 'none';
-  try{
-    const [r1, r2] = await Promise.allSettled([fetch('./words.json'), fetch('./sentences.json')]);
+  if (hint) hint.style.display = 'none';
+
+  // Нормализуем basePath: пусть всегда заканчивается на '/'
+  if (!basePath) basePath = './';
+  basePath = basePath.trim();
+  if (!basePath.endsWith('/')) basePath += '/';
+
+  // Соберём URL и добавим параметр для сброса кэша
+  const urls = [
+    `${basePath}words.json?_=${Date.now()}`,
+    `${basePath}sentences.json?_=${Date.now()}`
+  ];
+
+  // Сбрасываем флаги перед попыткой
+  wordsLoaded = false; sentencesLoaded = false;
+
+  try {
+    const [r1, r2] = await Promise.allSettled([fetch(urls[0]), fetch(urls[1])]);
 
     // words.json
-    if(r1.status === 'fulfilled' && r1.value.ok){
-      try{
+    if (r1.status === 'fulfilled' && r1.value.ok) {
+      try {
         const data = await r1.value.json();
-        if(Array.isArray(data)){
-          words = data; wordsLoaded = true; wordsFileName = 'words.json';
+        if (Array.isArray(data)) {
+          words = data; wordsLoaded = true; wordsFileName = urls[0].split('?')[0];
         } else {
           console.warn('words.json не массив, игнорируется');
         }
-      }catch(e){ console.warn('Ошибка парсинга words.json', e); }
+      } catch (e) {
+        console.warn('Ошибка парсинга words.json', e);
+      }
     } else {
       console.warn('fetch words.json failed or not ok', r1);
     }
 
     // sentences.json
-    if(r2.status === 'fulfilled' && r2.value.ok){
-      try{
+    if (r2.status === 'fulfilled' && r2.value.ok) {
+      try {
         const data2 = await r2.value.json();
-        if(Array.isArray(data2)){
-          sentences = data2; sentencesLoaded = true; sentencesFileName = 'sentences.json';
+        if (Array.isArray(data2)) {
+          sentences = data2; sentencesLoaded = true; sentencesFileName = urls[1].split('?')[0];
         } else {
           console.warn('sentences.json не массив, игнорируется');
         }
-      }catch(e){ console.warn('Ошибка парсинга sentences.json', e); }
+      } catch (e) {
+        console.warn('Ошибка парсинга sentences.json', e);
+      }
     } else {
       console.warn('fetch sentences.json failed or not ok', r2);
     }
-  }catch(e){
-    console.warn('Ошибка при попытке загрузки файлов из папки', e);
+  } catch (e) {
+    console.warn('Ошибка при попытке загрузки файлов с сервера', e);
   }
 
   updateFileStatus();
   checkStartButton();
 
-  if(!(wordsLoaded && sentencesLoaded)){
-    if(hint) hint.style.display = 'block';
-    if(location.protocol === 'file:'){
-      if(hint) hint.innerHTML = 'Автозагрузка невозможна через <code>file://</code>. Откройте страницу через локальный сервер (например <code>python -m http.server</code>) или загрузите файлы вручную ниже.';
-      document.getElementById('loadModal').style.display = 'flex';
-    } else {
-      if(hint) hint.innerHTML = 'Не удалось загрузить файлы автоматически. Убедитесь, что файлы находятся в той же папке, или загрузите их вручную.';
+  if (!(wordsLoaded && sentencesLoaded)) {
+    if (hint) {
+      hint.style.display = 'block';
+      hint.innerHTML = `Не удалось загрузить файлы по адресам:<br><code>${urls[0].split('?')[0]}</code><br><code>${urls[1].split('?')[0]}</code><br>Откройте DevTools → Network и посмотрите статус (404/403/CORS).`;
     }
+    // Открываем модал для ручной загрузки если есть
+    const loadModalEl = document.getElementById('loadModal');
+    if (loadModalEl) loadModalEl.style.display = 'flex';
   } else {
-    if(hint) { hint.style.display = 'block'; hint.innerHTML = 'Файлы загружены из папки — можно начать игру.'; setTimeout(()=>{ hint.style.display = 'none'; }, 2500); }
+    if (hint) {
+      hint.style.display = 'block';
+      hint.innerHTML = 'Файлы загружены с сервера — можно начать игру.';
+      setTimeout(() => { if(hint) hint.style.display = 'none'; }, 2500);
+    }
   }
 }
 
-// Ручная загрузка
-document.getElementById('wordsFile').addEventListener('change', e=>{
+// Сохраняем обратную совместимость: если кто-то вызывает loadFilesFromFolder() без аргументов.
+function loadFilesFromFolder(){
+  // Если есть input#serverPath — используем его, иначе './'
+  const serverInput = document.getElementById('serverPath');
+  const basePath = serverInput && serverInput.value.trim() ? serverInput.value.trim() : './';
+  // Если пользователь нажал кнопку, скорее всего хотят просто './' — но поддерживаем ввод пути.
+  return loadFilesFromServer(basePath);
+}
+
+// ----------------- Ручная загрузка (FileReader) — без изменений -----------------
+const wordsFileEl = document.getElementById('wordsFile');
+if (wordsFileEl) wordsFileEl.addEventListener('change', e=>{
   const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = ev=>{
@@ -227,7 +266,9 @@ document.getElementById('wordsFile').addEventListener('change', e=>{
   };
   reader.readAsText(file,'utf-8');
 });
-document.getElementById('sentFile').addEventListener('change', e=>{
+
+const sentFileEl = document.getElementById('sentFile');
+if (sentFileEl) sentFileEl.addEventListener('change', e=>{
   const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
   reader.onload = ev=>{
@@ -245,37 +286,46 @@ document.getElementById('sentFile').addEventListener('change', e=>{
   reader.readAsText(file,'utf-8');
 });
 
-// load from folder button
+// load from folder button — теперь позволяет указать путь через input#serverPath (опционально)
 const loadFromFolderBtn = document.getElementById('loadFromFolder');
-if(loadFromFolderBtn) loadFromFolderBtn.addEventListener('click', loadFilesFromFolder);
+if (loadFromFolderBtn) {
+  loadFromFolderBtn.addEventListener('click', ()=>{
+    // если есть поле serverPath — используем его, иначе './'
+    const serverInput = document.getElementById('serverPath');
+    const basePath = serverInput && serverInput.value.trim() ? serverInput.value.trim() : './';
+    loadFilesFromServer(basePath);
+  });
+}
 
 // Кнопка: загрузить пример
-document.getElementById('loadDefault').addEventListener('click', ()=>{
+const loadDefaultBtn = document.getElementById('loadDefault');
+if (loadDefaultBtn) loadDefaultBtn.addEventListener('click', ()=>{
   loadDefaultData();
   alert('Пример загружен (встроенные слова и предложения).');
-  document.getElementById('loadModal').style.display = 'none';
+  const lm = document.getElementById('loadModal');
+  if (lm) lm.style.display = 'none';
 });
 
 // Модал управление
 const openModalBtn = document.getElementById('openLoadModal');
 const loadModal = document.getElementById('loadModal');
 const closeModalBtn = document.getElementById('closeModal');
-openModalBtn.addEventListener('click', ()=>{ loadModal.style.display='flex'; });
-closeModalBtn.addEventListener('click', ()=>{ loadModal.style.display='none'; });
-window.addEventListener('click', e=>{ if(e.target===loadModal) loadModal.style.display='none'; });
+if (openModalBtn) openModalBtn.addEventListener('click', ()=>{ if(loadModal) loadModal.style.display='flex'; });
+if (closeModalBtn) closeModalBtn.addEventListener('click', ()=>{ if(loadModal) loadModal.style.display='none'; });
+window.addEventListener('click', e=>{ if(loadModal && e.target===loadModal) loadModal.style.display='none'; });
 
 // Игра
 const startBtn = document.getElementById('startBtn');
 const restartBtn = document.getElementById('restartBtn');
-startBtn.disabled = true;
+if (startBtn) startBtn.disabled = true;
 
-startBtn.addEventListener('click', ()=>{
+if (startBtn) startBtn.addEventListener('click', ()=>{
   startGame();
-  startBtn.style.display = 'none';
-  restartBtn.style.display = 'inline-block';
-  loadModal.style.display = 'none';
+  if (startBtn) startBtn.style.display = 'none';
+  if (restartBtn) restartBtn.style.display = 'inline-block';
+  if (loadModal) loadModal.style.display = 'none';
 });
-restartBtn.addEventListener('click', ()=>{
+if (restartBtn) restartBtn.addEventListener('click', ()=>{
   clearInterval(timerInterval);
   score = 0; combo = 1; time = 60;
   correctCount = 0; wrongCount = 0; skippedCount = 0;
@@ -325,7 +375,8 @@ function startGame(){
 }
 
 function showScore(){ 
-  document.getElementById('score').textContent = `Очки: ${score} | Комбо: ${combo} | ✅ ${correctCount} ❌ ${wrongCount} ⏭ ${skippedCount}`; 
+  const scoreEl = document.getElementById('score');
+  if (scoreEl) scoreEl.textContent = `Очки: ${score} | Комбо: ${combo} | ✅ ${correctCount} ❌ ${wrongCount} ⏭ ${skippedCount}`;
 }
 
 function pickWord(){ return remainingWords.length>0 ? remainingWords.pop() : null; }
@@ -358,15 +409,18 @@ function endGame(){
 Правильных: ${correctCount}
 Неправильных: ${wrongCount}
 Пропущенных: ${skippedCount}`);
-  document.getElementById('startBtn').style.display = 'inline-block';
-  document.getElementById('restartBtn').style.display = 'none';
+  const startBtnEl = document.getElementById('startBtn');
+  const restartBtnEl = document.getElementById('restartBtn');
+  if (startBtnEl) startBtnEl.style.display = 'inline-block';
+  if (restartBtnEl) restartBtnEl.style.display = 'none';
 }
 
 function nextQuestion(){
   if(answerTimeout) clearInterval(answerTimeout);
 
   if(!words.length || !sentences.length){
-    document.getElementById('question').innerHTML = '<div class="small">Сначала загрузите файлы или пример.</div>';
+    const qEl = document.getElementById('question');
+    if (qEl) qEl.innerHTML = '<div class="small">Сначала загрузите файлы или пример.</div>';
     return;
   }
 
@@ -387,30 +441,35 @@ function nextQuestion(){
     qHtml += `<div style="margin-bottom:12px;"><img class="wordImage" src="${currentWord.imageUrl}" alt="Изображение слова"></div>`;
   }
 
-  const difficulty = document.getElementById('difficulty').value;
+  const difficultyEl = document.getElementById('difficulty');
+  const difficulty = difficultyEl ? difficultyEl.value : 'hard';
   qHtml += `<div style="margin-top:10px;"><strong>Найди слово</strong><br>${sentenceText}</div>`;
   if(difficulty === "easy") qHtml += `<br><em>Тип слова: ${typeWord}</em><br><span class="small">Перевод: ${currentWord.value}</span>`;
   else if(difficulty === "medium") qHtml += `<br><em>Тип слова: ${typeWord}</em>`;
 
-  document.getElementById('question').innerHTML = qHtml;
+  const questionEl = document.getElementById('question');
+  if (questionEl) questionEl.innerHTML = qHtml;
 
   const optionsDiv = document.getElementById('options');
-  optionsDiv.innerHTML = '';
-  makeOptions(currentWord).forEach(o => {
-    let btn = document.createElement('button');
-    btn.textContent = o.word;
-    btn.onclick = () => {
-      clearInterval(answerTimeout); 
-      checkAnswer(o, btn);
-    };
-    optionsDiv.appendChild(btn);
-  });
+  if (optionsDiv) {
+    optionsDiv.innerHTML = '';
+    makeOptions(currentWord).forEach(o => {
+      let btn = document.createElement('button');
+      btn.textContent = o.word;
+      btn.onclick = () => {
+        clearInterval(answerTimeout); 
+        checkAnswer(o, btn);
+      };
+      optionsDiv.appendChild(btn);
+    });
+  }
 
   let timePerWord = 10;
-  document.getElementById('timer').textContent = `Время: ${timePerWord}`;
+  const timerEl = document.getElementById('timer');
+  if (timerEl) timerEl.textContent = `Время: ${timePerWord}`;
   answerTimeout = setInterval(() => {
     timePerWord--;
-    document.getElementById('timer').textContent = `Время: ${timePerWord}`;
+    if (timerEl) timerEl.textContent = `Время: ${timePerWord}`;
     if(timePerWord <= 0){
       clearInterval(answerTimeout);
       const buttons = document.querySelectorAll('#options button');
@@ -431,13 +490,13 @@ function checkAnswer(selected, btn){
   buttons.forEach(b => b.disabled = true);
 
   if(selected.id === currentWord.id){
-    btn.classList.add('correct');
+    if (btn) btn.classList.add('correct');
     correctCount++;
     score += 10 * combo;
     combo++;
     time += 2;
   } else {
-    btn.classList.add('wrong');
+    if (btn) btn.classList.add('wrong');
     wrongCount++;
     combo = 1;
     time -= 2;
@@ -458,9 +517,11 @@ checkStartButton();
 
 // ------------------- Автозагрузка JSON через fetch при старте -------------------
 window.addEventListener('DOMContentLoaded', () => {
-  loadFilesFromFolder();
+  // Попытка автозагрузки из той же папки, где лежит HTML
+  loadFilesFromServer('./');
 });
 </script>
+
 
 
 
