@@ -70,14 +70,14 @@ input[type=file]{font-size:1.1em;margin:4px}
 <button id="openLoadModal">Загрузить JSON</button>
 
 <div id="fileStatus">
-  words: <span id="wordsName">words.json</span><br>
+  words: <span id="wordsName">word.json</span><br>
   sentences: <span id="sentName">sentences.json</span>
 </div>
 
 <div id="loadModal">
   <div class="modalContent">
     <h2>Загрузить JSON-файлы</h2>
-    <div class="small" style="margin-bottom:8px">По умолчанию показаны <strong>words.json</strong> и <strong>sentences.json</strong> — нажмите «Загрузить файлы из папки», чтобы подтянуть их из той же папки, где лежит HTML. Если страница открыта по <code>file://</code>, автозагрузка может быть невозможна — тогда загрузите файлы вручную ниже.</div>
+    <div class="small" style="margin-bottom:8px">По умолчанию показаны <strong>word.json</strong> и <strong>sentences.json</strong> — нажмите «Загрузить файлы из папки», чтобы подтянуть их из той же папки, где лежит HTML. Если страница открыта по <code>file://</code>, автозагрузка может быть невозможна — тогда загрузите файлы вручную ниже.</div>
 
     <!-- Кнопка для fetch из папки (пользователь нажмёт её, чтобы "подхватить" файлы) -->
     <button id="loadFromFolder">Загрузить файлы из папки</button><br><br>
@@ -111,7 +111,7 @@ let correctCount = 0, wrongCount = 0, skippedCount = 0;
 
 // Флаги и имена файлов
 let wordsLoaded = false, sentencesLoaded = false;
-let wordsFileName = 'words.json', sentencesFileName = 'sentences.json';
+let wordsFileName = 'word.json', sentencesFileName = 'sentences.json';
 
 // Словарь типов слов
 const posNames = {
@@ -194,7 +194,7 @@ async function loadFilesFromFolder(basePath = '') {
   const bp = normalizeBasePath(basePath);
 
   // Формируем URL (без cache-busting — если нужно добавить ?_=${Date.now()} — делай)
-  const wordsUrl = bp + 'words.json';
+  const wordsUrl = bp + 'word.json';
   const sentUrl  = bp + 'sentences.json';
 
   // Сбрасываем флаги на старте попытки
@@ -211,9 +211,9 @@ async function loadFilesFromFolder(basePath = '') {
     words = wordsData;
     wordsLoaded = true;
     wordsFileName = wordsUrl;
-    console.log('words.json загружен:', wordsUrl);
+    console.log('word.json загружен:', wordsUrl);
   } else {
-    console.warn('words.json не загружен или не массив:', wordsUrl);
+    console.warn('word.json не загружен или не массив:', wordsUrl);
   }
 
   if (Array.isArray(sentData)) {
@@ -252,13 +252,13 @@ if (wordsFileEl) wordsFileEl.addEventListener('change', e=>{
   reader.onload = ev=>{
     try{
       const parsed = JSON.parse(ev.target.result);
-      if(!Array.isArray(parsed)) throw new Error('words.json должен быть массивом объектов');
+      if(!Array.isArray(parsed)) throw new Error('word.json должен быть массивом объектов');
       words = parsed; wordsLoaded = true; wordsFileName = file.name;
       updateFileStatus(); checkStartButton();
-      alert('words.json успешно загружен: ' + file.name);
+      alert('word.json успешно загружен: ' + file.name);
     }catch(err){
       wordsLoaded = false; wordsFileName = ''; updateFileStatus(); checkStartButton();
-      alert('Ошибка чтения words.json: ' + err);
+      alert('Ошибка чтения word.json: ' + err);
     }
   };
   reader.readAsText(file,'utf-8');
