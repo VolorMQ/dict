@@ -45,6 +45,7 @@ input[type=file]{font-size:1.1em;margin:4px}
   text-overflow: ellipsis;         /* если слово длинное — показываем многоточие */
   box-sizing: border-box;
 }
+
 </style>
 </head>
 <body>
@@ -97,7 +98,10 @@ input[type=file]{font-size:1.1em;margin:4px}
 <div style="margin-top:10px;">
   <label for="sentenceLimit">Макс. предложений для игры:</label>
   <input type="number" id="sentenceLimit" value="9999" min="1" style="width:60px;">
+  <input type="number" id="sentenceStart" value="1" min="1" placeholder="С какого предложения">
+  <input type="number" id="sentenceEnd" value="9999" min="1" placeholder="По какое предложение">
 </div>
+
 
 <script>
 // --- Данные ---
@@ -193,36 +197,27 @@ async function loadFilesFromFolder(basePath = '') {
 
   const bp = normalizeBasePath(basePath);
 
-  // Формируем URL (без cache-busting — если нужно добавить ?_=${Date.now()} — делай)
   const wordsUrl = bp + 'word.json';
   const sentUrl  = bp + 'sentences.json';
 
-  // Сбрасываем флаги на старте попытки
-  wordsLoaded = false; sentencesLoaded = false;
-  wordsFileName = ''; sentencesFileName = '';
-
-  // Попытка загрузить сначала words, затем sentences (как в твоём рабочем примере)
-  const wordsDataPromise = fetchJsonUrl(wordsUrl);
-  const sentDataPromise  = fetchJsonUrl(sentUrl);
+  // --- не сбрасываем флаги, если файлы уже загружены вручную ---
+  const wordsDataPromise = wordsLoaded ? Promise.resolve(words) : fetchJsonUrl(wordsUrl);
+  const sentDataPromise  = sentencesLoaded ? Promise.resolve(sentences) : fetchJsonUrl(sentUrl);
 
   const [wordsData, sentData] = await Promise.all([wordsDataPromise, sentDataPromise]);
 
-  if (Array.isArray(wordsData)) {
+  if (!wordsLoaded && Array.isArray(wordsData)) {
     words = wordsData;
     wordsLoaded = true;
     wordsFileName = wordsUrl;
-    console.log('word.json загружен:', wordsUrl);
-  } else {
-    console.warn('word.json не загружен или не массив:', wordsUrl);
+    console.log('word.json загружен с сервера:', wordsUrl);
   }
 
-  if (Array.isArray(sentData)) {
+  if (!sentencesLoaded && Array.isArray(sentData)) {
     sentences = sentData;
     sentencesLoaded = true;
     sentencesFileName = sentUrl;
-    console.log('sentences.json загружен:', sentUrl);
-  } else {
-    console.warn('sentences.json не загружен или не массив:', sentUrl);
+    console.log('sentences.json загружен с сервера:', sentUrl);
   }
 
   updateFileStatus();
@@ -238,50 +233,69 @@ async function loadFilesFromFolder(basePath = '') {
   } else {
     if (hint) {
       hint.style.display = 'block';
-      hint.innerHTML = 'Файлы загружены с сервера — можно начать игру.';
+      hint.innerHTML = 'Файлы загружены — можно начать игру.';
       setTimeout(()=>{ if(hint) hint.style.display = 'none'; }, 2000);
     }
   }
 }
 
-// ----------------- Ручная загрузка (FileReader) — оставлена как есть -----------------
-const wordsFileEl = document.getElementById('wordsFile');
-if (wordsFileEl) wordsFileEl.addEventListener('change', e=>{
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev=>{
-    try{
-      const parsed = JSON.parse(ev.target.result);
-      if(!Array.isArray(parsed)) throw new Error('word.json должен быть массивом объектов');
-      words = parsed; wordsLoaded = true; wordsFileName = file.name;
-      updateFileStatus(); checkStartButton();
-      alert('word.json успешно загружен: ' + file.name);
-    }catch(err){
-      wordsLoaded = false; wordsFileName = ''; updateFileStatus(); checkStartButton();
-      alert('Ошибка чтения word.json: ' + err);
-    }
-  };
-  reader.readAsText(file,'utf-8');
-});
 
-const sentFileEl = document.getElementById('sentFile');
-if (sentFileEl) sentFileEl.addEventListener('change', e=>{
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev=>{
-    try{
-      const parsed = JSON.parse(ev.target.result);
-      if(!Array.isArray(parsed)) throw new Error('sentences.json должен быть массивом объектов');
-      sentences = parsed; sentencesLoaded = true; sentencesFileName = file.name;
-      updateFileStatus(); checkStartButton();
-      alert('sentences.json успешно загружен: ' + file.name);
-    }catch(err){
-      sentencesLoaded = false; sentencesFileName = ''; updateFileStatus(); checkStartButton();
-      alert('Ошибка чтения sentences.json: ' + err);
-    }
-  };
-  reader.readAsText(file,'utf-8');
-});
+// ----------------- Ручная загрузка (FileReader) — оставлена как есть -----------------
+const wordsFileInput = document.getElementById('wordsFile');
+if (wordsFileInput) {
+  wordsFileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const parsed = JSON.parse(ev.target.result);
+        if (!Array.isArray(parsed)) throw new Error('word.json должен быть массивом объектов');
+        words = parsed;
+        wordsLoaded = true;
+        wordsFileName = file.name;
+        updateFileStatus();
+        checkStartButton();
+        alert('word.json успешно загружен: ' + file.name);
+      } catch (err) {
+        wordsLoaded = false;
+        wordsFileName = '';
+        updateFileStatus();
+        checkStartButton();
+        alert('Ошибка чтения word.json: ' + err);
+      }
+    };
+    reader.readAsText(file, 'utf-8');
+  });
+}
+
+const sentFileInput = document.getElementById('sentFile');
+if (sentFileInput) {
+  sentFileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const parsed = JSON.parse(ev.target.result);
+        if (!Array.isArray(parsed)) throw new Error('sentences.json должен быть массивом объектов');
+        sentences = parsed;
+        sentencesLoaded = true;
+        sentencesFileName = file.name;
+        updateFileStatus();
+        checkStartButton();
+        alert('sentences.json успешно загружен: ' + file.name);
+      } catch (err) {
+        sentencesLoaded = false;
+        sentencesFileName = '';
+        updateFileStatus();
+        checkStartButton();
+        alert('Ошибка чтения sentences.json: ' + err);
+      }
+    };
+    reader.readAsText(file, 'utf-8');
+  });
+}
 
 // load from folder button — теперь поддерживает необязательное поле input#serverPath
 const loadFromFolderBtn = document.getElementById('loadFromFolder');
@@ -346,18 +360,29 @@ function resetRemainingWords(){
   shuffleArray(remainingWords);
 }
 
-function resetRemainingSentences(){
-  remainingSentences = sentences.slice();
-  let limit = 9999;
-  const el = document.getElementById('sentenceLimit');
-  if(el){
-    const parsed = parseInt(el.value, 10);
-    if(!isNaN(parsed) && parsed >= 1) limit = parsed;
+function resetRemainingSentences() {
+  remainingSentences = sentences.slice(); // копируем весь массив
+
+  // Получаем поля диапазона
+  const startEl = document.getElementById('sentenceStart');
+  const endEl = document.getElementById('sentenceEnd');
+
+  let start = 0, end = remainingSentences.length;
+
+  if (startEl) {
+    const s = parseInt(startEl.value, 10);
+    if (!isNaN(s) && s >= 1 && s <= remainingSentences.length) start = s - 1; // сдвиг на индекс
   }
+  if (endEl) {
+    const e = parseInt(endEl.value, 10);
+    if (!isNaN(e) && e >= start + 1 && e <= remainingSentences.length) end = e;
+  }
+
+  // Берём нужный диапазон
+  remainingSentences = remainingSentences.slice(start, end);
+
+  // Перемешиваем пул предложений
   shuffleArray(remainingSentences);
-  if(limit < remainingSentences.length){
-    remainingSentences = remainingSentences.slice(0, limit);
-  }
 }
 
 // ---------------- ИГРА ----------------
