@@ -9,173 +9,202 @@
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 
 <style>
-/* === Layout: fit-to-screen (no scrolling) === */
+/* Box-sizing everywhere to avoid overflow surprises */
 *{box-sizing:border-box}
 :root{
   --bg1:#74ebd5; --bg2:#ACB6E5;
-  --accent:#74b9ff; --success:#55efc4; --danger:#ff7675;
+  --accent:#74b9ff; --accent-dark:#3b8ed9;
+  --success:#55efc4; --danger:#ff7675;
   --card-bg: rgba(255,255,255,0.96);
   --radius:12px;
   --tap-size:48px;
   --max-width:1200px;
 }
 
-/* base: force no page scroll, use full viewport */
-html,body{height:100%;margin:0;padding:0;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;overflow:hidden}
-body{display:flex;align-items:center;justify-content:center;font-family:'Comic Neue','Luckiest Guy',cursive,Arial,sans-serif}
-
-/* container fills viewport; internal layout handles distribution */
+/* BASE */
+html,body{height:100%;margin:0;padding:0;font-family:'Comic Neue','Luckiest Guy',cursive,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
+body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:12px;overflow:hidden}
 .container{
   width:100%;
   max-width:var(--max-width);
-  height:100vh;            /* crucial: full viewport */
-  padding:12px;
+  margin:0 auto;
   display:flex;
   flex-direction:column;
   gap:12px;
-  box-sizing:border-box;
-  overflow:hidden;         /* prevent page-level scrolling */
+  min-height:calc(100vh - 24px);
+  padding:8px;
 }
 
-/* header + status */
-h1{margin:0;color:#fff;font-size:clamp(18px,3.2vw,28px);text-shadow:2px 2px 6px rgba(0,0,0,0.45);text-align:center;padding:6px}
+/* Left / Right columns (used in landscape) */
+.left-column, .right-column{
+  width:100%;
+  min-height:0; /* important for overflow inside flex/grid */
+}
+
+/* header and status */
+h1{margin:0;color:#fff;font-size:1.9rem;text-shadow:2px 2px 6px rgba(0,0,0,0.45);text-align:center;padding:6px}
 .topRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:0}
-#score,#timer{font-size:clamp(12px,1.6vw,16px);color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,0.5);padding:6px 10px;border-radius:10px;background:rgba(0,0,0,0.10)}
+#score,#timer{font-size:1rem;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,0.5);padding:6px 10px;border-radius:10px;background:rgba(0,0,0,0.12)}
 
 /* cards */
-.card{border-radius:var(--radius);padding:12px;background:var(--card-bg);box-shadow:0 6px 12px rgba(0,0,0,0.18);font-size:clamp(14px,2.2vw,18px);text-align:center}
-#question{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0; /* allow shrink */ padding:12px; overflow:visible}
+.card{border-radius:var(--radius);padding:14px;background:var(--card-bg);box-shadow:0 6px 12px rgba(0,0,0,0.18);font-size:1rem;text-align:center}
+#question{display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:auto;min-height:120px;padding:12px}
 
-/* image: limit height so it never pushes content out of view */
-img.wordImage{max-width:100%;height:auto;border-radius:10px;margin-bottom:10px;box-shadow:0 4px 10px rgba(0,0,0,0.18);object-fit:contain;max-height:30vh}
+/* image */
+img.wordImage{max-width:100%;height:auto;border-radius:10px;margin-bottom:12px;box-shadow:0 4px 10px rgba(0,0,0,0.18);display:block;object-fit:contain}
 
-/* options (portrait default: grid) */
+/* options default (portrait) */
 #options {
-  display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
-  gap:8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+  gap:10px;
   width:100%;
-  padding:8px;
-  box-sizing:border-box;
+  margin:0 auto;
+  padding:10px;
+  background:transparent;
+  border-radius:var(--radius);
 }
 
-/* buttons: allow wrapping, use clamp to reduce size on small screens */
-button{
-  -webkit-tap-highlight-color:transparent;
+/* buttons */
+button {
+  -webkit-tap-highlight-color: transparent;
   min-height:var(--tap-size);
   padding:10px 12px;
-  border-radius:10px;
+  margin:0;
   border:none;
+  border-radius:10px;
   background:var(--accent);
   color:#fff;
   font-weight:700;
-  font-size:clamp(13px,2vw,16px);
+  cursor:pointer;
+  font-size:1rem;
+  text-shadow:0 1px 1px rgba(0,0,0,0.15);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  text-align:center;
-  white-space:normal; /* allow wrapping */
-  overflow:hidden;
+  user-select:none;
 }
 button:active{transform:translateY(1px)}
-button[disabled]{opacity:0.55;cursor:not-allowed}
+button[disabled]{opacity:0.5;cursor:not-allowed}
 button.correct{background:var(--success); color:#054b2f}
 button.wrong{background:var(--danger); color:#5a130f}
 
 /* controls */
 #gameControls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-#startBtn,#restartBtn{min-width:100px;font-size:clamp(13px,2vw,16px)}
+#startBtn,#restartBtn{min-width:120px}
 
-/* fixed UI elements */
-#openLoadModal{position:fixed;top:12px;right:12px;padding:10px 14px;font-size:14px;border-radius:10px;background:#fd79a8;color:#fff;border:none;cursor:pointer;z-index:1000}
-#fileStatus{position:fixed;top:12px;left:12px;background:var(--card-bg);padding:8px 10px;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.15);font-size:13px;z-index:1000}
+/* fixed file status and modal button */
+#openLoadModal{position:fixed;top:12px;right:12px;padding:10px 14px;font-size:0.95rem;border-radius:10px;background:#fd79a8;color:#fff;border:none;cursor:pointer;z-index:1000}
+#fileStatus{position:fixed;top:12px;left:12px;background:var(--card-bg);padding:8px 10px;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.15);font-size:0.9rem;z-index:1000}
 
-/* modal/toast */
-#loadModal,#resultModal{display:none}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(0,0,0,0.8);color:#fff;padding:10px 14px;border-radius:10px;z-index:1100;font-size:14px;opacity:0;pointer-events:none;transition:opacity .28s}
+/* MODAL */
+#loadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);justify-content:center;align-items:center;z-index:999;padding:20px;box-sizing:border-box}
+#loadModal .modalContent{background:#fff;padding:16px;border-radius:12px;text-align:center;max-width:440px;width:100%;box-shadow:0 8px 20px rgba(0,0,0,0.25)}
+.modalRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:8px 0}
+
+/* RESULT MODAL */
+#resultModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1001;padding:20px}
+#resultModal .modalContent{background:#fff;padding:16px;border-radius:12px;text-align:center;max-width:360px;width:100%;}
+
+/* NOTICE / TOAST */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(0,0,0,0.8);color:#fff;padding:10px 14px;border-radius:10px;z-index:1100;font-size:0.95rem;opacity:0;pointer-events:none;transition:opacity .28s ease}
 .toast.show{opacity:1;pointer-events:auto}
 
-/* small screens portrait tweaks */
-@media (max-width:639px){
-  .container{padding:10px}
-  img.wordImage{max-height:28vh}
-  #options{gap:6px}
-  button{padding:9px;font-size:clamp(12px,3.6vw,14px)}
+/* UTILITY */
+.small{font-size:0.85rem;color:#444}
+.notice{background:#fff3b0;color:#6b4a00;padding:8px;border-radius:8px;margin-top:8px;font-size:0.95em}
+label{display:block;margin:8px 0 4px;color:#fff;text-align:center;font-weight:600}
+
+/* Portrait small tweaks */
+@media (max-width:420px){
+  h1{font-size:1.45rem}
+  .card{padding:12px}
+  button{font-size:0.95rem;padding:10px}
+  #fileStatus{font-size:0.82rem;padding:6px}
 }
 
-/* === LANDSCAPE: two columns, but everything must fit (no scroll) === */
-@media (orientation: landscape) and (min-width:640px){
+/* LANDSCAPE: two columns (in wide mode) */
+@media (orientation: landscape) and (min-width:640px) {
+  body{padding:8px}
   .container{
     display:grid;
-    grid-template-columns: 1fr 360px;  /* left flexible, right side for options */
-    grid-template-rows: auto auto 1fr auto; /* title, topRow, main, footer */
+    grid-template-columns: minmax(320px, 1fr) 380px; /* left flexible, right fixed */
+    grid-template-rows: auto auto 1fr auto;
     gap:12px;
-    height:100vh;
+    align-items:stretch;
+    min-height:calc(100vh - 16px);
     padding:12px;
   }
 
-  /* place header and topRow full width */
-  h1{grid-column:1 / 3; margin-bottom:4px}
+  .left-column{grid-column:1 / 2; display:flex; flex-direction:column; gap:12px; overflow:auto; padding-right:6px}
+  .right-column{grid-column:2 / 3; display:flex; flex-direction:column; gap:12px; overflow:auto; padding-left:6px}
+
+  h1{grid-column:1 / 3; align-self:start}
   .topRow{grid-column:1 / 3; justify-content:flex-start}
 
-  /* left column block (difficulty + question + range) */
-  .left-column{grid-column:1 / 2; display:flex; flex-direction:column; gap:12px; min-height:0}
-  /* right column block (options + controls) */
-  .right-column{grid-column:2 / 3; display:flex; flex-direction:column; gap:12px; min-height:0}
+  #question{flex:1; min-height:0; padding:18px; justify-content:flex-start}
+  #options{display:flex; flex-direction:column; gap:12px; padding:18px; align-items:stretch; justify-content:flex-start;}
+  #options button{flex:1; min-height:56px; white-space:normal; font-size:1.03rem; padding:12px; text-align:center}
 
-  /* Question must shrink if needed (min-height:0 allows flex shrink) */
-  #question{flex:1 1 auto; min-height:0; padding:14px; justify-content:flex-start; overflow:visible}
-  /* reduce image height to free space for options */
-  img.wordImage{max-height:28vh}
-
-  /* Options: vertical stack, buttons expand but shrink text if needed */
-  #options{display:flex;flex-direction:column;gap:10px;padding:10px;align-items:stretch;justify-content:flex-start;flex:1 1 auto;min-height:0}
-  #options button{flex:1 1 auto; min-height:48px; font-size:clamp(12px,1.6vw,16px); white-space:normal; padding:10px}
-
-  /* Controls (start/restart) placed under options in right column */
-  #gameControls{order:2; padding:8px; background:transparent; justify-content:center}
-  /* ensure inputs/select take full width */
-  select#difficulty, input[type=number]{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);font-size:clamp(13px,1.6vw,16px)}
+  #gameControls{grid-column:1 / 2; align-self:end; justify-self:start; padding:12px; background:var(--card-bg); border-radius:var(--radius); box-shadow:0 6px 12px rgba(0,0,0,0.12)}
+  select#difficulty, input[type=number] { width:100%; max-width:100%; padding:10px; border-radius:8px; border:1px solid rgba(0,0,0,0.08); font-size:1rem; }
+  img.wordImage{max-height:55vh}
 }
 
-/* ultra-wide tweaks */
-@media (min-width:1200px){
-  h1{font-size:32px}
-  #options button{min-height:60px}
+/* hide "Загрузить JSON" and file status on small screens (mobile) */
+@media (max-width:639px){
+  #openLoadModal, #fileStatus { display:none !important; }
+}
+
+/* show/hide helpers (no layout change, just visibility) */
+.hidden-ui { display:none !important; }
+
+/* Полностью скрываем загрузку JSON и статус файлов */
+#openLoadModal,
+#fileStatus {
+  display: none !important;
 }
 </style>
-
 </head>
 <body>
   <div class="container" role="main">
-    <h1>Игра: Найди правильное слово</h1>
+    <h1 id="pageTitle">Игра: Найди правильное слово</h1>
 
     <div class="topRow" aria-hidden="false">
       <div id="score" aria-live="polite">Очки: 0 | Комбо: 1</div>
       <div id="timer" aria-live="polite">Время: 10</div>
     </div>
 
-    <label for="difficulty">Выберите уровень сложности:</label>
-    <select id="difficulty" class="card" style="text-align:center;">
-      <option value="easy">Лёгкий</option>
-      <option value="medium">Средний</option>
-      <option value="hard">Сложный</option>
-    </select>
+    <!-- ЛЕВАЯ КОЛОНКА -->
+    <div class="left-column">
+      <!-- пометил label id для удобного скрытия -->
+      <label id="difficultyLabel" for="difficulty">Выберите уровень сложности:</label>
+      <select id="difficulty" class="card" style="text-align:center;">
+        <option value="easy">Лёгкий</option>
+        <option value="medium">Средний</option>
+        <option value="hard">Сложный</option>
+      </select>
 
-    <div id="question" class="card" aria-live="polite"></div>
+      <div id="question" class="card" aria-live="polite"></div>
 
-    <div id="options" aria-label="Варианты ответов" class="card"></div>
-
-    <div id="gameControls" class="card" style="display:flex;justify-content:center;align-items:center;">
-      <button id="startBtn" aria-pressed="false" disabled>Начать игру</button>
-      <button id="restartBtn" style="display:none;">Начать новую игру</button>
+      <!-- Обернул блок диапазона в отдельный div с id -->
+      <div id="rangeControls" style="margin-top:6px;text-align:center;">
+        <label for="sentenceLimit" class="small" style="color:#fff">Диапазон предложений (начало / конец)</label>
+        <div class="modalRow" style="justify-content:center; gap:8px; margin-top:6px;">
+          <input type="number" id="sentenceStart" value="1" min="1" placeholder="С" style="width:110px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)">
+          <input type="number" id="sentenceEnd" value="9999" min="1" placeholder="По" style="width:110px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)">
+        </div>
+      </div>
     </div>
 
-    <div style="margin-top:10px;text-align:center;">
-      <label for="sentenceLimit" class="small" style="color:#fff">Диапазон предложений (начало / конец)</label>
-      <div class="modalRow" style="justify-content:center">
-        <input type="number" id="sentenceStart" value="1" min="1" placeholder="С" style="width:90px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)">
-        <input type="number" id="sentenceEnd" value="9999" min="1" placeholder="По" style="width:90px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)">
+    <!-- ПРАВАЯ КОЛОНКА -->
+    <div class="right-column">
+      <div id="options" aria-label="Варианты ответов" class="card"></div>
+
+      <div id="gameControls" class="card" style="display:flex;justify-content:center;align-items:center;">
+        <button id="startBtn" aria-pressed="false" disabled>Начать игру</button>
+        <button id="restartBtn" style="display:none;">Начать новую игру</button>
       </div>
     </div>
   </div>
@@ -464,7 +493,33 @@ const startBtn = document.getElementById('startBtn');
 const restartBtn = document.getElementById('restartBtn');
 if (startBtn) startBtn.disabled = true;
 
+/* UI show/hide helpers requested by user */
+const pageTitle = document.getElementById('pageTitle');
+const difficultyLabel = document.getElementById('difficultyLabel');
+const difficultySelect = document.getElementById('difficulty');
+const rangeControls = document.getElementById('rangeControls');
+
+function hideUIOnPlay(){
+  // hide title, difficulty and range controls
+  if(pageTitle) pageTitle.classList.add('hidden-ui');
+  if(difficultyLabel) difficultyLabel.classList.add('hidden-ui');
+  if(difficultySelect) difficultySelect.classList.add('hidden-ui');
+  if(rangeControls) rangeControls.classList.add('hidden-ui');
+  // also hide modal button + file status on small screens already handled by CSS
+}
+
+function restoreUI(){
+  if(pageTitle) pageTitle.classList.remove('hidden-ui');
+  if(difficultyLabel) difficultyLabel.classList.remove('hidden-ui');
+  if(difficultySelect) difficultySelect.classList.remove('hidden-ui');
+  if(rangeControls) rangeControls.classList.remove('hidden-ui');
+}
+
+/* Attach start/restart handlers — keep game logic unchanged but toggle UI */
 if (startBtn) startBtn.addEventListener('click', ()=>{
+  // hide requested UI elements when starting the game
+  hideUIOnPlay();
+
   startGame();
   startBtn.style.display = 'none';
   restartBtn.style.display = 'inline-block';
@@ -472,6 +527,9 @@ if (startBtn) startBtn.addEventListener('click', ()=>{
 }, {passive:true});
 
 if (restartBtn) restartBtn.addEventListener('click', ()=>{
+  // when user restarts, hide UI again
+  hideUIOnPlay();
+
   stopTimers();
   score = 0; combo = 1;
   correctCount = 0; wrongCount = 0; skippedCount = 0;
@@ -521,7 +579,8 @@ function endGame(){
   const resultText = document.getElementById('resultText');
   if(resultText) resultText.innerHTML = `Правильных: <strong>${correctCount}</strong><br>Неправильных: <strong>${wrongCount}</strong><br>Пропущенных: <strong>${skippedCount}</strong><br>Очки: <strong>${score}</strong>`;
   openModal(document.getElementById('resultModal'));
-  // show start button
+  // show start button and restore UI so user can change settings for next run
+  restoreUI();
   const startBtnEl = document.getElementById('startBtn');
   const restartBtnEl = document.getElementById('restartBtn');
   if (startBtnEl) startBtnEl.style.display = 'inline-block';
@@ -532,7 +591,7 @@ function endGame(){
 const closeResultBtn = document.getElementById('closeResult');
 if (closeResultBtn) closeResultBtn.addEventListener('click', ()=> closeModal(document.getElementById('resultModal')), {passive:true});
 
-/* QUESTION / OPTIONS */
+/* QUESTION / OPTIONS (unchanged) */
 function nextQuestion(){
   stopTimers();
 
