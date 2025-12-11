@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>Игровой тренажёр слов с картинками — ландшафт</title>
+<title>Игровой тренажёр слов с картинками</title>
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
@@ -13,40 +13,49 @@
   --bg1:#74ebd5; --bg2:#ACB6E5;
   --accent:#74b9ff; --accent-dark:#3b8ed9;
   --success:#55efc4; --danger:#ff7675;
-  --card-bg: rgba(255,255,255,0.96);
+  --card-bg: rgba(255,255,255,0.95);
   --radius:12px;
-  --tap-size:52px;
-  --max-width:1280px;
+  --tap-size:48px;
+  --max-width:900px;
 }
 
 /* BASE */
 html,body{height:100%;margin:0;padding:0;font-family:'Comic Neue','Luckiest Guy',cursive,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
 body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:12px;box-sizing:border-box;overflow-x:hidden}
-.container{width:100%;max-width:var(--max-width);box-sizing:border-box;}
 
-/* GRID LAYOUT: default — column */
-.container.grid{
-  display:grid;
-  grid-template-columns:1fr;
+/* CONTAINER:
+   Портрет: flex-column, равномерно распределяем по вертикали (fill screen).
+   Ландшафт: переопределим в media — grid 2 колонки.
+*/
+.container{
+  width:100%;
+  max-width:var(--max-width);
+  box-sizing:border-box;
+
+  /* portrait-first layout */
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between; /* равномерно по высоте */
   gap:12px;
-  align-items:start;
+  min-height: calc(100vh - 24px); /* чтобы растянуть по экрану */
+  padding:8px;
 }
 
 /* HEADER */
-h1{margin:6px 0 12px;color:#fff;font-size:1.9rem;text-shadow:2px 2px 6px rgba(0,0,0,0.45);text-align:center;line-height:1.05}
+h1{margin:0;color:#fff;font-size:1.9rem;text-shadow:2px 2px 6px rgba(0,0,0,0.45);text-align:center;line-height:1.05;padding:6px}
 
 /* STATUS */
-.topRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin-bottom:6px}
-#score,#timer{font-size:0.98rem;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,0.5);padding:6px 10px;border-radius:10px;background:rgba(0,0,0,0.10)}
+.topRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:0}
+#score,#timer{font-size:1rem;color:#fff;text-shadow:1px 1px 4px rgba(0,0,0,0.5);padding:6px 10px;border-radius:10px;background:rgba(0,0,0,0.12)}
 
 /* CARDS */
-.card{border-radius:var(--radius);padding:12px;background:var(--card-bg);box-shadow:0 6px 12px rgba(0,0,0,0.18);font-size:1rem;text-align:center;box-sizing:border-box}
-#question{min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px;overflow:auto}
+.card{border-radius:var(--radius);padding:14px;margin:0 auto;width:100%;background:var(--card-bg);box-shadow:0 6px 12px rgba(0,0,0,0.18);font-size:1rem;text-align:center;box-sizing:border-box}
+#question{min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:auto}
 
 /* IMAGE */
 img.wordImage{max-width:100%;height:auto;border-radius:10px;margin-bottom:12px;box-shadow:0 4px 10px rgba(0,0,0,0.18);display:block;object-fit:contain}
 
-/* OPTIONS: default grid for portrait/narrow */
+/* OPTIONS GRID (portrait-friendly) */
 #options {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
@@ -82,7 +91,7 @@ button {
   overflow:hidden;
 }
 button:active{transform:translateY(1px)}
-button[disabled]{opacity:0.55;cursor:not-allowed}
+button[disabled]{opacity:0.5;cursor:not-allowed}
 button.correct{background:var(--success); color:#054b2f}
 button.wrong{background:var(--danger); color:#5a130f}
 
@@ -94,16 +103,12 @@ button.wrong{background:var(--danger); color:#5a130f}
 #openLoadModal{position:fixed;top:12px;right:12px;padding:10px 14px;font-size:0.95rem;border-radius:10px;background:#fd79a8;color:#fff;border:none;cursor:pointer;z-index:1000}
 #fileStatus{position:fixed;top:12px;left:12px;background:var(--card-bg);padding:8px 10px;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.15);font-size:0.9rem;z-index:1000}
 
-/* MODAL */
+/* MODALS / TOAST */
 #loadModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);justify-content:center;align-items:center;z-index:999;padding:20px;box-sizing:border-box}
-#loadModal .modalContent{background:#fff;padding:16px;border-radius:12px;text-align:center;max-width:480px;width:100%;box-shadow:0 8px 20px rgba(0,0,0,0.25)}
+#loadModal .modalContent{background:#fff;padding:16px;border-radius:12px;text-align:center;max-width:440px;width:100%;box-shadow:0 8px 20px rgba(0,0,0,0.25)}
 .modalRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;margin:8px 0}
-
-/* RESULT MODAL */
 #resultModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:1001;padding:20px}
-#resultModal .modalContent{background:#fff;padding:16px;border-radius:12px;text-align:center;max-width:420px;width:100%;}
-
-/* TOAST */
+#resultModal .modalContent{background:#fff;padding:16px;border-radius:12px;text-align:center;max-width:360px;width:100%}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:rgba(0,0,0,0.8);color:#fff;padding:10px 14px;border-radius:10px;z-index:1100;font-size:0.95rem;opacity:0;pointer-events:none;transition:opacity .28s ease}
 .toast.show{opacity:1;pointer-events:auto}
 
@@ -112,72 +117,56 @@ button.wrong{background:var(--danger); color:#5a130f}
 .notice{background:#fff3b0;color:#6b4a00;padding:8px;border-radius:8px;margin-top:8px;font-size:0.95em}
 label{display:block;margin:8px 0 4px;color:#fff;text-align:center;font-weight:600}
 
-/* LANDSCAPE / WIDE: предпочтительная ориентация */
+/* Portrait small tweaks */
+@media (max-width:420px){
+  h1{font-size:1.45rem}
+  .card{padding:12px}
+  button{font-size:0.95rem;padding:10px}
+  #fileStatus{font-size:0.82rem;padding:6px}
+}
+
+/* LANDSCAPE: две колонки (включая планшеты/широкие телефоны) */
 @media (orientation: landscape) and (min-width:640px) {
-  body{padding:8px}
-  .container.grid{
-    grid-template-columns: 1fr 380px; /* вопрос слева, ответы справа */
-    gap:14px;
-    height: calc(100vh - 24px);
-    align-items:stretch;
-  }
-
-  /* Вопрос — центрируем текст вертикально, увеличиваем шрифт */
-  #question{
-    align-self:stretch;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding:22px;
-    font-size:1.15rem;
-    min-height:0; /* важно для flex/grid */
-  }
-  /* делаем картинку крупнее, но вписывающейся по высоте */
-  img.wordImage{max-height:60vh;margin-bottom:16px}
-
-  /* Опции — вертикальный столб, кнопки растягиваются по высоте */
-  #options{
-    display:flex;
-    flex-direction:column;
+  .container{
+    display:grid;
+    grid-template-columns: 1fr 420px; /* левая широкая колонка + правая фиксированная */
+    grid-template-rows: auto auto 1fr auto; /* header, info, main, controls */
+    grid-template-areas:
+      "h1 h1"
+      "topRow topRow"
+      "main right"
+      "controls right";
     gap:12px;
-    padding:18px;
-    background:transparent;
     align-items:stretch;
-    justify-content:center;
-  }
-  #options button{
-    flex:1;
-    width:100%;
-    min-height:56px;
-    font-size:1.05rem;
-    white-space:normal; /* перенос слов внутри кнопок, чтобы было видно длинный текст */
-    text-align:center;
+    min-height: calc(100vh - 24px);
     padding:12px;
   }
 
-  /* контролы под вопросом — компактнее */
-  #gameControls.card{align-self:end; padding:12px}
+  /* распределяем ключевые элементы по областям */
+  h1 { grid-area: h1; align-self:start; }
+  .topRow { grid-area: topRow; align-self:start; justify-content:flex-start; gap:12px; }
+  /* селектор сложности останется в документе и займёт свою клетку автоматически (следующий по порядку) */
+  #question { grid-area: main; align-self:stretch; display:flex; flex-direction:column; justify-content:center; padding:18px; min-height:0; overflow:auto; }
+  #options { grid-area: right; display:flex; flex-direction:column; gap:12px; padding:18px; align-items:stretch; justify-content:flex-start; background:transparent; }
+  #gameControls { grid-area: controls; align-self:end; justify-self:start; display:flex; gap:8px; padding:12px; background:var(--card-bg); border-radius:var(--radius); box-shadow:0 6px 12px rgba(0,0,0,0.12); }
 
-  /* увеличим заголовок чуть для ландшафта */
-  h1{font-size:2.0rem}
+  /* В ландшафте: растягиваем кнопки, разрешаем перенос текста внутри кнопок */
+  #options button{ flex:1; min-height:56px; white-space:normal; font-size:1.03rem; padding:12px; text-align:center; }
+
+  /* Картинка — ограничиваем по высоте, чтобы не было огромных пустот */
+  img.wordImage{max-height:60vh}
 }
 
-/* VERY WIDE: увеличиваем текст */
-@media (min-width:1100px) {
-  #question{font-size:1.2rem}
-  #options button{font-size:1.1rem;min-height:64px}
-}
-
-/* PORTRAIT small tweaks */
-@media (max-width:639px){
-  h1{font-size:1.4rem}
-  #question{min-height:110px;padding:12px}
-  img.wordImage{max-height:36vh}
+/* Очень широкий экран — увеличим шрифты */
+@media (min-width:1200px){
+  h1{font-size:2.2rem}
+  #question{font-size:1.05rem}
+  #options button{font-size:1.05rem;min-height:64px}
 }
 </style>
 </head>
 <body>
-  <div class="container grid" role="main">
+  <div class="container" role="main">
     <h1>Игра: Найди правильное слово</h1>
 
     <div class="topRow" aria-hidden="false">
@@ -192,8 +181,8 @@ label{display:block;margin:8px 0 4px;color:#fff;text-align:center;font-weight:60
       <option value="hard">Сложный</option>
     </select>
 
-    <!-- QUESTION и OPTIONS расположатся в две колонки на ландшафте -->
     <div id="question" class="card" aria-live="polite"></div>
+
     <div id="options" aria-label="Варианты ответов" class="card"></div>
 
     <div id="gameControls" class="card" style="display:flex;justify-content:center;align-items:center;">
@@ -258,19 +247,18 @@ label{display:block;margin:8px 0 4px;color:#fff;text-align:center;font-weight:60
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ======== ДАННЫЕ / ЛОГИКА ======== */
-/* (тот же код, что и у вас — без изменений логики; вставлен внизу, чтобы всё работало) */
-
+/* ======== ДАННЫЕ ======== */
 let words = [], sentences = [];
 let remainingWords = [], remainingSentences = [];
 let score = 0, combo = 1;
 let correctCount = 0, wrongCount = 0, skippedCount = 0;
-let answerTimeout = null;
+let answerTimeout = null, timePerWordInterval = null;
 let currentWord = null;
 
 let wordsLoaded = false, sentencesLoaded = false;
 let wordsFileName = 'word.json', sentencesFileName = 'sentences.json';
 
+/* POS mapping (оставил ваш словарь) */
 const posNames = {
   noun:"Substantiv", verb:"Verbum", adj:"Adjektiv", adv:"Adverbium",
   pron:"Pronomen", prep:"Præposition", conj:"Konjunktion", interj:"Interjektion",
@@ -278,19 +266,28 @@ const posNames = {
   det:"Determinativ", modal:"Modalverbum", poss:"Possessivpronomen", reflex:"Refleksivpronomen"
 };
 
-/* UI helpers */
+/* ======= UI HELPERS ======= */
 const toastEl = document.getElementById('toast');
-function showToast(msg, ms = 1800){
+function showToast(msg, ms = 2000){
   if(!toastEl) return;
   toastEl.textContent = msg;
   toastEl.classList.add('show');
   clearTimeout(toastEl._t);
   toastEl._t = setTimeout(()=>{ toastEl.classList.remove('show'); }, ms);
 }
-function openModal(modal){ if(!modal) return; modal.style.display='flex'; modal.setAttribute('aria-hidden','false'); }
-function closeModal(modal){ if(!modal) return; modal.style.display='none'; modal.setAttribute('aria-hidden','true'); }
 
-/* default data */
+function openModal(modal){
+  if(!modal) return;
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden','false');
+}
+function closeModal(modal){
+  if(!modal) return;
+  modal.style.display = 'none';
+  modal.setAttribute('aria-hidden','true');
+}
+
+/* ======= Примеры данных (по-умолчанию) ======= */
 function loadDefaultData(){
   words = [
     {id:"w1", word:"hus", value:"дом", pos:"noun", imageUrl:"hus.jpg"},
@@ -305,14 +302,15 @@ function loadDefaultData(){
     {id:"s2", wordId:"w2","text":"{{word}} sover på sofaen."},
     {id:"s3", wordId:"w3","text":"Han kan {{word}} hurtigt."},
     {id:"s4", wordId:"w4","text":"Sæt dig på en anden {{word}}."},
-    {id:"s5', wordId:'w5','text':'Himlen er {{word}} i dag.'}
+    {id:"s5", wordId:"w5","text":"Himlen er {{word}} i dag."}
   ];
   wordsLoaded = true; sentencesLoaded = true;
   wordsFileName = 'пример'; sentencesFileName = 'пример';
-  updateFileStatus(); checkStartButton();
+  updateFileStatus();
+  checkStartButton();
 }
 
-/* status */
+/* ======= UI STATUS ======= */
 function updateFileStatus(){
   const wEl = document.getElementById('wordsName');
   const sEl = document.getElementById('sentName');
@@ -328,9 +326,17 @@ function showScore(){
   if (scoreEl) scoreEl.textContent = `Очки: ${score} | Комбо: ${combo} | ✅ ${correctCount} ❌ ${wrongCount} ⏭ ${skippedCount}`;
 }
 
-/* utils */
-function shuffleArray(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } }
-function resetRemainingWords(){ remainingWords = words.slice(); shuffleArray(remainingWords); }
+/* ======= HELPERS ======= */
+function shuffleArray(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+function resetRemainingWords(){
+  remainingWords = words.slice();
+  shuffleArray(remainingWords);
+}
 function resetRemainingSentences(){
   remainingSentences = sentences.slice();
   const startEl = document.getElementById('sentenceStart'), endEl = document.getElementById('sentenceEnd');
@@ -347,41 +353,124 @@ function resetRemainingSentences(){
   shuffleArray(remainingSentences);
 }
 
-/* loading */
-async function fetchJsonUrl(url){ try{ const r = await fetch(url,{cache:'no-cache'}); if(!r.ok) throw new Error('HTTP '+r.status); return await r.json(); }catch(e){ console.warn('fetch error',url,e); return null; } }
-function normalizeBasePath(p){ if(!p) return ''; p=p.trim(); if(p.startsWith('http://')||p.startsWith('https://')||p.startsWith('/')){ if(!p.endsWith('/')) p += '/'; return p; } if(!p.endsWith('/')) p += '/'; return p; }
-async function loadFilesFromFolder(basePath=''){ const hint = document.getElementById('autoLoadHint'); if(hint) hint.style.display='none'; const bp = normalizeBasePath(basePath); const wordsUrl = bp+'word.json'; const sentUrl = bp+'sentences.json'; const wordsDataPromise = wordsLoaded ? Promise.resolve(words) : fetchJsonUrl(wordsUrl); const sentDataPromise  = sentencesLoaded ? Promise.resolve(sentences) : fetchJsonUrl(sentUrl); const [wordsData,sentData]=await Promise.all([wordsDataPromise,sentDataPromise]); if(!wordsLoaded && Array.isArray(wordsData)){ words=wordsData; wordsLoaded=true; wordsFileName=wordsUrl; } if(!sentencesLoaded && Array.isArray(sentData)){ sentences=sentData; sentencesLoaded=true; sentencesFileName=sentUrl; } updateFileStatus(); checkStartButton(); if(!(wordsLoaded && sentencesLoaded)){ if(hint){ hint.style.display='block'; hint.innerHTML = `Не удалось загрузить файлы по адресам:<br><code>${wordsUrl}</code><br><code>${sentUrl}</code><br>Проверьте путь, CORS или статус в DevTools.`; } openModal(document.getElementById('loadModal')); } else { if(hint){ hint.style.display='block'; hint.textContent='Файлы загружены — можно начать игру.'; setTimeout(()=>{ if(hint) hint.style.display='none'; },1500); } } }
+/* ======= LOADING JSON (fetch + FileReader) ======= */
+async function fetchJsonUrl(url){
+  try{
+    const r = await fetch(url, {cache: 'no-cache'});
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  }catch(e){
+    console.warn('fetch error', url, e);
+    return null;
+  }
+}
+function normalizeBasePath(p){
+  if(!p) return '';
+  p = p.trim();
+  if(p.startsWith('http://') || p.startsWith('https://') || p.startsWith('/')){
+    if(!p.endsWith('/')) p += '/';
+    return p;
+  }
+  if(!p.endsWith('/')) p += '/';
+  return p;
+}
+async function loadFilesFromFolder(basePath = ''){
+  const hint = document.getElementById('autoLoadHint');
+  if (hint) hint.style.display = 'none';
+  const bp = normalizeBasePath(basePath);
+  const wordsUrl = bp + 'word.json';
+  const sentUrl  = bp + 'sentences.json';
+  const wordsDataPromise = wordsLoaded ? Promise.resolve(words) : fetchJsonUrl(wordsUrl);
+  const sentDataPromise  = sentencesLoaded ? Promise.resolve(sentences) : fetchJsonUrl(sentUrl);
+  const [wordsData, sentData] = await Promise.all([wordsDataPromise, sentDataPromise]);
 
-/* file inputs */
+  if (!wordsLoaded && Array.isArray(wordsData)) {
+    words = wordsData; wordsLoaded = true; wordsFileName = wordsUrl;
+    console.log('word.json загружен:', wordsUrl);
+  }
+  if (!sentencesLoaded && Array.isArray(sentData)) {
+    sentences = sentData; sentencesLoaded = true; sentencesFileName = sentUrl;
+    console.log('sentences.json загружен:', sentUrl);
+  }
+  updateFileStatus(); checkStartButton();
+
+  if (!(wordsLoaded && sentencesLoaded)) {
+    if (hint) {
+      hint.style.display = 'block';
+      hint.innerHTML = `Не удалось загрузить файлы по адресам:<br><code>${wordsUrl}</code><br><code>${sentUrl}</code><br>Проверьте путь, CORS или статус в DevTools.`;
+    }
+    openModal(document.getElementById('loadModal'));
+  } else {
+    if (hint) {
+      hint.style.display = 'block';
+      hint.textContent = 'Файлы загружены — можно начать игру.';
+      setTimeout(()=>{ if(hint) hint.style.display = 'none'; }, 1800);
+    }
+  }
+}
+
+/* FILE INPUTS */
 const wordsFileInput = document.getElementById('wordsFile');
 if (wordsFileInput){
   wordsFileInput.addEventListener('change', e=>{
-    const file = e.target.files[0]; if(!file) return;
+    const file = e.target.files[0];
+    if(!file) return;
     const reader = new FileReader();
     reader.onload = ev=>{
-      try{ const parsed = JSON.parse(ev.target.result); if(!Array.isArray(parsed)) throw new Error('word.json должен быть массивом объектов'); words = parsed; wordsLoaded = true; wordsFileName = file.name; updateFileStatus(); checkStartButton(); showToast('word.json успешно загружен: ' + file.name); }catch(err){ wordsLoaded=false; wordsFileName=''; updateFileStatus(); checkStartButton(); showToast('Ошибка чтения word.json'); console.error(err); }
+      try{
+        const parsed = JSON.parse(ev.target.result);
+        if(!Array.isArray(parsed)) throw new Error('word.json должен быть массивом объектов');
+        words = parsed; wordsLoaded = true; wordsFileName = file.name;
+        updateFileStatus(); checkStartButton();
+        showToast('word.json успешно загружен: ' + file.name);
+      }catch(err){
+        wordsLoaded = false; wordsFileName = '';
+        updateFileStatus(); checkStartButton();
+        showToast('Ошибка чтения word.json');
+        console.error(err);
+      }
     };
-    reader.readAsText(file,'utf-8');
+    reader.readAsText(file, 'utf-8');
   }, {passive:true});
 }
 
 const sentFileInput = document.getElementById('sentFile');
 if (sentFileInput){
   sentFileInput.addEventListener('change', e=>{
-    const file = e.target.files[0]; if(!file) return;
+    const file = e.target.files[0];
+    if(!file) return;
     const reader = new FileReader();
     reader.onload = ev=>{
-      try{ const parsed = JSON.parse(ev.target.result); if(!Array.isArray(parsed)) throw new Error('sentences.json должен быть массивом объектов'); sentences = parsed; sentencesLoaded = true; sentencesFileName = file.name; updateFileStatus(); checkStartButton(); showToast('sentences.json успешно загружен: ' + file.name); }catch(err){ sentencesLoaded=false; sentencesFileName=''; updateFileStatus(); checkStartButton(); showToast('Ошибка чтения sentences.json'); console.error(err); }
+      try{
+        const parsed = JSON.parse(ev.target.result);
+        if(!Array.isArray(parsed)) throw new Error('sentences.json должен быть массивом объектов');
+        sentences = parsed; sentencesLoaded = true; sentencesFileName = file.name;
+        updateFileStatus(); checkStartButton();
+        showToast('sentences.json успешно загружен: ' + file.name);
+      }catch(err){
+        sentencesLoaded = false; sentencesFileName = '';
+        updateFileStatus(); checkStartButton();
+        showToast('Ошибка чтения sentences.json');
+        console.error(err);
+      }
     };
-    reader.readAsText(file,'utf-8');
+    reader.readAsText(file, 'utf-8');
   }, {passive:true});
 }
 
-/* modal controls */
+/* MODAL CONTROLS */
 const loadFromFolderBtn = document.getElementById('loadFromFolder');
-if (loadFromFolderBtn) loadFromFolderBtn.addEventListener('click', ()=> loadFilesFromFolder(''), {passive:true});
+if (loadFromFolderBtn) loadFromFolderBtn.addEventListener('click', ()=>{
+  loadFilesFromFolder('');
+}, {passive:true});
+
 const loadDefaultBtn = document.getElementById('loadDefault');
-if (loadDefaultBtn) loadDefaultBtn.addEventListener('click', ()=>{ loadDefaultData(); showToast('Пример загружен'); closeModal(document.getElementById('loadModal')); }, {passive:true});
+if (loadDefaultBtn) loadDefaultBtn.addEventListener('click', ()=>{
+  loadDefaultData();
+  showToast('Пример загружен');
+  closeModal(document.getElementById('loadModal'));
+}, {passive:true});
+
 const openModalBtn = document.getElementById('openLoadModal');
 const loadModal = document.getElementById('loadModal');
 const closeModalBtn = document.getElementById('closeModal');
@@ -389,43 +478,83 @@ if (openModalBtn) openModalBtn.addEventListener('click', ()=> openModal(loadModa
 if (closeModalBtn) closeModalBtn.addEventListener('click', ()=> closeModal(loadModal), {passive:true});
 window.addEventListener('click', e=>{ if(loadModal && e.target===loadModal) closeModal(loadModal); }, {passive:true});
 
-/* game controls */
+/* GAME CONTROLS */
 const startBtn = document.getElementById('startBtn');
 const restartBtn = document.getElementById('restartBtn');
 if (startBtn) startBtn.disabled = true;
-if (startBtn) startBtn.addEventListener('click', ()=>{ startGame(); startBtn.style.display='none'; restartBtn.style.display='inline-block'; closeModal(loadModal); }, {passive:true});
-if (restartBtn) restartBtn.addEventListener('click', ()=>{ stopTimers(); score=0; combo=1; correctCount=0; wrongCount=0; skippedCount=0; showScore(); resetRemainingSentences(); resetRemainingWords(); nextQuestion(); }, {passive:true});
 
-function stopTimers(){ if(answerTimeout){ clearInterval(answerTimeout); answerTimeout = null; } }
+if (startBtn) startBtn.addEventListener('click', ()=>{
+  startGame();
+  startBtn.style.display = 'none';
+  restartBtn.style.display = 'inline-block';
+  closeModal(loadModal);
+}, {passive:true});
 
-function startGame(){ score=0; combo=1; correctCount=0; wrongCount=0; skippedCount=0; showScore(); resetRemainingSentences(); resetRemainingWords(); nextQuestion(); }
+if (restartBtn) restartBtn.addEventListener('click', ()=>{
+  stopTimers();
+  score = 0; combo = 1;
+  correctCount = 0; wrongCount = 0; skippedCount = 0;
+  showScore();
+  resetRemainingSentences(); resetRemainingWords();
+  nextQuestion();
+}, {passive:true});
+
+/* Stop and clear timers cleanly */
+function stopTimers(){
+  if(answerTimeout) { clearInterval(answerTimeout); answerTimeout = null; }
+  if(timePerWordInterval) { clearInterval(timePerWordInterval); timePerWordInterval = null; }
+}
+
+/* GAME FLOW */
+function startGame(){
+  score = 0; combo = 1;
+  correctCount = 0; wrongCount = 0; skippedCount = 0;
+  showScore();
+  resetRemainingSentences();
+  resetRemainingWords();
+  nextQuestion();
+}
+
+function pickWord(){ return remainingWords.length>0 ? remainingWords.pop() : null; }
 function pickSentence(){ return remainingSentences.length>0 ? remainingSentences.pop() : null; }
+
 function makeOptions(correct){
   const opts = [correct];
   let candidates = words.filter(w => w.id !== correct.id);
   while(opts.length < 4 && candidates.length > 0){
-    let idx = Math.floor(Math.random()*candidates.length);
+    let idx = Math.floor(Math.random() * candidates.length);
     opts.push(candidates.splice(idx,1)[0]);
   }
-  for(let i = opts.length - 1; i > 0; i--){ const j=Math.floor(Math.random()*(i+1)); [opts[i],opts[j]]=[opts[j],opts[i]]; }
+  for(let i = opts.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
   return opts;
 }
 
 function endGame(){
   stopTimers();
+  // disable option buttons
   document.querySelectorAll('#options button').forEach(b => b.disabled = true);
+  // show result modal instead of alert
   const resultText = document.getElementById('resultText');
   if(resultText) resultText.innerHTML = `Правильных: <strong>${correctCount}</strong><br>Неправильных: <strong>${wrongCount}</strong><br>Пропущенных: <strong>${skippedCount}</strong><br>Очки: <strong>${score}</strong>`;
   openModal(document.getElementById('resultModal'));
-  const startBtnEl = document.getElementById('startBtn'); const restartBtnEl = document.getElementById('restartBtn');
-  if (startBtnEl) startBtnEl.style.display = 'inline-block'; if (restartBtnEl) restartBtnEl.style.display = 'none';
+  // show start button
+  const startBtnEl = document.getElementById('startBtn');
+  const restartBtnEl = document.getElementById('restartBtn');
+  if (startBtnEl) startBtnEl.style.display = 'inline-block';
+  if (restartBtnEl) restartBtnEl.style.display = 'none';
 }
 
+/* when result closed */
 const closeResultBtn = document.getElementById('closeResult');
 if (closeResultBtn) closeResultBtn.addEventListener('click', ()=> closeModal(document.getElementById('resultModal')), {passive:true});
 
+/* QUESTION / OPTIONS */
 function nextQuestion(){
   stopTimers();
+
   if(!words.length || !sentences.length){
     const qEl = document.getElementById('question');
     if (qEl) qEl.innerHTML = '<div class="small">Сначала загрузите файлы или пример.</div>';
@@ -437,8 +566,9 @@ function nextQuestion(){
 
   currentWord = words.find(w => w.id === sentenceObj.wordId);
   if(!currentWord){
+    // если слово не найдено — перейдём к следующему
     if(remainingSentences.length === 0){ endGame(); return; }
-    else { setTimeout(nextQuestion,0); return; }
+    else { setTimeout(nextQuestion, 0); return; }
   }
 
   const sentenceText = sentenceObj.text ? sentenceObj.text.replace("{{word}}","_____") : "_____";
@@ -446,7 +576,8 @@ function nextQuestion(){
 
   let qHtml = "";
   if(currentWord.imageUrl){
-    qHtml += `<div style="margin-bottom:12px;"><img class="wordImage" src="${currentWord.imageUrl}" alt="Изображение: ${currentWord.word}" loading="lazy" decoding="async"></div>`;
+    // loading=lazy + decoding=async для быстроты и экономии трафика
+    qHtml += `<div style="margin-bottom:8px;"><img class="wordImage" src="${currentWord.imageUrl}" alt="Изображение: ${currentWord.word}" loading="lazy" decoding="async"></div>`;
   }
 
   const difficultyEl = document.getElementById('difficulty');
@@ -471,7 +602,7 @@ function nextQuestion(){
     });
   }
 
-  // таймер вопроса
+  // Таймер на вопрос — показываем в блоке timer
   let timeLeft = 10;
   const timerEl = document.getElementById('timer');
   if (timerEl) timerEl.textContent = `Время: ${timeLeft}`;
@@ -491,21 +622,31 @@ function nextQuestion(){
 }
 
 function checkAnswer(selected, btn){
+  // disable buttons
   document.querySelectorAll('#options button').forEach(b => b.disabled = true);
+
   if(selected.id === currentWord.id){
     if (btn) btn.classList.add('correct');
-    correctCount++; score += 10 * combo; combo++;
+    correctCount++;
+    score += 10 * combo;
+    combo++;
   } else {
     if (btn) btn.classList.add('wrong');
-    wrongCount++; combo = 1;
+    wrongCount++;
+    combo = 1;
   }
+
   showScore();
+
   if(!remainingSentences || remainingSentences.length === 0) setTimeout(endGame, 800);
   else setTimeout(nextQuestion, 700);
 }
 
-/* INIT */
-updateFileStatus(); checkStartButton();
+/* ========== INIT ========== */
+updateFileStatus();
+checkStartButton();
+
+/* Автозагрузка при открытии (если доступны файлы на сервере) */
 window.addEventListener('DOMContentLoaded', ()=>{ loadFilesFromFolder(''); }, {passive:true});
 </script>
 </body>
