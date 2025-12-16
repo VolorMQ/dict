@@ -275,7 +275,9 @@ label{display:block;margin:8px 0 4px;color:#fff;text-align:center;font-weight:60
           <input type="number" id="sentenceStart" value="1" min="1" placeholder="С" style="width:110px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)">
           <input type="number" id="sentenceEnd" value="9999" min="1" placeholder="По" style="width:110px;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.08)">
         </div>
+		<div id="sentenceTotal" class="small"></div>
       </div>
+	  
     </div>
 
     <!-- ПРАВАЯ КОЛОНКА -->
@@ -398,6 +400,7 @@ function loadDefaultData(){
   wordsFileName = 'пример'; sentencesFileName = 'пример';
   updateFileStatus();
   checkStartButton();
+  updateSentenceTotal();
 }
 
 /* ======= UI STATUS ======= */
@@ -407,6 +410,17 @@ function updateFileStatus(){
   if (wEl) wEl.textContent = wordsFileName || '—';
   if (sEl) sEl.textContent = sentencesFileName || '—';
 }
+
+// UI: показать общее количество предложений
+function updateSentenceTotal(){
+  const el = document.getElementById('sentenceTotal');
+  if (!el) return;
+
+  const total = Array.isArray(sentences) ? sentences.length : 0;
+  el.textContent = `Всего предложений: ${total}`;
+}
+
+
 function checkStartButton(){
   const startBtn = document.getElementById('startBtn');
   if (startBtn) startBtn.disabled = !(wordsLoaded && sentencesLoaded);
@@ -482,7 +496,7 @@ async function loadFilesFromFolder(basePath = ''){
     sentences = sentData; sentencesLoaded = true; sentencesFileName = sentUrl;
     console.log('sentences.json загружен:', sentUrl);
   }
-  updateFileStatus(); checkStartButton();
+  updateFileStatus(); checkStartButton(); updateSentenceTotal();
 
   if (!(wordsLoaded && sentencesLoaded)) {
     if (hint) {
@@ -535,7 +549,7 @@ if (sentFileInput){
         const parsed = JSON.parse(ev.target.result);
         if(!Array.isArray(parsed)) throw new Error('sentences.json должен быть массивом объектов');
         sentences = parsed; sentencesLoaded = true; sentencesFileName = file.name;
-        updateFileStatus(); checkStartButton();
+        updateFileStatus(); checkStartButton(); updateSentenceTotal();
         showToast('sentences.json успешно загружен: ' + file.name);
       }catch(err){
         sentencesLoaded = false; sentencesFileName = '';

@@ -101,6 +101,7 @@ input[type=file]{font-size:1.1em;margin:4px}
   <input type="number" id="sentenceStart" value="1" min="1" placeholder="С какого предложения">
   <input type="number" id="sentenceEnd" value="9999" min="1" placeholder="По какое предложение">
 </div>
+<div id="sentenceTotal" class="small"></div>
 
 
 <script>
@@ -144,7 +145,7 @@ function loadDefaultData(){
   ];
   wordsLoaded = true; sentencesLoaded = true;
   wordsFileName = 'пример'; sentencesFileName = 'пример';
-  updateFileStatus(); checkStartButton();
+  updateFileStatus(); checkStartButton(); updateSentenceTotal();
 }
 
 // UI: обновление статуса файлов
@@ -154,6 +155,16 @@ function updateFileStatus(){
   if (wEl) wEl.textContent = wordsFileName || '—';
   if (sEl) sEl.textContent = sentencesFileName || '—';
 }
+
+// UI: показать общее количество предложений
+function updateSentenceTotal(){
+  const el = document.getElementById('sentenceTotal');
+  if (!el) return;
+
+  const total = Array.isArray(sentences) ? sentences.length : 0;
+  el.textContent = `Всего предложений: ${total}`;
+}
+
 
 // Проверка возможности старта
 function checkStartButton(){
@@ -222,6 +233,7 @@ async function loadFilesFromFolder(basePath = '') {
 
   updateFileStatus();
   checkStartButton();
+  updateSentenceTotal();
 
   if (!(wordsLoaded && sentencesLoaded)) {
     if (hint) {
@@ -255,6 +267,7 @@ if (wordsFileInput) {
         wordsLoaded = true;
         wordsFileName = file.name;
         updateFileStatus();
+		
         checkStartButton();
         alert('word.json успешно загружен: ' + file.name);
       } catch (err) {
@@ -283,12 +296,14 @@ if (sentFileInput) {
         sentencesLoaded = true;
         sentencesFileName = file.name;
         updateFileStatus();
+		updateSentenceTotal();
         checkStartButton();
         alert('sentences.json успешно загружен: ' + file.name);
       } catch (err) {
         sentencesLoaded = false;
         sentencesFileName = '';
         updateFileStatus();
+		
         checkStartButton();
         alert('Ошибка чтения sentences.json: ' + err);
       }
