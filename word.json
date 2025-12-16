@@ -383,5 +383,131 @@
     "value": "удерживать / хранить, сохранять / оставлять себе",
     "pos": "verb",
     "imageUrl": "jpg/beholde.jpg"
+  },
+  {
+    "id": "w57",
+    "word": "føler",
+    "value": "чувствует / ощущает",
+    "pos": "verb",
+    "imageUrl": "jpg/f1ler.jpg"
+  },
+  {
+    "id": "w58",
+    "word": "sent",
+    "value": "поздно / поздний",
+    "pos": "adv/adj",
+    "imageUrl": "jpg/sent.jpg"
+  },
+  {
+    "id": "w59",
+    "word": "ro",
+    "value": "покой / спокойствие / тишина",
+    "pos": "noun",
+    "imageUrl": "jpg/ro.jpg"
+  },
+  {
+    "id": "w60",
+    "word": "overskud",
+    "value": "избыток / запас / внутренняя энергия, ресурс",
+    "pos": "noun",
+    "imageUrl": "jpg/overskud.jpg"
+  },
+  {
+    "id": "w61",
+    "word": "beroligende",
+    "value": "успокаивающий",
+    "pos": "adj",
+    "imageUrl": "jpg/beroligende.jpg"
+  },
+  {
+    "id": "w62",
+    "word": "indtil",
+    "value": "до тех пор пока / до",
+    "pos": "conj/prep",
+    "imageUrl": "jpg/indtil.jpg"
+  },
+  {
+    "id": "w63",
+    "word": "fik",
+    "value": "получил / достал",
+    "pos": "verb",
+    "imageUrl": "jpg/fik.jpg"
+  },
+  {
+    "id": "w64",
+    "word": "forret",
+    "value": "бизнес, дело / закуска (еда)",
+    "pos": "noun",
+    "imageUrl": "jpg/forret.jpg"
+  },
+  {
+    "id": "w65",
+    "word": "tro",
+    "value": "вера / верить",
+    "pos": "noun/verb",
+    "imageUrl": "jpg/tro.jpg"
+  },
+  {
+    "id": "w66",
+    "word": "tilfreds",
+    "value": "довольный / удовлетворённый",
+    "pos": "adj",
+    "imageUrl": "jpg/tilfreds.jpg"
+  },
+  {
+    "id": "w67",
+    "word": "single",
+    "value": "одинокий (без пары)",
+    "pos": "adj",
+    "imageUrl": "jpg/single.jpg"
+  },
+  {
+    "id": "w68",
+    "word": "ensom",
+    "value": "одинокий (эмоционально)",
+    "pos": "adj",
+    "imageUrl": "jpg/ensom.jpg"
+  },
+  {
+    "id": "w69",
+    "word": "dækket",
+    "value": "покрытый / накрытый (стол) / обеспеченный",
+    "pos": "adj",
+    "imageUrl": "jpg/d1kket.jpg"
+  },
+  {
+    "id": "w70",
+    "word": "kender",
+    "value": "знает / знаком с",
+    "pos": "verb",
+    "imageUrl": "jpg/kender.jpg"
+  },
+  {
+    "id": "w71",
+    "word": "endnu",
+    "value": "ещё / всё ещё",
+    "pos": "adv",
+    "imageUrl": "jpg/endnu.jpg"
+  },
+  {
+    "id": "w72",
+    "word": "hinanden",
+    "value": "друг друга",
+    "pos": "pron",
+    "imageUrl": "jpg/hinanden.jpg"
+  },
+  {
+    "id": "w73",
+    "word": "senere",
+    "value": "позже / позднее",
+    "pos": "adv",
+    "imageUrl": "jpg/senere.jpg"
+  },
+  {
+    "id": "w74",
+    "word": "mærkeligt",
+    "value": "странно / странный",
+    "pos": "adv/adj",
+    "imageUrl": "jpg/m1rkeligt.jpg"
   }  
 ]
