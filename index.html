@@ -114,17 +114,15 @@ for(let i=0; i<numParticles; i++){
   const size = Math.random() * 30 + 20; // 20-50px
   p.style.fontSize = size + 'px';
   p.radius = size/2;
-  p.style.top = Math.random() * window.innerHeight + 'px';
-  p.style.left = Math.random() * window.innerWidth + 'px';
+  // Случайная позиция при старте
+  p.x = Math.random() * (window.innerWidth - size);
+  p.y = Math.random() * (window.innerHeight - size);
+  p.vx = (Math.random() * 2 - 1) * 1.5; // скорость движения на мобиле
+  p.vy = (Math.random() * 2 - 1) * 1.5;
+  p.style.left = p.x + 'px';
+  p.style.top = p.y + 'px';
   container.appendChild(p);
-  particles.push({
-    el: p,
-    x: parseFloat(p.style.left),
-    y: parseFloat(p.style.top),
-    vx: Math.random() * 2 - 1,
-    vy: Math.random() * 2 - 1,
-    radius: p.radius
-  });
+  particles.push(p);
 }
 
 let mouseX = window.innerWidth/2;
@@ -140,9 +138,9 @@ if(!isMobile){
 // Смена букв по одной каждые 1 секунды
 setInterval(() => {
   const p = particles[Math.floor(Math.random() * particles.length)];
-  p.el.textContent = letters[Math.floor(Math.random() * letters.length)];
-  p.el.style.color = randomColor();
-  // Случайная позиция
+  p.textContent = letters[Math.floor(Math.random() * letters.length)];
+  p.style.color = randomColor();
+  // Случайная позиция при смене
   p.x = Math.random() * (window.innerWidth - p.radius*2);
   p.y = Math.random() * (window.innerHeight - p.radius*2);
 }, 1000);
@@ -153,12 +151,13 @@ function animate(){
     if(isMobile){
       p.x += p.vx;
       p.y += p.vy;
+      // Отскакивание от краев экрана
       if(p.x < 0 || p.x > window.innerWidth - p.radius*2) p.vx *= -1;
       if(p.y < 0 || p.y > window.innerHeight - p.radius*2) p.vy *= -1;
     } else {
       const dx = mouseX - (p.x + p.radius);
       const dy = mouseY - (p.y + p.radius);
-      p.x += dx * 0.01; // скорость в 2 раза меньше
+      p.x += dx * 0.01; // скорость преследования уменьшена в 2 раза
       p.y += dy * 0.01;
     }
 
@@ -179,8 +178,8 @@ function animate(){
       }
     });
 
-    p.el.style.left = p.x + 'px';
-    p.el.style.top = p.y + 'px';
+    p.style.left = p.x + 'px';
+    p.style.top = p.y + 'px';
   });
 
   requestAnimationFrame(animate);
