@@ -1,85 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Din egen ordbog.</title>
-  <!-- Подключаем Google Fonts для мультяшного стиля -->
-  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
-  <style>
-    /* Общие стили */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Comic Neue', cursive;
-      background: linear-gradient(120deg, #fbc2eb, #a6c1ee);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Din egen ordbog.</title>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Neue', cursive;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+  }
 
-    h1 {
-      font-size: 4rem;
-      text-shadow: 3px 3px 0 #ff6f61, 6px 6px 0 #ffb347;
-      margin-bottom: 50px;
-      text-align: center;
-    }
+  h1 {
+    font-size: clamp(2rem, 6vw, 4rem);
+    text-align: center;
+    margin-bottom: 5vh;
+    color: #fff;
+    animation: glow 2s infinite;
+    text-shadow: 0 0 10px #ff6f61, 0 0 20px #ffb347;
+    padding: 0 2vw;
+  }
 
-    /* Кнопки */
-    .button {
-      background: #ffdd59;
-      color: #333;
-      border: 4px solid #ff6f61;
-      border-radius: 20px;
-      padding: 20px 50px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 20px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 5px 5px 0 #ff6f61;
-    }
+  @keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px #ff6f61, 0 0 20px #ffb347; }
+    50% { text-shadow: 0 0 20px #ff6f61, 0 0 40px #ffb347; }
+  }
 
-    .button:hover {
-      transform: translateY(-5px) rotate(-3deg);
-      box-shadow: 8px 8px 0 #ff6f61;
-    }
+  .particle {
+    position: absolute;
+    font-size: 2rem;
+    pointer-events: none;
+    user-select: none;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #00000050;
+  }
 
-    /* Забавные облака на фоне */
-    .cloud {
-      position: absolute;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0.7;
-      animation: float 10s linear infinite;
-    }
+  .button {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    padding: clamp(10px, 3vw, 20px) clamp(20px, 5vw, 50px);
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-weight: bold;
+    cursor: pointer;
+    margin: 2vh 0;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    transition: all 0.3s ease;
+  }
 
-    .cloud:nth-child(1) { width: 200px; height: 60px; top: 50px; left: -250px; }
-    .cloud:nth-child(2) { width: 150px; height: 50px; top: 150px; left: -200px; }
-    .cloud:nth-child(3) { width: 180px; height: 55px; top: 300px; left: -220px; }
+  .button:hover {
+    transform: scale(1.1) rotate(-2deg);
+    box-shadow: 0 0 25px rgba(255,255,255,0.7);
+  }
 
-    @keyframes float {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(120vw); }
-    }
-  </style>
+  .buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 500px;
+    z-index: 10;
+  }
+
+  @media (max-width: 500px) {
+    h1 { font-size: clamp(1.5rem, 7vw, 3rem); }
+    .button { font-size: clamp(0.9rem, 5vw, 1.2rem); }
+  }
+</style>
 </head>
 <body>
-  <!-- Облака -->
-  <div class="cloud"></div>
-  <div class="cloud"></div>
-  <div class="cloud"></div>
+<h1>🎉 Din egen ordbog. Lær nemt nye ord. 🎮</h1>
 
-  <h1>🎉 Din egen ordbog. Lær nemt nye ord. 🎮</h1>
-
-  <!-- Кнопки навигации -->
+<div class="buttons-container">
   <button class="button" onclick="location.href='game.html'">Start Game from PC</button>
   <button class="button" onclick="location.href='gameM.html'">Start Game from Mobile</button>
   <button class="button" onclick="location.href='setupSentences.html'">Setup Sentences</button>
   <button class="button" onclick="location.href='setupWord.html'">Setup Words</button>
+</div>
+
+<div id="particles-container"></div>
+
+<script>
+const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÆØÅ';
+const numParticles = 20;
+const particles = [];
+const container = document.getElementById('particles-container');
+
+// Генерация случайного цвета
+function randomColor() {
+  const r = Math.floor(Math.random()*256);
+  const g = Math.floor(Math.random()*256);
+  const b = Math.floor(Math.random()*256);
+  return `rgb(${r},${g},${b})`;
+}
+
+// Создаем буквы
+for(let i=0; i<numParticles; i++){
+  const p = document.createElement('div');
+  p.classList.add('particle');
+  p.textContent = letters[Math.floor(Math.random() * letters.length)];
+  p.style.color = randomColor();
+  const size = Math.random() * 30 + 20; // 20-50px
+  p.style.fontSize = size + 'px';
+  p.radius = size/2;
+  p.style.top = Math.random() * window.innerHeight + 'px';
+  p.style.left = Math.random() * window.innerWidth + 'px';
+  container.appendChild(p);
+  particles.push({
+    el: p,
+    x: parseFloat(p.style.left),
+    y: parseFloat(p.style.top),
+    vx: Math.random() * 2 - 1,
+    vy: Math.random() * 2 - 1,
+    radius: p.radius
+  });
+}
+
+let mouseX = window.innerWidth/2;
+let mouseY = window.innerHeight/2;
+
+if(!isMobile){
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+}
+
+// Смена букв по одной каждые 1 секунды
+setInterval(() => {
+  const p = particles[Math.floor(Math.random() * particles.length)];
+  p.el.textContent = letters[Math.floor(Math.random() * letters.length)];
+  p.el.style.color = randomColor();
+  // Случайная позиция
+  p.x = Math.random() * (window.innerWidth - p.radius*2);
+  p.y = Math.random() * (window.innerHeight - p.radius*2);
+}, 1000);
+
+// Движение с отталкиванием
+function animate(){
+  particles.forEach(p => {
+    if(isMobile){
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < 0 || p.x > window.innerWidth - p.radius*2) p.vx *= -1;
+      if(p.y < 0 || p.y > window.innerHeight - p.radius*2) p.vy *= -1;
+    } else {
+      const dx = mouseX - (p.x + p.radius);
+      const dy = mouseY - (p.y + p.radius);
+      p.x += dx * 0.01; // скорость в 2 раза меньше
+      p.y += dy * 0.01;
+    }
+
+    // Отталкивание от других букв
+    particles.forEach(other => {
+      if(p === other) return;
+      const dx = p.x - other.x;
+      const dy = p.y - other.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      const minDist = p.radius + other.radius;
+      if(dist < minDist && dist > 0){
+        const angle = Math.atan2(dy, dx);
+        const overlap = (minDist - dist)/2;
+        p.x += Math.cos(angle) * overlap;
+        p.y += Math.sin(angle) * overlap;
+        other.x -= Math.cos(angle) * overlap;
+        other.y -= Math.sin(angle) * overlap;
+      }
+    });
+
+    p.el.style.left = p.x + 'px';
+    p.el.style.top = p.y + 'px';
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+  particles.forEach(p => {
+    if(p.x > window.innerWidth) p.x = Math.random() * window.innerWidth;
+    if(p.y > window.innerHeight) p.y = Math.random() * window.innerHeight;
+  });
+});
+</script>
 </body>
 </html>
