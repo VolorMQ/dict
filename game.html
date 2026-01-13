@@ -5,7 +5,23 @@
 <title>Игровой тренажёр слов с картинками</title>
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Comic Neue','Luckiest Guy',cursive,Arial,sans-serif;margin:0;padding:0;background:linear-gradient(135deg,#74ebd5,#ACB6E5);display:flex;flex-direction:column;align-items:center;min-height:100vh}
+body {
+  font-family: 'Comic Neue','Luckiest Guy',cursive,Arial,sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  color: #fff;
+  overflow: hidden;
+
+  /* начальный градиент */
+  background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+  transition: background 1s linear;
+}
+
+/* остальные стили оставляем как есть */
 h1{margin:20px 0;color:#fff;font-size:2.2em;text-shadow:2px 2px 5px #000;text-align:center}
 .card{border-radius:12px;padding:15px;margin:8px auto;width:380px;background:rgba(255,255,255,0.9);box-shadow:0 6px 12px rgba(0,0,0,0.4);font-size:1.2em;text-align:center}
 button{padding:10px 18px;margin:5px;width:180px;border:none;border-radius:10px;background:#74b9ff;color:#fff;font-weight:bold;cursor:pointer;font-size:1.1em;text-shadow:1px 1px 2px #000}
@@ -22,27 +38,27 @@ input[type=file]{font-size:1.1em;margin:4px}
 #fileStatus{position:fixed;top:12px;left:12px;background:rgba(255,255,255,0.95);padding:8px 10px;border-radius:8px;box-shadow:0 3px 8px rgba(0,0,0,0.2);font-size:0.95em;z-index:1000}
 #gameControls{margin-top:6px}
 .notice{background:#fff3b0;color:#6b4a00;padding:8px;border-radius:8px;margin-top:8px;font-size:0.95em}
+
 /* Новые стили для блока с вариантами и кнопок */
 #options {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* две колонки */
-  gap: 10px;                      /* промежутки между кнопками */
-  width: 420px;                    /* шире, чтобы длинные слова помещались */
-  min-height: 200px;               /* увеличиваем высоту окна */
+  grid-template-columns: 1fr 1fr; 
+  gap: 10px; 
+  width: 420px;
+  min-height: 200px; 
   margin: 0 auto;
   padding: 10px;
   background: rgba(255,255,255,0.9);
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-
 #options button {
-  width: 100%;                     /* кнопка занимает всю колонку */
+  width: 100%;                     
   padding: 12px 8px;
   font-size: 1.1em;
-  white-space: nowrap;             /* текст внутри кнопки не переносится */
+  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;         /* если слово длинное — показываем многоточие */
+  text-overflow: ellipsis;
   box-sizing: border-box;
 }
 
@@ -125,6 +141,60 @@ const posNames = {
   num:"Numeral", art:"Artikel", aux:"Hilfsverb", part:"Partikel",
   det:"Determinativ", modal:"Modalverbum", poss:"Possessivpronomen", reflex:"Refleksivpronomen"
 };
+
+// --- плавный анимированный градиент фона ---
+const gradientColors = [
+  ['#74ebd5','#ACB6E5'],
+  ['#ff9a9e','#fad0c4'],
+  ['#fbc2eb','#a6c1ee'],
+  ['#a18cd1','#fbc2eb'],
+  ['#f6d365','#fda085'],
+  ['#84fab0','#8fd3f4']
+];
+
+let currentGradient = 0;
+function animateBackground(){
+  const next = (currentGradient + 1) % gradientColors.length;
+  const [c1,c2] = gradientColors[currentGradient];
+  const [n1,n2] = gradientColors[next];
+  let progress = 0;
+  const step = 0.0001;
+
+  function stepGradient(){
+    progress += step;
+    if(progress > 1) progress = 1;
+    const r1 = lerpColorHex(c1,n1,progress);
+    const r2 = lerpColorHex(c2,n2,progress);
+    document.body.style.background = `linear-gradient(135deg, ${r1}, ${r2})`;
+    if(progress < 1){
+      requestAnimationFrame(stepGradient);
+    } else {
+      currentGradient = next;
+      animateBackground();
+    }
+  }
+  stepGradient();
+}
+
+// --- линейная интерполяция между двумя HEX цветами ---
+function lerpColorHex(a,b,t){
+  const c1 = hexToRgb(a), c2 = hexToRgb(b);
+  const r = Math.round(c1.r + (c2.r-c1.r)*t);
+  const g = Math.round(c1.g + (c2.g-c1.g)*t);
+  const bl = Math.round(c1.b + (c2.b-c1.b)*t);
+  return `rgb(${r},${g},${bl})`;
+}
+function hexToRgb(hex){
+  hex = hex.replace('#','');
+  if(hex.length===3) hex = hex.split('').map(x=>x+x).join('');
+  return {
+    r:parseInt(hex.substr(0,2),16),
+    g:parseInt(hex.substr(2,2),16),
+    b:parseInt(hex.substr(4,2),16)
+  };
+}
+
+window.addEventListener('DOMContentLoaded', ()=>{ animateBackground(); });
 
 // Примеры данных
 function loadDefaultData(){
