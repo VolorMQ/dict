@@ -76,6 +76,7 @@ button:hover {
 </table>
 <button onclick="addRow()">Добавить строку</button>
 <button onclick="downloadJSON()">Скачать JSON</button>
+<button onclick="downloadFromServer()">Скачать с сервера</button>
 
 <script>
 let data = [];
@@ -94,6 +95,20 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
   };
   reader.readAsText(file);
 });
+
+function downloadFromServer() {
+  fetch('sentences.json') // файл на сервере
+    .then(response => response.blob()) // получаем как Blob
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'sentences.json'; // имя файла при сохранении
+      a.click();
+      URL.revokeObjectURL(url); // чистим память
+    })
+    .catch(err => alert("Ошибка при скачивании файла с сервера: " + err));
+}
 
 function render() {
   const tbody = document.querySelector("#jsonTable tbody");
