@@ -37,10 +37,9 @@
 
   .particle {
     position: absolute;
-    font-size: 2rem;
+    font-weight: bold;
     pointer-events: none;
     user-select: none;
-    font-weight: bold;
     text-shadow: 1px 1px 2px #00000050;
   }
 
@@ -102,7 +101,15 @@ function randomColor() {
   const r = Math.floor(Math.random()*256);
   const g = Math.floor(Math.random()*256);
   const b = Math.floor(Math.random()*256);
-  return `rgb(${r},${g},${b})`;
+  return {r, g, b};
+}
+
+function colorToString(c){
+  return `rgb(${Math.floor(c.r)},${Math.floor(c.g)},${Math.floor(c.b)})`;
+}
+
+function lerpColor(a, b, t){
+  return { r: a.r + (b.r - a.r)*t, g: a.g + (b.g - a.g)*t, b: a.b + (b.b - a.b)*t };
 }
 
 // Создаем буквы
@@ -110,58 +117,56 @@ for(let i=0; i<numParticles; i++){
   const p = document.createElement('div');
   p.classList.add('particle');
   p.textContent = letters[Math.floor(Math.random() * letters.length)];
-  p.style.color = randomColor();
-  const size = Math.random() * 30 + 20; // 20-50px
-  p.style.fontSize = size + 'px';
-  p.radius = size/2;
-  // Случайная позиция при старте
-  p.x = Math.random() * (window.innerWidth - size);
-  p.y = Math.random() * (window.innerHeight - size);
-  p.vx = (Math.random() * 2 - 1) * 1.5; // скорость движения на мобиле
+  p.x = Math.random() * (window.innerWidth - 50);
+  p.y = Math.random() * (window.innerHeight - 50);
+  p.radius = Math.random() * 25 + 20;
+  p.size = p.radius*2;
+  p.vx = (Math.random() * 2 - 1) * 1.5;
   p.vy = (Math.random() * 2 - 1) * 1.5;
-  p.style.left = p.x + 'px';
-  p.style.top = p.y + 'px';
+  p.currentColor = randomColor();
+  p.targetColor = randomColor();
+  p.colorProgress = 0;
+  p.el = p;
+  p.el.style.fontSize = p.size + 'px';
+  p.el.style.color = colorToString(p.currentColor);
   container.appendChild(p);
   particles.push(p);
 }
 
+// Присвоим DOM элемент каждому объекту
+particles.forEach(p => p.el = p);
+
 let mouseX = window.innerWidth/2;
 let mouseY = window.innerHeight/2;
-
 if(!isMobile){
-  window.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
+  window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 }
 
 // Смена букв по одной каждые 1 секунды
 setInterval(() => {
   const p = particles[Math.floor(Math.random() * particles.length)];
   p.textContent = letters[Math.floor(Math.random() * letters.length)];
-  p.style.color = randomColor();
-  // Случайная позиция при смене
+  p.targetColor = randomColor();
   p.x = Math.random() * (window.innerWidth - p.radius*2);
   p.y = Math.random() * (window.innerHeight - p.radius*2);
 }, 1000);
 
-// Движение с отталкиванием
+// Анимация
 function animate(){
   particles.forEach(p => {
     if(isMobile){
       p.x += p.vx;
       p.y += p.vy;
-      // Отскакивание от краев экрана
       if(p.x < 0 || p.x > window.innerWidth - p.radius*2) p.vx *= -1;
       if(p.y < 0 || p.y > window.innerHeight - p.radius*2) p.vy *= -1;
     } else {
       const dx = mouseX - (p.x + p.radius);
       const dy = mouseY - (p.y + p.radius);
-      p.x += dx * 0.01; // скорость преследования уменьшена в 2 раза
+      p.x += dx * 0.01; // скорость преследования
       p.y += dy * 0.01;
     }
 
-    // Отталкивание от других букв
+    // Отталкивание
     particles.forEach(other => {
       if(p === other) return;
       const dx = p.x - other.x;
@@ -178,8 +183,21 @@ function animate(){
       }
     });
 
-    p.style.left = p.x + 'px';
-    p.style.top = p.y + 'px';
+    // Пульсация размера
+    p.el.style.fontSize = (p.size * (0.9 + 0.2 * Math.sin(Date.now()/500 + p.radius))) + 'px';
+
+    // Плавное изменение цвета
+    p.colorProgress += 0.01;
+    if(p.colorProgress > 1){
+      p.colorProgress = 0;
+      p.currentColor = p.targetColor;
+      p.targetColor = randomColor();
+    }
+    const col = lerpColor(p.currentColor, p.targetColor, p.colorProgress);
+    p.el.style.color = colorToString(col);
+
+    p.el.style.left = p.x + 'px';
+    p.el.style.top = p.y + 'px';
   });
 
   requestAnimationFrame(animate);
