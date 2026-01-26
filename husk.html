@@ -166,20 +166,40 @@ function nextIndex() {
   currentIndex = (currentIndex + stepN) % words.length;
 }
 
-/* ===== SEARCH ===== */
-function findWordIndex(query) {
+/* ===== SMART SEARCH ===== */
+function findSmartWord(query) {
   query = query.toLowerCase().trim();
-  return words.findIndex(w =>
-    w.danish.toLowerCase() === query ||
-    w.translation.toLowerCase() === query
-  );
+  let temp = query;
+
+  while (temp.length > 0) {
+    // точное совпадение
+    let index = words.findIndex(w =>
+      w.danish.toLowerCase() === temp ||
+      w.translation.toLowerCase() === temp
+    );
+    if (index !== -1) return index;
+
+    // частичное совпадение (подстрока)
+    index = words.findIndex(w =>
+      w.danish.toLowerCase().includes(temp) ||
+      w.translation.toLowerCase().includes(temp)
+    );
+    if (index !== -1) return index;
+
+    temp = temp.slice(0, -1); // откусываем последнюю букву
+  }
+
+  return null; // ничего не найдено
 }
 
-/* ===== INPUT HANDLERS ===== */
-function handleSearch() {
+async function handleSearchImmediate() {
   const query = document.getElementById('searchInput').value;
-  const index = findWordIndex(query);
-  if (index !== -1) currentIndex = index;
+  const index = findSmartWord(query);
+  if (index !== null) {
+    currentIndex = index;
+    await showWord(words[currentIndex]);
+    nextIndex();
+  }
   document.getElementById('searchInput').value = '';
 }
 
@@ -188,16 +208,13 @@ function handleStep() {
   if (val > 0) stepN = val;
 }
 
-// кнопки
-document.getElementById('searchBtn').addEventListener('click', handleSearch);
-document.getElementById('stepBtn').addEventListener('click', handleStep);
-
-// Enter для поиска
+/* ===== INPUT EVENTS ===== */
+document.getElementById('searchBtn').addEventListener('click', handleSearchImmediate);
 document.getElementById('searchInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleSearch();
+  if (e.key === 'Enter') handleSearchImmediate();
 });
 
-// Enter для шага
+document.getElementById('stepBtn').addEventListener('click', handleStep);
 document.getElementById('stepInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') handleStep();
 });
