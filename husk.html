@@ -55,6 +55,7 @@ body {
   text-shadow: 0 0 6px rgba(0,0,0,0.9);
 }
 
+/* Центральная панель: поиск и шаг N */
 #controls {
   position: fixed;
   bottom: 12px;
@@ -65,7 +66,21 @@ body {
   z-index: 100;
 }
 
-#controls input, #controls button {
+/* Левый нижний угол: словарь + загрузка + Старт/Стоп */
+#dictionaryControls {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 100;
+  color: #fff;
+  font-size: 0.85rem;
+  align-items: center;
+}
+
+#controls input, #controls button,
+#dictionaryControls input, #dictionaryControls button {
   background: rgba(0,0,0,0.45);
   border: none;
   border-radius: 14px;
@@ -78,24 +93,34 @@ body {
 
 #controls input::placeholder { color: #bbb; }
 
-#controls button {
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-#controls button:hover {
-  background: rgba(0,0,0,0.65);
-}
+#controls button:hover,
+#dictionaryControls button:hover { background: rgba(0,0,0,0.65); cursor: pointer; }
 </style>
 </head>
 
 <body>
 
+<!-- Центральная панель -->
 <div id="controls">
   <input id="searchInput" placeholder="Слово (DA / RU)">
   <button id="searchBtn">OK</button>
   <input id="stepInput" type="number" min="1" value="1" placeholder="N">
   <button id="stepBtn">OK</button>
+</div>
+
+<!-- Левый нижний угол: словарь, загрузка, Старт/Стоп -->
+<div id="dictionaryControls">
+  <div style="display: flex; gap:4px; align-items: center;">
+    <label><input type="radio" name="dict" value="dic.json" checked> Dic</label>
+    <label><input type="radio" name="dict" value="word.json"> Word</label>
+  </div>
+
+  <label>
+    <input type="file" id="localFileInput" accept=".json" style="width:90px">
+  </label>
+
+  <button id="startBtn">Старт</button>
+  <button id="stopBtn">Стоп</button>
 </div>
 
 <script>
@@ -105,11 +130,17 @@ let currentIndex = 0;
 let stepN = 1;
 let nextWordIndex = null;
 let showingWord = false;
+let sessionRunning = true;
 
 /* ===== TTS ===== */
+// Очищаем текст от всех символов кроме букв и пробелов
+function cleanTextForTTS(text) {
+  return text.replace(/[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s]/g, '').trim();
+}
+
 function speak(text, lang, rate = 1) {
   return new Promise(resolve => {
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(cleanTextForTTS(text));
     u.lang = lang;
     u.rate = rate;
     u.onend = resolve;
@@ -128,14 +159,12 @@ function moveTo(el, pos) { el.style.left = pos.x + 'px'; el.style.top = pos.y + 
 /* ===== WORD DISPLAY ===== */
 async function showWordWithQueue(word) {
   showingWord = true;
-
   const el = document.createElement('div');
   el.className = 'particle';
   el.innerHTML = `${word.danish}<span class="translation">${word.translation}</span>`;
   document.body.appendChild(el);
 
   moveTo(el, randomPosition(el));
-
   await speak(word.translation, 'ru-RU');
   await speak(word.danish, 'da-DK', 0.5);
 
@@ -175,26 +204,13 @@ function findSmartWord(query) {
       w.danish.toLowerCase() === temp || w.translation.toLowerCase() === temp
     );
     if (index !== -1) return index;
-
     index = words.findIndex(w =>
       w.danish.toLowerCase().includes(temp) || w.translation.toLowerCase().includes(temp)
     );
     if (index !== -1) return index;
-
     temp = temp.slice(0, -1);
   }
   return null;
-}
-
-/* ===== FAKE ONLINE TRANSLATE (двунаправленно) ===== */
-async function fakeOnlineTranslate(word) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      // просто возвращаем слово как перевод без изменений
-      // здесь можно потом подключить реальный API
-      resolve(word); 
-    }, 1200);
-  });
 }
 
 /* ===== HANDLE SEARCH ===== */
@@ -203,16 +219,15 @@ async function handleSearchImmediate() {
   document.getElementById('searchInput').value = '';
   if (!query) return;
 
+  const isRussian = /[а-яё]/i.test(query);
+  const isPhrase = query.split(/\s+/).length > 1;
+
   let index = findSmartWord(query);
-  let newEntry = null;
 
-  if(index === null) {
-    const isRussian = /[а-яё]/i.test(query);
-    const translation = await fakeOnlineTranslate(query);
-
-    if(isRussian) newEntry = { danish: translation, translation: query };
-    else newEntry = { danish: query, translation };
-
+  if(index === null || isPhrase) {
+    const newEntry = isRussian
+      ? { danish: '', translation: query }
+      : { danish: query, translation: '' };
     words.push(newEntry);
     index = words.length - 1;
   }
@@ -233,31 +248,69 @@ function handleStep() {
 
 /* ===== INPUT EVENTS ===== */
 document.getElementById('searchBtn').addEventListener('click', handleSearchImmediate);
-document.getElementById('searchInput').addEventListener('keydown', e => {
-  if(e.key === 'Enter') handleSearchImmediate();
-});
+document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key === 'Enter') handleSearchImmediate(); });
 
 document.getElementById('stepBtn').addEventListener('click', handleStep);
-document.getElementById('stepInput').addEventListener('keydown', e => {
-  if(e.key === 'Enter') handleStep();
+document.getElementById('stepInput').addEventListener('keydown', e => { if(e.key === 'Enter') handleStep(); });
+
+/* ===== START / STOP ===== */
+document.getElementById('startBtn').addEventListener('click', () => { sessionRunning = true; });
+document.getElementById('stopBtn').addEventListener('click', () => { sessionRunning = false; });
+
+/* ===== LOCAL FILE LOAD ===== */
+document.getElementById('localFileInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = event => {
+    try {
+      const data = JSON.parse(event.target.result);
+      words = data.map(item => ({ danish: item.word, translation: item.value }));
+      currentIndex = 0;
+      nextWordIndex = null;
+      showingWord = false;
+      console.log("Словарь успешно загружен:", file.name);
+    } catch(err) {
+      console.error("Ошибка при чтении файла:", err);
+      alert("Ошибка: неверный формат JSON");
+    }
+  };
+  reader.readAsText(file);
 });
 
-/* ===== SESSION ===== */
+/* ===== SERVER DICTIONARY SELECT ===== */
+document.querySelectorAll('input[name="dict"]').forEach(radio => {
+  radio.addEventListener('change', e => { if(e.target.checked) loadDictionary(e.target.value); });
+});
+
+function loadDictionary(file) {
+  fetch(file)
+    .then(r => r.json())
+    .then(data => {
+      words = data.map(item => ({ danish: item.word, translation: item.value }));
+      currentIndex = 0;
+      nextWordIndex = null;
+      showingWord = false;
+      console.log("Словарь загружен с сервера:", file);
+    })
+    .catch(err => console.error('Ошибка загрузки словаря:', err));
+}
+
+/* ===== START SESSION ===== */
 async function startSession() {
   while(true) {
-    await showWordWithQueue(words[currentIndex]);
-    nextIndex();
+    if(sessionRunning && words.length > 0) {
+      await showWordWithQueue(words[currentIndex]);
+      nextIndex();
+    } else {
+      await new Promise(r => setTimeout(r, 500));
+    }
   }
 }
 
-/* ===== LOAD DICTIONARY ===== */
-fetch('dic.json')
-  .then(r => r.json())
-  .then(data => {
-    words = data.map(item => ({ danish: item.word, translation: item.value }));
-    startSession();
-  })
-  .catch(err => console.error('Ошибка загрузки dic.json:', err));
+/* ===== LOAD DEFAULT DICTIONARY ===== */
+loadDictionary('dic.json');
+startSession();
 </script>
 
 </body>
