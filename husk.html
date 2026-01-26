@@ -4,138 +4,205 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Flashwords</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Comic Neue', cursive;
-    min-height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(270deg, #1a1a2e, #2e2e3f, #3a3a4f, #1f1c2c);
-    background-size: 800% 800%;
-    animation: gradientBG 60s ease infinite;
-  }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Comic Neue', cursive;
+  min-height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(270deg, #1a1a2e, #23233a, #2b2b44, #1f1c2c);
+  background-size: 800% 800%;
+  animation: gradientBG 70s ease infinite;
+}
 
-  @keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  .particle {
-    position: absolute;
-    font-weight: bold;
-    pointer-events: none;
-    user-select: none;
-    text-align: center;
-    font-size: clamp(2rem, 6vw, 4rem);
-    background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffd700, #1fdbff, #ff6f61);
-    background-size: 400% 400%;
-    animation: gradientText 5s ease infinite;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
-    transition: transform 3s ease, left 3s ease, top 3s ease;
-  }
+.particle {
+  position: absolute;
+  font-weight: bold;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  font-size: clamp(2rem, 6vw, 4rem);
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffd700, #6fd6ff, #ff6f61);
+  background-size: 400% 400%;
+  animation: gradientText 5s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(0,0,0,0.6);
+  transition: left 3s ease, top 3s ease;
+}
 
-  @keyframes gradientText {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-  .translation {
-    font-size: 0.5em;
-    display: block;
-    margin-top: 0.2em;
-    color: #ffffff;
-    text-shadow: 0 0 5px rgba(0,0,0,0.8);
-  }
+.translation {
+  display: block;
+  font-size: 0.5em;
+  margin-top: 0.2em;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(0,0,0,0.9);
+}
+
+/* ===== CONTROLS ===== */
+
+#controls {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+}
+
+#controls input {
+  background: rgba(0,0,0,0.45);
+  border: none;
+  border-radius: 14px;
+  padding: 10px 14px;
+  color: #fff;
+  font-size: 1rem;
+  width: 160px;
+  outline: none;
+  text-align: center;
+}
+
+#controls input::placeholder {
+  color: #bbb;
+}
 </style>
 </head>
+
 <body>
 
-<script>
-const maxRepeats = 5;
+<div id="controls">
+  <input id="searchInput" placeholder="Слово (DA / RU)">
+  <input id="stepInput" type="number" min="1" value="1" placeholder="N">
+</div>
 
-// TTS с кастомной скоростью
-function speak(text, lang = 'da', rate = 0.9) {
+<script>
+const MAX_REPEATS = 5;
+
+let words = [];
+let currentIndex = 0;
+let stepN = 1;
+
+/* ===== TTS ===== */
+
+function speak(text, lang, rate = 1) {
   return new Promise(resolve => {
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = lang;
-    utter.rate = rate;
-    utter.onend = resolve;
-    speechSynthesis.speak(utter);
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    u.rate = rate;
+    u.onend = resolve;
+    speechSynthesis.speak(u);
   });
 }
 
-// случайная позиция на экране
-function randomPosition(element) {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const x = Math.random() * (vw - element.offsetWidth);
-  const y = Math.random() * (vh - element.offsetHeight);
-  return {x, y};
+/* ===== POSITION ===== */
+
+function randomPosition(el) {
+  const x = Math.random() * (window.innerWidth - el.offsetWidth);
+  const y = Math.random() * (window.innerHeight - el.offsetHeight - 80);
+  return { x, y };
 }
 
-// плавное перемещение
-function moveTo(element, x, y) {
-  element.style.left = `${x}px`;
-  element.style.top = `${y}px`;
+function moveTo(el, pos) {
+  el.style.left = pos.x + 'px';
+  el.style.top = pos.y + 'px';
 }
 
-async function showWord(wordObj) {
-  const span = document.createElement('div');
-  span.className = 'particle';
-  span.innerHTML = `${wordObj.danish}<span class="translation">${wordObj.translation}</span>`;
-  document.body.appendChild(span);
+/* ===== WORD DISPLAY ===== */
 
-  let pos = randomPosition(span);
-  moveTo(span, pos.x, pos.y);
+async function showWord(word) {
+  const el = document.createElement('div');
+  el.className = 'particle';
+  el.innerHTML = `${word.danish}<span class="translation">${word.translation}</span>`;
+  document.body.appendChild(el);
 
-  // Первый показ: перевод + медленное датское слово
-  await speak(wordObj.translation, 'ru-RU');
-  await speak(wordObj.danish, 'da-DK', 0.5);
+  moveTo(el, randomPosition(el));
 
-  // Второй и третий показ: ускоряем
-  const speedSteps = [0.7, 0.9];
-  for (let i = 1; i < maxRepeats - 1; i++) {
+  // 1-й показ
+  await speak(word.translation, 'ru-RU');
+  await speak(word.danish, 'da-DK', 0.5);
+
+  const rates = [0.7, 0.9, 1.0];
+
+  for (let i = 1; i < MAX_REPEATS - 1; i++) {
     await new Promise(r => setTimeout(r, 1500));
-    pos = randomPosition(span);
-    moveTo(span, pos.x, pos.y);
-    
-    let rate = (i <= speedSteps.length) ? speedSteps[i-1] : 1.0;
-    await speak(wordObj.danish, 'da-DK', rate);
+    moveTo(el, randomPosition(el));
+    await speak(word.danish, 'da-DK', rates[Math.min(i - 1, rates.length - 1)]);
   }
 
-  // Последний показ: перевод + нормальное датское слово
+  // последний показ
   await new Promise(r => setTimeout(r, 1500));
-  pos = randomPosition(span);
-  moveTo(span, pos.x, pos.y);
-  await speak(wordObj.translation, 'ru-RU');
-  await speak(wordObj.danish, 'da-DK', 1.0);
+  moveTo(el, randomPosition(el));
+  await speak(word.translation, 'ru-RU');
+  await speak(word.danish, 'da-DK', 1.0);
 
-  span.remove();
+  el.remove();
 }
 
-async function startSession(words) {
-  for (const word of words) {
-    await showWord(word);
+/* ===== INDEX LOGIC ===== */
+
+function nextIndex() {
+  currentIndex = (currentIndex + stepN) % words.length;
+}
+
+/* ===== SEARCH ===== */
+
+function findWordIndex(query) {
+  query = query.toLowerCase().trim();
+  return words.findIndex(w =>
+    w.danish.toLowerCase() === query ||
+    w.translation.toLowerCase() === query
+  );
+}
+
+/* ===== SESSION ===== */
+
+async function startSession() {
+  while (true) {
+    await showWord(words[currentIndex]);
+    nextIndex();
   }
 }
 
-// Загрузка слов из dic.json
+/* ===== INPUT EVENTS ===== */
+
+document.getElementById('searchInput').addEventListener('change', e => {
+  const i = findWordIndex(e.target.value);
+  if (i !== -1) currentIndex = i;
+});
+
+document.getElementById('stepInput').addEventListener('change', e => {
+  const v = parseInt(e.target.value);
+  if (v > 0) stepN = v;
+});
+
+/* ===== LOAD DICTIONARY ===== */
+
 fetch('dic.json')
-  .then(response => response.json())
+  .then(r => r.json())
   .then(data => {
-    const words = data.map(item => ({
+    words = data.map(item => ({
       danish: item.word,
       translation: item.value
     }));
-    startSession(words);
-  })
-  .catch(err => console.error('Ошибка загрузки dic.json:', err));
+    startSession();
+  });
 </script>
 
 </body>
