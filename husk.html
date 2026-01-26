@@ -62,7 +62,8 @@ body {
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px;
   z-index: 100;
 }
 
@@ -72,10 +73,11 @@ body {
   bottom: 12px;
   left: 12px;
   display: flex;
-  gap: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
   z-index: 100;
   color: #fff;
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 3vw, 0.85rem);
   align-items: center;
 }
 
@@ -83,10 +85,10 @@ body {
 #dictionaryControls input, #dictionaryControls button {
   background: rgba(0,0,0,0.45);
   border: none;
-  border-radius: 14px;
-  padding: 10px 14px;
+  border-radius: 12px;
+  padding: clamp(6px, 1.5vw, 10px) clamp(10px, 3vw, 16px);
   color: #fff;
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 3vw, 1rem);
   outline: none;
   text-align: center;
 }
@@ -95,7 +97,20 @@ body {
 
 #controls button:hover,
 #dictionaryControls button:hover { background: rgba(0,0,0,0.65); cursor: pointer; }
+
+/* Медиазапрос для экранов < 400px */
+@media (max-width: 400px) {
+  #controls, #dictionaryControls {
+    gap: 4px;
+  }
+  #controls input, #controls button,
+  #dictionaryControls input, #dictionaryControls button {
+    font-size: clamp(0.7rem, 4vw, 0.9rem);
+    padding: clamp(4px, 2vw, 8px) clamp(6px, 3vw, 12px);
+  }
+}
 </style>
+
 </head>
 
 <body>
