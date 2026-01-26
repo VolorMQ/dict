@@ -55,7 +55,6 @@ body {
   text-shadow: 0 0 6px rgba(0,0,0,0.9);
 }
 
-/* ===== CONTROLS ===== */
 #controls {
   position: fixed;
   bottom: 12px;
@@ -77,9 +76,7 @@ body {
   text-align: center;
 }
 
-#controls input::placeholder {
-  color: #bbb;
-}
+#controls input::placeholder { color: #bbb; }
 
 #controls button {
   cursor: pointer;
@@ -103,12 +100,9 @@ body {
 
 <script>
 const MAX_REPEATS = 5;
-
 let words = [];
 let currentIndex = 0;
 let stepN = 1;
-
-// очередь нового слова
 let nextWordIndex = null;
 let showingWord = false;
 
@@ -129,13 +123,9 @@ function randomPosition(el) {
   const y = Math.random() * (window.innerHeight - el.offsetHeight - 80);
   return { x, y };
 }
+function moveTo(el, pos) { el.style.left = pos.x + 'px'; el.style.top = pos.y + 'px'; }
 
-function moveTo(el, pos) {
-  el.style.left = pos.x + 'px';
-  el.style.top = pos.y + 'px';
-}
-
-/* ===== WORD DISPLAY WITH QUEUE ===== */
+/* ===== WORD DISPLAY ===== */
 async function showWordWithQueue(word) {
   showingWord = true;
 
@@ -146,19 +136,16 @@ async function showWordWithQueue(word) {
 
   moveTo(el, randomPosition(el));
 
-  // 1-й показ
   await speak(word.translation, 'ru-RU');
   await speak(word.danish, 'da-DK', 0.5);
 
   const rates = [0.7, 0.9, 1.0];
-
   for (let i = 1; i < MAX_REPEATS - 1; i++) {
     await new Promise(r => setTimeout(r, 1500));
     moveTo(el, randomPosition(el));
     await speak(word.danish, 'da-DK', rates[Math.min(i - 1, rates.length - 1)]);
   }
 
-  // последний показ
   await new Promise(r => setTimeout(r, 1500));
   moveTo(el, randomPosition(el));
   await speak(word.translation, 'ru-RU');
@@ -167,7 +154,6 @@ async function showWordWithQueue(word) {
   el.remove();
   showingWord = false;
 
-  // если есть слово в очереди — показываем его сразу
   if (nextWordIndex !== null) {
     const idx = nextWordIndex;
     nextWordIndex = null;
@@ -178,70 +164,87 @@ async function showWordWithQueue(word) {
 }
 
 /* ===== INDEX LOGIC ===== */
-function nextIndex() {
-  currentIndex = (currentIndex + stepN) % words.length;
-}
+function nextIndex() { currentIndex = (currentIndex + stepN) % words.length; }
 
 /* ===== SMART SEARCH ===== */
 function findSmartWord(query) {
   query = query.toLowerCase().trim();
   let temp = query;
-
   while (temp.length > 0) {
     let index = words.findIndex(w =>
-      w.danish.toLowerCase() === temp ||
-      w.translation.toLowerCase() === temp
+      w.danish.toLowerCase() === temp || w.translation.toLowerCase() === temp
     );
     if (index !== -1) return index;
 
     index = words.findIndex(w =>
-      w.danish.toLowerCase().includes(temp) ||
-      w.translation.toLowerCase().includes(temp)
+      w.danish.toLowerCase().includes(temp) || w.translation.toLowerCase().includes(temp)
     );
     if (index !== -1) return index;
 
     temp = temp.slice(0, -1);
   }
-
   return null;
 }
 
-async function handleSearchImmediate() {
-  const query = document.getElementById('searchInput').value;
-  const index = findSmartWord(query);
-  document.getElementById('searchInput').value = '';
+/* ===== FAKE ONLINE TRANSLATE (двунаправленно) ===== */
+async function fakeOnlineTranslate(word) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      // просто возвращаем слово как перевод без изменений
+      // здесь можно потом подключить реальный API
+      resolve(word); 
+    }, 1200);
+  });
+}
 
-  if (index !== null) {
-    if (showingWord) {
-      nextWordIndex = index; // ставим в очередь
-    } else {
-      currentIndex = index;
-      await showWordWithQueue(words[currentIndex]);
-      nextIndex();
-    }
+/* ===== HANDLE SEARCH ===== */
+async function handleSearchImmediate() {
+  const query = document.getElementById('searchInput').value.trim();
+  document.getElementById('searchInput').value = '';
+  if (!query) return;
+
+  let index = findSmartWord(query);
+  let newEntry = null;
+
+  if(index === null) {
+    const isRussian = /[а-яё]/i.test(query);
+    const translation = await fakeOnlineTranslate(query);
+
+    if(isRussian) newEntry = { danish: translation, translation: query };
+    else newEntry = { danish: query, translation };
+
+    words.push(newEntry);
+    index = words.length - 1;
+  }
+
+  if(showingWord) nextWordIndex = index;
+  else {
+    currentIndex = index;
+    await showWordWithQueue(words[currentIndex]);
+    nextIndex();
   }
 }
 
 /* ===== HANDLE STEP ===== */
 function handleStep() {
   const val = parseInt(document.getElementById('stepInput').value);
-  if (val > 0) stepN = val;
+  if(val > 0) stepN = val;
 }
 
 /* ===== INPUT EVENTS ===== */
 document.getElementById('searchBtn').addEventListener('click', handleSearchImmediate);
 document.getElementById('searchInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleSearchImmediate();
+  if(e.key === 'Enter') handleSearchImmediate();
 });
 
 document.getElementById('stepBtn').addEventListener('click', handleStep);
 document.getElementById('stepInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') handleStep();
+  if(e.key === 'Enter') handleStep();
 });
 
 /* ===== SESSION ===== */
 async function startSession() {
-  while (true) {
+  while(true) {
     await showWordWithQueue(words[currentIndex]);
     nextIndex();
   }
@@ -251,10 +254,7 @@ async function startSession() {
 fetch('dic.json')
   .then(r => r.json())
   .then(data => {
-    words = data.map(item => ({
-      danish: item.word,
-      translation: item.value
-    }));
+    words = data.map(item => ({ danish: item.word, translation: item.value }));
     startSession();
   })
   .catch(err => console.error('Ошибка загрузки dic.json:', err));
