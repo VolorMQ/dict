@@ -108,6 +108,10 @@ let words = [];
 let currentIndex = 0;
 let stepN = 1;
 
+// очередь нового слова
+let nextWordIndex = null;
+let showingWord = false;
+
 /* ===== TTS ===== */
 function speak(text, lang, rate = 1) {
   return new Promise(resolve => {
@@ -131,8 +135,10 @@ function moveTo(el, pos) {
   el.style.top = pos.y + 'px';
 }
 
-/* ===== WORD DISPLAY ===== */
-async function showWord(word) {
+/* ===== WORD DISPLAY WITH QUEUE ===== */
+async function showWordWithQueue(word) {
+  showingWord = true;
+
   const el = document.createElement('div');
   el.className = 'particle';
   el.innerHTML = `${word.danish}<span class="translation">${word.translation}</span>`;
@@ -159,6 +165,16 @@ async function showWord(word) {
   await speak(word.danish, 'da-DK', 1.0);
 
   el.remove();
+  showingWord = false;
+
+  // если есть слово в очереди — показываем его сразу
+  if (nextWordIndex !== null) {
+    const idx = nextWordIndex;
+    nextWordIndex = null;
+    currentIndex = idx;
+    await showWordWithQueue(words[currentIndex]);
+    nextIndex();
+  }
 }
 
 /* ===== INDEX LOGIC ===== */
@@ -172,37 +188,41 @@ function findSmartWord(query) {
   let temp = query;
 
   while (temp.length > 0) {
-    // точное совпадение
     let index = words.findIndex(w =>
       w.danish.toLowerCase() === temp ||
       w.translation.toLowerCase() === temp
     );
     if (index !== -1) return index;
 
-    // частичное совпадение (подстрока)
     index = words.findIndex(w =>
       w.danish.toLowerCase().includes(temp) ||
       w.translation.toLowerCase().includes(temp)
     );
     if (index !== -1) return index;
 
-    temp = temp.slice(0, -1); // откусываем последнюю букву
+    temp = temp.slice(0, -1);
   }
 
-  return null; // ничего не найдено
+  return null;
 }
 
 async function handleSearchImmediate() {
   const query = document.getElementById('searchInput').value;
   const index = findSmartWord(query);
-  if (index !== null) {
-    currentIndex = index;
-    await showWord(words[currentIndex]);
-    nextIndex();
-  }
   document.getElementById('searchInput').value = '';
+
+  if (index !== null) {
+    if (showingWord) {
+      nextWordIndex = index; // ставим в очередь
+    } else {
+      currentIndex = index;
+      await showWordWithQueue(words[currentIndex]);
+      nextIndex();
+    }
+  }
 }
 
+/* ===== HANDLE STEP ===== */
 function handleStep() {
   const val = parseInt(document.getElementById('stepInput').value);
   if (val > 0) stepN = val;
@@ -222,7 +242,7 @@ document.getElementById('stepInput').addEventListener('keydown', e => {
 /* ===== SESSION ===== */
 async function startSession() {
   while (true) {
-    await showWord(words[currentIndex]);
+    await showWordWithQueue(words[currentIndex]);
     nextIndex();
   }
 }
