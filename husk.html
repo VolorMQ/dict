@@ -156,7 +156,6 @@ function randomPosition(el) {
 }
 function moveTo(el, pos) { el.style.left = pos.x + 'px'; el.style.top = pos.y + 'px'; }
 
-/* ===== WORD DISPLAY ===== */
 async function showWordWithQueue(word) {
   showingWord = true;
   const el = document.createElement('div');
@@ -165,20 +164,24 @@ async function showWordWithQueue(word) {
   document.body.appendChild(el);
 
   moveTo(el, randomPosition(el));
-  await speak(word.translation, 'ru-RU');
-  await speak(word.danish, 'da-DK', 0.5);
+  
+  // Первый показ: перевод сначала
+  await speak(cleanTextForTTS(word.translation), 'ru-RU');
+  await speak(cleanTextForTTS(word.danish), 'da-DK', 0.5); // медленно
 
-  const rates = [0.7, 0.9, 1.0];
+  // Повторные показы (2,3)
+  const rates = [0.5, 0.7, 1.0]; // 2,3 медленнее, 4,5 нормальная
   for (let i = 1; i < MAX_REPEATS - 1; i++) {
     await new Promise(r => setTimeout(r, 1500));
     moveTo(el, randomPosition(el));
-    await speak(word.danish, 'da-DK', rates[Math.min(i - 1, rates.length - 1)]);
+    await speak(cleanTextForTTS(word.danish), 'da-DK', rates[Math.min(i - 1, rates.length - 1)]);
   }
 
+  // Последний показ (5)
   await new Promise(r => setTimeout(r, 1500));
   moveTo(el, randomPosition(el));
-  await speak(word.translation, 'ru-RU');
-  await speak(word.danish, 'da-DK', 1.0);
+  await speak(cleanTextForTTS(word.translation), 'ru-RU');
+  await speak(cleanTextForTTS(word.danish), 'da-DK', 1.0); // нормальная скорость
 
   el.remove();
   showingWord = false;
@@ -191,6 +194,7 @@ async function showWordWithQueue(word) {
     nextIndex();
   }
 }
+
 
 /* ===== INDEX LOGIC ===== */
 function nextIndex() { currentIndex = (currentIndex + stepN) % words.length; }
