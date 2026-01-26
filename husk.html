@@ -130,10 +130,10 @@ let currentIndex = 0;
 let stepN = 1;
 let nextWordIndex = null;
 let showingWord = false;
-let sessionRunning = true;
+let sessionRunning = false; // по умолчанию не запущено
+let sessionStarted = false;  // флаг чтобы startSession запускался один раз
 
 /* ===== TTS ===== */
-// Очищаем текст от всех символов кроме букв и пробелов
 function cleanTextForTTS(text) {
   return text.replace(/[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s]/g, '').trim();
 }
@@ -235,7 +235,7 @@ async function handleSearchImmediate() {
   if(showingWord) nextWordIndex = index;
   else {
     currentIndex = index;
-    await showWordWithQueue(words[currentIndex]);
+    if(sessionRunning) await showWordWithQueue(words[currentIndex]);
     nextIndex();
   }
 }
@@ -254,7 +254,10 @@ document.getElementById('stepBtn').addEventListener('click', handleStep);
 document.getElementById('stepInput').addEventListener('keydown', e => { if(e.key === 'Enter') handleStep(); });
 
 /* ===== START / STOP ===== */
-document.getElementById('startBtn').addEventListener('click', () => { sessionRunning = true; });
+document.getElementById('startBtn').addEventListener('click', () => {
+  sessionRunning = true;
+  if(!sessionStarted) { sessionStarted = true; startSession(); }
+});
 document.getElementById('stopBtn').addEventListener('click', () => { sessionRunning = false; });
 
 /* ===== LOCAL FILE LOAD ===== */
@@ -309,8 +312,7 @@ async function startSession() {
 }
 
 /* ===== LOAD DEFAULT DICTIONARY ===== */
-loadDictionary('dic.json');
-startSession();
+loadDictionary('dic.json'); // автостарт отключён
 </script>
 
 </body>
