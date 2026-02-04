@@ -21,22 +21,6 @@
   --max-width:1200px;
 }
 
-body {
-  /* базовый градиент */
-  background: linear-gradient(135deg, var(--bg1), var(--bg2));
-  background-size: 400% 400%; /* увеличиваем, чтобы было движение */
-  animation: gradientShift 20s ease infinite;
-}
-
-/* Плавная смена градиента через ключевые кадры */
-@keyframes gradientShift {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 100% 0%; }
-  50% { background-position: 100% 100%; }
-  75% { background-position: 0% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
 /* BASE */
 html,body{height:100%;margin:0;padding:0;font-family:'Comic Neue','Luckiest Guy',cursive,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
 body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:12px;overflow:hidden}
@@ -55,6 +39,7 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .left-column, .right-column{
   width:100%;
   min-height:0;
+  overflow-y: auto;
 }
 
 /* header and status */
@@ -373,60 +358,6 @@ const posNames = {
   num:"Numeral", art:"Artikel", aux:"Hilfsverb", part:"Partikel",
   det:"Determinativ", modal:"Modalverbum", poss:"Possessivpronomen", reflex:"Refleksivpronomen"
 };
-
-// --- плавный анимированный градиент фона ---
-const gradientColors = [
-  ['#74ebd5','#ACB6E5'],
-  ['#ff9a9e','#fad0c4'],
-  ['#fbc2eb','#a6c1ee'],
-  ['#a18cd1','#fbc2eb'],
-  ['#f6d365','#fda085'],
-  ['#84fab0','#8fd3f4']
-];
-
-let currentGradient = 0;
-function animateBackground(){
-  const next = (currentGradient + 1) % gradientColors.length;
-  const [c1,c2] = gradientColors[currentGradient];
-  const [n1,n2] = gradientColors[next];
-  let progress = 0;
-  const step = 0.0001;
-
-  function stepGradient(){
-    progress += step;
-    if(progress > 1) progress = 1;
-    const r1 = lerpColorHex(c1,n1,progress);
-    const r2 = lerpColorHex(c2,n2,progress);
-    document.body.style.background = `linear-gradient(135deg, ${r1}, ${r2})`;
-    if(progress < 1){
-      requestAnimationFrame(stepGradient);
-    } else {
-      currentGradient = next;
-      animateBackground();
-    }
-  }
-  stepGradient();
-}
-
-// --- линейная интерполяция между двумя HEX цветами ---
-function lerpColorHex(a,b,t){
-  const c1 = hexToRgb(a), c2 = hexToRgb(b);
-  const r = Math.round(c1.r + (c2.r-c1.r)*t);
-  const g = Math.round(c1.g + (c2.g-c1.g)*t);
-  const bl = Math.round(c1.b + (c2.b-c1.b)*t);
-  return `rgb(${r},${g},${bl})`;
-}
-function hexToRgb(hex){
-  hex = hex.replace('#','');
-  if(hex.length===3) hex = hex.split('').map(x=>x+x).join('');
-  return {
-    r:parseInt(hex.substr(0,2),16),
-    g:parseInt(hex.substr(2,2),16),
-    b:parseInt(hex.substr(4,2),16)
-  };
-}
-
-window.addEventListener('DOMContentLoaded', ()=>{ animateBackground(); });
 
 /* ======= UI HELPERS ======= */
 const toastEl = document.getElementById('toast');
