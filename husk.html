@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 
 <style>
+/* ===== ОСНОВА ===== */
 body {
   margin: 0;
   padding: 0;
@@ -25,6 +26,7 @@ body {
   100% { background-position: 0% 50%; }
 }
 
+/* ===== ЛЕТАЮЩИЕ СЛОВА ===== */
 .particle {
   position: absolute;
   font-weight: bold;
@@ -55,23 +57,23 @@ body {
   text-shadow: 0 0 6px rgba(0,0,0,0.9);
 }
 
-/* Центральная панель: поиск и шаг N */
+/* ===== ЦЕНТРАЛЬНЫЕ КОНТРОЛЫ ===== */
 #controls {
   position: fixed;
-  bottom: 12px;
+  bottom: 12px; /* стандартно низ */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  flex-wrap: nowrap; /* запрещаем перенос */
   gap: 6px;
+  flex-wrap: nowrap;
   z-index: 100;
 }
 
-/* Группировка input + кнопка рядом */
+/* input + кнопка — всегда вместе */
 .input-group {
   display: flex;
   gap: 4px;
-  flex-wrap: nowrap; /* кнопка всегда рядом с полем */
+  flex-wrap: nowrap;
 }
 
 /* Поля ввода */
@@ -79,53 +81,98 @@ body {
   background: rgba(0,0,0,0.45);
   border: none;
   border-radius: 12px;
-  padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 12px);
+  padding: 8px 10px;
   color: #fff;
-  font-size: clamp(0.8rem, 3vw, 1rem);
+  font-size: 1rem;
   outline: none;
   text-align: center;
-  width: clamp(80px, 12vw, 150px); /* поле стало уже */
+  width: 140px;
 }
 
 /* Кнопки */
 #controls button,
-#dictionaryControls input, #dictionaryControls button {
+#dictionaryControls input,
+#dictionaryControls button {
   background: rgba(0,0,0,0.45);
   border: none;
   border-radius: 12px;
-  padding: clamp(6px, 1.5vw, 10px) clamp(10px, 3vw, 16px);
+  padding: 8px 14px;
   color: #fff;
-  font-size: clamp(0.8rem, 3vw, 1rem);
+  font-size: 1rem;
   outline: none;
   text-align: center;
+  white-space: nowrap;
 }
 
-#controls input::placeholder { color: #bbb; }
+#controls input::placeholder {
+  color: #bbb;
+}
 
 #controls button:hover,
-#dictionaryControls button:hover { background: rgba(0,0,0,0.65); cursor: pointer; }
+#dictionaryControls button:hover {
+  background: rgba(0,0,0,0.65);
+  cursor: pointer;
+}
 
-/* Левый нижний угол: словарь + загрузка + Старт/Стоп */
+/* ===== ЛЕВЫЙ НИЖНИЙ БЛОК ===== */
 #dictionaryControls {
   position: fixed;
   bottom: 12px;
   left: 12px;
   display: flex;
+  gap: 6px;
   flex-wrap: wrap;
-  gap: 4px;
-  z-index: 100;
-  color: #fff;
-  font-size: clamp(0.7rem, 3vw, 0.85rem);
   align-items: center;
+  z-index: 100;
+  font-size: 0.85rem;
+  color: #fff;
 }
 
-/* Медиазапрос для экранов < 400px */
-@media (max-width: 400px) {
-  #controls input { width: clamp(70px, 18vw, 120px); } /* ещё уже для маленьких экранов */
-  #controls input, #controls button,
-  #dictionaryControls input, #dictionaryControls button {
-    font-size: clamp(0.7rem, 4vw, 0.9rem);
-    padding: clamp(4px, 2vw, 8px) clamp(6px, 3vw, 12px);
+/* ===== АДАПТИВНОСТЬ ===== */
+
+/* Планшеты и ниже — разрешаем перенос и немного поднимаем центр */
+@media (max-width: 600px) {
+  #controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    bottom: 72px; /* подняли центр только на узких экранах */
+  }
+
+  .input-group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #controls input {
+    width: 120px;
+  }
+}
+
+/* Телефоны */
+@media (max-width: 420px) {
+  #controls input {
+    width: 100px;
+  }
+
+  #controls button,
+  #dictionaryControls button,
+  #dictionaryControls input {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Очень узкие экраны */
+@media (max-width: 360px) {
+  #controls {
+    bottom: 96px; /* ещё выше, чтобы не налезал */
+  }
+
+  #dictionaryControls {
+    bottom: 12px;
+    left: 6px;
+    gap: 4px;
+    font-size: 0.8rem;
   }
 }
 </style>
