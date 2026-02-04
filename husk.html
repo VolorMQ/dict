@@ -205,6 +205,9 @@ body {
   <button id="stopBtn">Стоп</button>
 </div>
 
+<!-- Контейнер для слов -->
+<div id="particleContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+
 <script>
 const MAX_REPEATS = 5;
 let words = [];
@@ -212,10 +215,12 @@ let currentIndex = 0;
 let stepN = 1;
 let nextWordIndex = null;
 let showingWord = false;
-let sessionRunning = false; // по умолчанию не запущено
-let sessionStarted = false;  // флаг чтобы startSession запускался один раз
+let sessionRunning = false;
+let sessionStarted = false;
 
-/* ===== TTS ===== */
+/* ===== TTS с паузой ===== */
+const PAUSE_MS_PER_SIGN = 50;
+
 function cleanTextForTTS(text) {
   return text.replace(/[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s]/g, '').trim();
 }
@@ -230,30 +235,21 @@ function speak(text, lang, rate = 1) {
   });
 }
 
-// Новая функция: произношение с паузами на основе пунктуации.
-// Для каждой группы знаков (не букв, не пробелов) добавляется пауза PAUSE_MS_PER_SIGN миллисекунд * количество знаков.
-const PAUSE_MS_PER_SIGN = 50;
-
 async function speakWithPunctuationPauses(originalText, lang, rate = 1) {
   if (!originalText || !originalText.trim()) return;
 
-  // Резервный простой: если в тексте вообще нет "знаков" — просто говорим целиком.
   const hasPunct = /[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s]/.test(originalText);
   if (!hasPunct) {
     await speak(originalText, lang, rate);
     return;
   }
 
-  // Разбиваем текст на части: либо последовательность слов (включая пробелы внутри), либо последовательность "знаков/пунктуации".
-  // Регекс: захватываем группу слов/пробелов или группу символов, не являющихся буквами и пробелами.
   const parts = originalText.match(/([A-Za-zА-Яа-яЁёÆØÅæøå]+(?:\s+[A-Za-zА-Яа-яЁёÆØÅæøå]+)*)|([^A-Za-zА-Яа-яЁёÆØÅæøå\s]+)/g) || [];
 
   for (const part of parts) {
-    // Если часть содержит буквы -> произносим (весь блок слов одним обращением к TTS).
     if (/[A-Za-zА-Яа-яЁёÆØÅæøå]/.test(part)) {
       await speak(part, lang, rate);
     } else {
-      // Это блок пунктуации/знаков — считаем количество знаков (без пробелов) и делаем паузу 1с на знак.
       const signsCount = part.replace(/\s/g, '').length;
       if (signsCount > 0) await new Promise(r => setTimeout(r, PAUSE_MS_PER_SIGN * signsCount));
     }
@@ -262,38 +258,46 @@ async function speakWithPunctuationPauses(originalText, lang, rate = 1) {
 
 /* ===== POSITION ===== */
 function randomPosition(el) {
+  const menuHeight = document.getElementById('dictionaryControls').offsetHeight + 10;
+  const containerHeight = window.innerHeight - el.offsetHeight - menuHeight;
   const x = Math.random() * (window.innerWidth - el.offsetWidth);
-  const y = Math.random() * (window.innerHeight - el.offsetHeight - 80);
+  const y = Math.random() * containerHeight;
   return { x, y };
 }
-function moveTo(el, pos) { el.style.left = pos.x + 'px'; el.style.top = pos.y + 'px'; }
 
+function moveTo(el, pos) { 
+  el.style.left = pos.x + 'px'; 
+  el.style.top = pos.y + 'px'; 
+}
+
+/* ===== SHOW WORD ===== */
 async function showWordWithQueue(word) {
   showingWord = true;
   const el = document.createElement('div');
   el.className = 'particle';
+  el.style.position = 'absolute';
   el.innerHTML = `${word.danish}<span class="translation">${word.translation}</span>`;
-  document.body.appendChild(el);
+  document.getElementById('particleContainer').appendChild(el);
 
   moveTo(el, randomPosition(el));
-  
-  // Первый показ: перевод сначала
-  await speakWithPunctuationPauses(word.translation, 'ru-RU');
-  await speakWithPunctuationPauses(word.danish, 'da-DK', 0.3); // медленно
 
-  // Повторные показы (2,3)
-  const rates = [0.5, 0.7, 1.0]; // 2,3 медленнее, 4,5 нормальная
+  // Первый показ
+  await speakWithPunctuationPauses(word.translation, 'ru-RU');
+  await speakWithPunctuationPauses(word.danish, 'da-DK', 0.3);
+
+  // Повторные показы
+  const rates = [0.5, 0.7, 1.0];
   for (let i = 1; i < MAX_REPEATS - 1; i++) {
     await new Promise(r => setTimeout(r, 1500));
     moveTo(el, randomPosition(el));
     await speakWithPunctuationPauses(word.danish, 'da-DK', rates[Math.min(i - 1, rates.length - 1)]);
   }
 
-  // Последний показ (5)
+  // Последний показ
   await new Promise(r => setTimeout(r, 1500));
   moveTo(el, randomPosition(el));
   await speakWithPunctuationPauses(word.translation, 'ru-RU');
-  await speakWithPunctuationPauses(word.danish, 'da-DK', 1.0); // нормальная скорость
+  await speakWithPunctuationPauses(word.danish, 'da-DK', 1.0);
 
   el.remove();
   showingWord = false;
@@ -306,7 +310,6 @@ async function showWordWithQueue(word) {
     nextIndex();
   }
 }
-
 
 /* ===== INDEX LOGIC ===== */
 function nextIndex() { currentIndex = (currentIndex + stepN) % words.length; }
@@ -428,7 +431,8 @@ async function startSession() {
 }
 
 /* ===== LOAD DEFAULT DICTIONARY ===== */
-loadDictionary('word.json'); // автостарт отключён
+loadDictionary('word.json'); // теперь по умолчанию word.json
+
 </script>
 
 </body>
