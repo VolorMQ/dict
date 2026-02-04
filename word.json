@@ -287,558 +287,2243 @@
     "imageUrl": "jpg/takker.jpg"
   },
   {
-    "id": "w43",
+    "id": "w42",
     "word": "beløb",
     "value": "сумма (денег) / количество",
     "pos": "noun",
     "imageUrl": "jpg/bel1b.jpg"
   },
   {
-    "id": "w44",
+    "id": "w43",
     "word": "aftalt",
     "value": "согласованный / договорённый",
     "pos": "adj",
     "imageUrl": "jpg/aftalt.jpg"
   },
   {
-    "id": "w45",
+    "id": "w44",
     "word": "sur",
     "value": "сердитый, раздражённый / кислый (о вкусе)",
     "pos": "adj",
     "imageUrl": "jpg/sur.jpg"
   },
   {
-    "id": "w46",
+    "id": "w45",
     "word": "ked",
     "value": "скучный / несчастный, огорчённый (kede sig — «скучать»)",
     "pos": "adj",
     "imageUrl": "jpg/ked.jpg"
   },
   {
-    "id": "w47",
+    "id": "w46",
     "word": "eget",
     "value": "свой / собственный",
     "pos": "adj",
     "imageUrl": "jpg/eget.jpg"
   },
   {
-    "id": "w48",
+    "id": "w47",
     "word": "råd",
     "value": "совет / рекомендация / средства, возможности (have råd — «иметь средства»)",
     "pos": "noun",
     "imageUrl": "jpg/r1d.jpg"
   },
   {
-    "id": "w49",
+    "id": "w48",
     "word": "lyst",
     "value": "желание / охота, интерес / свет (редко, контекстуально)",
     "pos": "noun",
     "imageUrl": "jpg/lyst.jpg"
   },
   {
-    "id": "w50",
+    "id": "w49",
     "word": "andel",
     "value": "доля, часть / участие, вклад",
     "pos": "noun",
     "imageUrl": "jpg/andel.jpg"
   },
   {
-    "id": "w51",
+    "id": "w50",
     "word": "skulle",
     "value": "должен, следует / собирался, намеревался",
     "pos": "modal",
     "imageUrl": "jpg/skulle.jpg"
   },
   {
-    "id": "w52",
+    "id": "w51",
     "word": "overrasket",
     "value": "удивлённый / поражённый, ошеломлённый",
     "pos": "adj",
     "imageUrl": "jpg/overrasket.jpg"
   },
   {
-    "id": "w53",
+    "id": "w52",
     "word": "skynder",
     "value": "торопится / спешит",
     "pos": "verb",
     "imageUrl": "jpg/skynder.jpg"
   },
   {
-    "id": "w54",
+    "id": "w53",
     "word": "gerne",
     "value": "охотно, с удовольствием / любить (делать что-то)",
     "pos": "adv",
     "imageUrl": "jpg/gerne.jpg"
   },
   {
-    "id": "w55",
+    "id": "w54",
     "word": "foreslået",
     "value": "предложенный / рекомендованный",
     "pos": "adj",
     "imageUrl": "jpg/foresl1et.jpg"
   },
   {
-    "id": "w56",
+    "id": "w55",
     "word": "beholde",
     "value": "удерживать / хранить, сохранять / оставлять себе",
     "pos": "verb",
     "imageUrl": "jpg/beholde.jpg"
   },
   {
-    "id": "w57",
+    "id": "w56",
     "word": "føler",
     "value": "чувствует / ощущает",
     "pos": "verb",
     "imageUrl": "jpg/f1ler.jpg"
   },
   {
-    "id": "w58",
+    "id": "w57",
     "word": "sent",
     "value": "поздно / поздний",
     "pos": "adv/adj",
     "imageUrl": "jpg/sent.jpg"
   },
   {
-    "id": "w59",
+    "id": "w58",
     "word": "ro",
     "value": "покой / спокойствие / тишина",
     "pos": "noun",
     "imageUrl": "jpg/ro.jpg"
   },
   {
-    "id": "w60",
+    "id": "w59",
     "word": "overskud",
     "value": "избыток / запас / внутренняя энергия, ресурс",
     "pos": "noun",
     "imageUrl": "jpg/overskud.jpg"
   },
   {
-    "id": "w61",
+    "id": "w60",
     "word": "beroligende",
     "value": "успокаивающий",
     "pos": "adj",
     "imageUrl": "jpg/beroligende.jpg"
   },
   {
-    "id": "w62",
+    "id": "w61",
     "word": "indtil",
     "value": "до тех пор пока / до",
     "pos": "conj/prep",
     "imageUrl": "jpg/indtil.jpg"
   },
   {
-    "id": "w63",
+    "id": "w62",
     "word": "fik",
     "value": "получил / достал",
     "pos": "verb",
     "imageUrl": "jpg/fik.jpg"
   },
   {
-    "id": "w64",
+    "id": "w63",
     "word": "forret",
     "value": "бизнес, дело / закуска (еда)",
     "pos": "noun",
     "imageUrl": "jpg/forret.jpg"
   },
   {
-    "id": "w65",
+    "id": "w64",
     "word": "tro",
     "value": "вера / верить",
     "pos": "noun/verb",
     "imageUrl": "jpg/tro.jpg"
   },
   {
-    "id": "w66",
+    "id": "w65",
     "word": "tilfreds",
     "value": "довольный / удовлетворённый",
     "pos": "adj",
     "imageUrl": "jpg/tilfreds.jpg"
   },
   {
-    "id": "w67",
+    "id": "w66",
     "word": "single",
     "value": "одинокий (без пары)",
     "pos": "adj",
     "imageUrl": "jpg/single.jpg"
   },
   {
-    "id": "w68",
+    "id": "w67",
     "word": "ensom",
     "value": "одинокий (эмоционально)",
     "pos": "adj",
     "imageUrl": "jpg/ensom.jpg"
   },
   {
-    "id": "w69",
+    "id": "w68",
     "word": "dækket",
     "value": "покрытый / накрытый (стол) / обеспеченный",
     "pos": "adj",
     "imageUrl": "jpg/d1kket.jpg"
   },
   {
-    "id": "w70",
+    "id": "w69",
     "word": "kender",
     "value": "знает / знаком с",
     "pos": "verb",
     "imageUrl": "jpg/kender.jpg"
   },
   {
-    "id": "w71",
+    "id": "w70",
     "word": "endnu",
     "value": "ещё / всё ещё",
     "pos": "adv",
     "imageUrl": "jpg/endnu.jpg"
   },
   {
-    "id": "w72",
+    "id": "w71",
     "word": "hinanden",
     "value": "друг друга",
     "pos": "pron",
     "imageUrl": "jpg/hinanden.jpg"
   },
   {
-    "id": "w73",
+    "id": "w72",
     "word": "senere",
     "value": "позже / позднее",
     "pos": "adv",
     "imageUrl": "jpg/senere.jpg"
   },
   {
-    "id": "w74",
+    "id": "w73",
     "word": "mærkeligt",
     "value": "странно / странный",
     "pos": "adv/adj",
     "imageUrl": "jpg/m1rkeligt.jpg"
   },
   {
-    "id": "w75",
+    "id": "w74",
     "word": "forulykket",
     "value": "попавший в аварию / пострадавший",
     "pos": "adj",
     "imageUrl": "jpg/forulykket.jpg"
   },
   {
-    "id": "w76",
+    "id": "w75",
     "word": "foran",
     "value": "перед / впереди",
     "pos": "prep",
     "imageUrl": "jpg/foran.jpg"
   },
   {
-    "id": "w77",
+    "id": "w76",
     "word": "billeder",
     "value": "изображения / фотографии",
     "pos": "noun",
     "imageUrl": "jpg/billeder.jpg"
   },
   {
-    "id": "w78",
+    "id": "w77",
     "word": "stedet",
     "value": "место / это место",
     "pos": "noun",
     "imageUrl": "jpg/stedet.jpg"
   },
   {
-    "id": "w79",
+    "id": "w78",
     "word": "helt",
     "value": "совсем / полностью / совершенно",
     "pos": "adv",
     "imageUrl": "jpg/helt.jpg"
   },
   {
-    "id": "w80",
+    "id": "w79",
     "word": "smadrede",
     "value": "разбитые / разрушенные",
     "pos": "adj",
     "imageUrl": "jpg/smadrede.jpg"
   },
   {
-    "id": "w81",
+    "id": "w80",
     "word": "stille",
     "value": "тихий / спокойно",
     "pos": "adj/adv",
     "imageUrl": "jpg/stille.jpg"
   },
   {
-    "id": "w82",
+    "id": "w81",
     "word": "vagtchef",
     "value": "начальник смены / дежурный руководитель",
     "pos": "noun",
     "imageUrl": "jpg/vagtchef.jpg"
   },
   {
-    "id": "w83",
+    "id": "w82",
     "word": "bekræfter",
     "value": "подтверждает / подтверждать",
     "pos": "verb",
     "imageUrl": "jpg/bekraefter.jpg"
   },
   {
-    "id": "w84",
+    "id": "w83",
     "word": "uheldet",
     "value": "авария / происшествие",
     "pos": "noun",
     "imageUrl": "jpg/uheldet.jpg"
   },
   {
-    "id": "w85",
+    "id": "w84",
     "word": "fortæller",
     "value": "рассказывает / сообщать",
     "pos": "verb",
     "imageUrl": "jpg/fortaeller.jpg"
   },
   {
-    "id": "w86",
+    "id": "w85",
     "word": "skade",
     "value": "ущерб / травма / повреждение",
     "pos": "noun",
     "imageUrl": "jpg/skade.jpg"
   },
   {
-    "id": "w87",
+    "id": "w86",
     "word": "hegn",
     "value": "забор / ограждение",
     "pos": "noun",
     "imageUrl": "jpg/hegn.jpg"
   },
   {
-    "id": "w88",
+    "id": "w87",
     "word": "ramt",
     "value": "поражённый / задетый",
     "pos": "adj",
     "imageUrl": "jpg/ramt.jpg"
   },
   {
-    "id": "w89",
+    "id": "w88",
     "word": "skur",
     "value": "сарай / хижина",
     "pos": "noun",
     "imageUrl": "jpg/skur.jpg"
   },
   {
-    "id": "w90",
+    "id": "w89",
     "word": "desuden",
     "value": "кроме того / вдобавок",
     "pos": "adv",
     "imageUrl": "jpg/desuden.jpg"
   },
   {
-    "id": "w91",
+    "id": "w90",
     "word": "vildfarne",
     "value": "заблудившиеся",
     "pos": "adj",
     "imageUrl": "jpg/vildfarne.jpg"
   },
   {
-    "id": "w92",
+    "id": "w91",
     "word": "nuværende",
     "value": "нынешний / текущий",
     "pos": "adj",
     "imageUrl": "jpg/nuvaerende.jpg"
   },
   {
-    "id": "w93",
+    "id": "w92",
     "word": "klarlagt",
     "value": "выясненный / установленный",
     "pos": "adj",
     "imageUrl": "jpg/klarlagt.jpg"
   },
   {
-    "id": "w94",
+    "id": "w93",
     "word": "fortsat",
     "value": "продолжающийся / всё ещё",
     "pos": "adj/adv",
     "imageUrl": "jpg/fortsat.jpg"
   },
-  { "id": "w95", "word": "afhører", "value": "допрашивает / допрашивать", "pos": "verb", "imageUrl": "jpg/afhoerer.jpg" },
-  { "id": "w96", "word": "vidner", "value": "свидетели", "pos": "noun", "imageUrl": "jpg/vidner.jpg" },
-  { "id": "w97", "word": "afspærring", "value": "оцепление / ограждение", "pos": "noun", "imageUrl": "jpg/afspaerring.jpg" },
-  { "id": "w98", "word": "rekvirerer", "value": "запрашивает / привлекает", "pos": "verb", "imageUrl": "jpg/rekvirerer.jpg" },
-  { "id": "w99", "word": "håndtere", "value": "справляться / управлять", "pos": "verb", "imageUrl": "jpg/haandtere.jpg" },
-  { "id": "w100", "word": "ødelagte", "value": "разрушенные / повреждённые", "pos": "adj", "imageUrl": "jpg/oedelagte.jpg" },
-  { "id": "w101", "word": "indløb", "value": "подъезд / вход", "pos": "noun", "imageUrl": "jpg/indloeb.jpg" },
-  { "id": "w102", "word": "gerningsmanden", "value": "преступник / виновник", "pos": "noun", "imageUrl": "jpg/gerningsmanden.jpg" },
-  { "id": "w103", "word": "stak", "value": "убежал / сбежал", "pos": "verb", "imageUrl": "jpg/stak.jpg" },
-  { "id": "w104", "word": "ægtepar", "value": "супружеская пара", "pos": "noun", "imageUrl": "jpg/aegtepar.jpg" },
-  { "id": "w105", "word": "afsløre", "value": "раскрывать / разоблачать", "pos": "verb", "imageUrl": "jpg/afsloere.jpg" },
-  { "id": "w106", "word": "mændene", "value": "мужчины / эти мужчины", "pos": "noun", "imageUrl": "jpg/maendene.jpg" },
-  { "id": "w107", "word": "blodigt", "value": "кроваво / кровавый", "pos": "adv/adj", "imageUrl": "jpg/blodigt.jpg" },
-  { "id": "w108", "word": "kilder", "value": "источники", "pos": "noun", "imageUrl": "jpg/kilder.jpg" },
-  { "id": "w109", "word": "bør", "value": "следует / должен (рекомендация)", "pos": "modal", "imageUrl": "jpg/boer.jpg" },
-  { "id": "w110", "word": "flot", "value": "красивый / отличный", "pos": "adj", "imageUrl": "jpg/flot.jpg" },
-  { "id": "w111", "word": "mødte", "value": "встретил / встретили", "pos": "verb", "imageUrl": "jpg/moedte.jpg" },
-  { "id": "w112", "word": "roligt", "value": "спокойно / спокойный", "pos": "adv/adj", "imageUrl": "jpg/roligt.jpg" },
-  { "id": "w113", "word": "høflig", "value": "вежливый", "pos": "adj", "imageUrl": "jpg/hoeflig.jpg" },
-  { "id": "w114", "word": "alligevel", "value": "всё же / тем не менее", "pos": "adv", "imageUrl": "jpg/alligevel.jpg" },
-  { "id": "w115", "word": "oplære", "value": "обучать / вводить в курс", "pos": "verb", "imageUrl": "jpg/oplaere.jpg" },
-  { "id": "w116", "word": "ved", "value": "у / при / знает", "pos": "prep/verb", "imageUrl": "jpg/ved.jpg" },
-  { "id": "w117", "word": "må", "value": "можно / должен / вероятно", "pos": "modal", "imageUrl": "jpg/maa.jpg" },
-  { "id": "w118", "word": "været", "value": "был / находился", "pos": "verb", "imageUrl": "jpg/vaeret.jpg" },
-  { "id": "w119", "word": "endnu", "value": "ещё / всё ещё", "pos": "adv", "imageUrl": "jpg/endnu.jpg" },
-  { "id": "w120", "word": "sikkert", "value": "наверняка / безопасно", "pos": "adv/adj", "imageUrl": "jpg/sikkert.jpg" },
-  { "id": "w121", "word": "ensom", "value": "одинокий", "pos": "adj", "imageUrl": "jpg/ensom.jpg" },
-  { "id": "w122", "word": "savner", "value": "скучает / испытывает нехватку", "pos": "verb", "imageUrl": "jpg/savner.jpg" },
-  { "id": "w123", "word": "grund", "value": "причина / основание", "pos": "noun", "imageUrl": "jpg/grund.jpg" },
-  { "id": "w124", "word": "besluttet", "value": "решивший / принятое решение", "pos": "adj", "imageUrl": "jpg/besluttet.jpg" },
-  { "id": "w125", "word": "selskab", "value": "компания / общество", "pos": "noun", "imageUrl": "jpg/selskab.jpg" },
-  { "id": "w126", "word": "heller", "value": "тоже не / скорее", "pos": "adv", "imageUrl": "jpg/heller.jpg" },
-  { "id": "w127", "word": "sælgeren", "value": "продавец", "pos": "noun", "imageUrl": "jpg/saelgeren.jpg" },
-  { "id": "w128", "word": "blød", "value": "мягкий", "pos": "adj", "imageUrl": "jpg/bloed.jpg" },
-  { "id": "w129", "word": "forsigtigt", "value": "осторожно", "pos": "adv", "imageUrl": "jpg/forsigtigt.jpg" },
-  { "id": "w130", "word": "ret", "value": "довольно / право / правильно", "pos": "adv/noun", "imageUrl": "jpg/ret.jpg" },
-  { "id": "w131", "word": "bero", "value": "зависеть", "pos": "verb", "imageUrl": "jpg/bero.jpg" },
-  { "id": "w132", "word": "selvstændig", "value": "самостоятельный / независимый", "pos": "adj", "imageUrl": "jpg/selvstaendig.jpg" },
-  { "id": "w133", "word": "efterhånden", "value": "постепенно / со временем", "pos": "adv", "imageUrl": "jpg/efterhaanden.jpg" },
-  { "id": "w134", "word": "bevægede", "value": "двигались / перемещались", "pos": "verb", "imageUrl": "jpg/bevaegede.jpg" },
-  { "id": "w135", "word": "bøjede", "value": "согнули / наклонили", "pos": "verb", "imageUrl": "jpg/boejede.jpg" },
-  { "id": "w136", "word": "tørrede", "value": "вытерли / высушили", "pos": "verb", "imageUrl": "jpg/toerrede.jpg" },
-  { "id": "w137", "word": "snydt", "value": "обманутый / обманули", "pos": "adj/verb", "imageUrl": "jpg/snydt.jpg" },
-  { "id": "w138", "word": "krukken", "value": "банка / горшок", "pos": "noun", "imageUrl": "jpg/krukken.jpg" },
-  { "id": "w139", "word": "fremmed", "value": "чужой / незнакомый", "pos": "adj", "imageUrl": "jpg/fremmed.jpg" },
-  { "id": "w140", "word": "plukke", "value": "срывать / выбирать", "pos": "verb", "imageUrl": "jpg/plukke.jpg" },
-  { "id": "w141", "word": "sandhed", "value": "правда / истина", "pos": "noun", "imageUrl": "jpg/sandhed.jpg" },
-  { "id": "w142", "word": "slagterforretning", "value": "мясная лавка", "pos": "noun", "imageUrl": "jpg/slagterforretning.jpg" },
-  { "id": "w143", "word": "snart", "value": "скоро", "pos": "adv", "imageUrl": "jpg/snart.jpg" },
-  { "id": "w144", "word": "fleksibelt", "value": "гибко / гибкий", "pos": "adj/adv", "imageUrl": "jpg/fleksibelt.jpg" },
-  { "id": "w145", "word": "hjemmerøveri", "value": "домашнее ограбление", "pos": "noun", "imageUrl": "jpg/hjemmeroeveri.jpg" },
-  { "id": "w146", "word": "fredelig", "value": "мирный / спокойный", "pos": "adj", "imageUrl": "jpg/fredelig.jpg" },
-  { "id": "w147", "word": "fulde", "value": "пьяные / полные", "pos": "adj", "imageUrl": "jpg/fulde.jpg" },
-  { "id": "w148", "word": "omdrejninger", "value": "обороты", "pos": "noun", "imageUrl": "jpg/omdrejninger.jpg" },
-  { "id": "w149", "word": "rette", "value": "исправлять / правильные", "pos": "verb/adj", "imageUrl": "jpg/rette.jpg" },
-  { "id": "w150", "word": "kalde", "value": "называть / звать", "pos": "verb", "imageUrl": "jpg/kalde.jpg" },
-  { "id": "w151", "word": "allerede", "value": "уже", "pos": "adv", "imageUrl": "jpg/allerede.jpg" },
-  { "id": "w152", "word": "bred vifte", "value": "широкий спектр", "pos": "noun", "imageUrl": "jpg/bred_vifte.jpg" },
-  { "id": "w153", "word": "tør", "value": "сухой / осмеливается", "pos": "adj/verb", "imageUrl": "jpg/toer.jpg" },
-  { "id": "w154", "word": "øget", "value": "увеличенный / возросший", "pos": "adj", "imageUrl": "jpg/oeget.jpg" },
-  { "id": "w155", "word": "pårørende", "value": "родственники / близкие", "pos": "noun", "imageUrl": "jpg/paaroerende.jpg" },
-  { "id": "w156", "word": "gælder", "value": "касается / относится", "pos": "verb", "imageUrl": "jpg/gaelder.jpg" },
-  { "id": "w157", "word": "mulige", "value": "возможные", "pos": "adj", "imageUrl": "jpg/mulige.jpg" },
-  { "id": "w158", "word": "bivirkning", "value": "побочный эффект", "pos": "noun", "imageUrl": "jpg/bivirkning.jpg" },
-  { "id": "w159", "word": "indberetning", "value": "отчёт / сообщение (официальное)", "pos": "noun", "imageUrl": "jpg/indberetning.jpg" },
-  { "id": "w160", "word": "brænder", "value": "жжёт / горит", "pos": "verb", "imageUrl": "jpg/braender.jpg" },
-  { "id": "w161", "word": "opløsning", "value": "раствор / растворение", "pos": "noun", "imageUrl": "jpg/oploesning.jpg" },
-  { "id": "w162", "word": "slimhinder", "value": "слизистые оболочки", "pos": "noun", "imageUrl": "jpg/slimhinder.jpg" },
-  { "id": "w163", "word": "irriterer", "value": "раздражает", "pos": "verb", "imageUrl": "jpg/irriterer.jpg" },
-  { "id": "w164", "word": "svie", "value": "жжение / резь", "pos": "noun", "imageUrl": "jpg/svie.jpg" },
-  { "id": "w165", "word": "høres", "value": "слышно / слышится", "pos": "verb", "imageUrl": "jpg/hoeres.jpg" },
-  { "id": "w166", "word": "stærkt", "value": "сильно / крепко", "pos": "adv/adj", "imageUrl": "jpg/staerkt.jpg" },
-  { "id": "w167", "word": "akut", "value": "острый / срочный", "pos": "adj", "imageUrl": "jpg/akut.jpg" },
-  { "id": "w168", "word": "kvalme", "value": "тошнота", "pos": "noun", "imageUrl": "jpg/kvalme.jpg" },
-  { "id": "w169", "word": "renset", "value": "очищенный", "pos": "adj", "imageUrl": "jpg/renset.jpg" },
-  { "id": "w170", "word": "smide", "value": "выбросить / бросить", "pos": "verb", "imageUrl": "jpg/smide.jpg" },
-  { "id": "w171", "word": "pakningen", "value": "упаковка", "pos": "noun", "imageUrl": "jpg/pakningen.jpg" },
-  { "id": "w172", "word": "lægemiddel", "value": "лекарственный препарат", "pos": "noun", "imageUrl": "jpg/laegemiddel.jpg" },
-  { "id": "w173", "word": "binyren", "value": "надпочечник", "pos": "noun", "imageUrl": "jpg/binyren.jpg" },
-  { "id": "w174", "word": "tumor", "value": "опухоль", "pos": "noun", "imageUrl": "jpg/tumor.jpg" },
-  { "id": "w175", "word": "fremskaffe", "value": "добывать, получать", "pos": "verb", "imageUrl": "" },
-	{ "id": "w176", "word": "mellitus", "value": "сахарный (о болезни)", "pos": "adj", "imageUrl": "" },
-	{ "id": "w177", "word": "vandladningsproblemer", "value": "проблемы с мочеиспусканием", "pos": "noun", "imageUrl": "" },
-	{ "id": "w178", "word": "ens", "value": "одинаковый", "pos": "adj", "imageUrl": "" },
-	{ "id": "w179", "word": "faglig", "value": "профессиональный, учебный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w180", "word": "omklædningsrum", "value": "раздевалка", "pos": "noun", "imageUrl": "" },
-	{ "id": "w181", "word": "doven", "value": "ленивый", "pos": "adj", "imageUrl": "" },
-	{ "id": "w182", "word": "tabe", "value": "терять, проигрывать", "pos": "verb", "imageUrl": "" },
-	{ "id": "w183", "word": "formelt", "value": "официально", "pos": "adv", "imageUrl": "" },
-	{ "id": "w184", "word": "nødt", "value": "вынужденно, необходимо", "pos": "adv", "imageUrl": "" },
-	{ "id": "w185", "word": "lynede", "value": "блискавично, молниеносно", "pos": "adv", "imageUrl": "" },
-	{ "id": "w186", "word": "hjemad", "value": "домой", "pos": "adv", "imageUrl": "" },
-	{ "id": "w187", "word": "besværligt", "value": "трудно, неудобно", "pos": "adj", "imageUrl": "" },
-	{ "id": "w188", "word": "luft", "value": "воздух", "pos": "noun", "imageUrl": "" },
-	{ "id": "w189", "word": "rødt", "value": "красный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w190", "word": "derhen", "value": "туда", "pos": "adv", "imageUrl": "" },
-	{ "id": "w191", "word": "derud", "value": "вон туда", "pos": "adv", "imageUrl": "" },
-	{ "id": "w192", "word": "griner", "value": "смеётся", "pos": "verb", "imageUrl": "" },
-	{ "id": "w193", "word": "græder", "value": "плачет", "pos": "verb", "imageUrl": "" },
-	{ "id": "w194", "word": "inviterer", "value": "приглашает", "pos": "verb", "imageUrl": "" },
-	{ "id": "w195", "word": "fællesspisning", "value": "совместная трапеза", "pos": "noun", "imageUrl": "" },
-	{ "id": "w196", "word": "fælleshuset", "value": "общее помещение, клуб", "pos": "noun", "imageUrl": "" },
-	{ "id": "w197", "word": "besøg", "value": "визит, посещение", "pos": "noun", "imageUrl": "" },
-	{ "id": "w198", "word": "skælder", "value": "ругать, бранить", "pos": "verb", "imageUrl": "" },
-	{ "id": "w199", "word": "blandt", "value": "среди", "pos": "prep", "imageUrl": "" },
-	{ "id": "w200", "word": "rart", "value": "приятно", "pos": "adj", "imageUrl": "" },
-	{ "id": "w201", "word": "rørt", "value": "тронутый, растроганный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w202", "word": "dyrke", "value": "заниматься, выращивать", "pos": "verb", "imageUrl": "" },
-	{ "id": "w203", "word": "mærkeligt", "value": "странно", "pos": "adv", "imageUrl": "" },
-	{ "id": "w204", "word": "kamp", "value": "борьба, бой", "pos": "noun", "imageUrl": "" },
-	{ "id": "w205", "word": "frem", "value": "вперёд", "pos": "adv", "imageUrl": "" },
-	{ "id": "w206", "word": "føler", "value": "чувствует", "pos": "verb", "imageUrl": "" },
-	{ "id": "w207", "word": "straks", "value": "сразу", "pos": "adv", "imageUrl": "" },
-	{ "id": "w208", "word": "tilpas", "value": "комфортно, удобно", "pos": "adj", "imageUrl": "" },
-	{ "id": "w209", "word": "bevæge", "value": "двигать(ся)", "pos": "verb", "imageUrl": "" },
-	{ "id": "w210", "word": "skønt", "value": "прекрасно, хотя", "pos": "adv", "imageUrl": "" },
-	{ "id": "w211", "word": "melder", "value": "сообщает", "pos": "verb", "imageUrl": "" },
-	{ "id": "w212", "word": "øjeblik", "value": "момент, мгновение", "pos": "noun", "imageUrl": "" },
-	{ "id": "w213", "word": "imens", "value": "тем временем", "pos": "adv", "imageUrl": "" },
-	{ "id": "w214", "word": "sløret", "value": "туманно, размыто", "pos": "adj", "imageUrl": "" },
-	{ "id": "w215", "word": "gøre", "value": "делать", "pos": "verb", "imageUrl": "" },
-	{ "id": "w216", "word": "opspillede", "value": "наигранный, переигранный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w217", "word": "angreb", "value": "нападение", "pos": "noun", "imageUrl": "" },
-	{ "id": "w218", "word": "frygt", "value": "страх", "pos": "noun", "imageUrl": "" },
-	{ "id": "w219", "word": "tikkede", "value": "тикал", "pos": "verb", "imageUrl": "" },
-	{ "id": "w220", "word": "ilter", "value": "вспыльчивый, раздражительный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w221", "word": "højlydt", "value": "громко", "pos": "adv", "imageUrl": "" },
-	{ "id": "w222", "word": "farligere", "value": "более опасные", "pos": "adj", "imageUrl": "" },
-	{ "id": "w223", "word": "stramt", "value": "туго, строго", "pos": "adv", "imageUrl": "" },
-	{ "id": "w224", "word": "ondskabsfuldt", "value": "злобно, жестоко", "pos": "adv", "imageUrl": "" },
-	{ "id": "w225", "word": "rimelig", "value": "разумный, справедливый", "pos": "adj", "imageUrl": "" },
-	{ "id": "w226", "word": "ormehale", "value": "хвост червя", "pos": "noun", "imageUrl": "" },
-	{ "id": "w227", "word": "fælde", "value": "ловушка", "pos": "noun", "imageUrl": "" },
-	{ "id": "w228", "word": "aflevinen", "value": "львёнок", "pos": "noun", "imageUrl": "" },
-	{ "id": "w229", "word": "bar", "value": "нёс", "pos": "verb", "imageUrl": "" },
-	{ "id": "w230", "word": "lovede", "value": "пообещал", "pos": "verb", "imageUrl": "" },
-	{ "id": "w231", "word": "uafhængig", "value": "независимый", "pos": "adj", "imageUrl": "" },
-	{ "id": "w232", "word": "streng", "value": "строгий", "pos": "adj", "imageUrl": "" },
-	{ "id": "w233", "word": "kæledyr", "value": "домашнее животное", "pos": "noun", "imageUrl": "" },
-	{ "id": "w234", "word": "hastigt", "value": "поспешно, быстро", "pos": "adv", "imageUrl": "" },
-	{ "id": "w235", "word": "bevæger", "value": "движется", "pos": "verb", "imageUrl": "" },
-	{ "id": "w236", "word": "mundfuld", "value": "глоток, полный рот", "pos": "noun", "imageUrl": "" },
-	{ "id": "w237", "word": "overfor", "value": "напротив, по отношению к", "pos": "prep", "imageUrl": "" },
-	{ "id": "w238", "word": "trættende", "value": "утомительный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w239", "word": "forbudt", "value": "запрещённый", "pos": "adj", "imageUrl": "" },
-	{ "id": "w240", "word": "takt", "value": "такт", "pos": "noun", "imageUrl": "" },
-	{ "id": "w241", "word": "tænkt", "value": "задуманный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w242", "word": "blussede", "value": "вспыхнул, разгорелся", "pos": "verb", "imageUrl": "" },
-	{ "id": "w243", "word": "egen", "value": "собственный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w244", "word": "sænkede", "value": "опустил", "pos": "verb", "imageUrl": "" },
-	{ "id": "w245", "word": "spredte", "value": "распространял", "pos": "verb", "imageUrl": "" },
-	{ "id": "w246", "word": "læret", "value": "наученный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w247", "word": "verden", "value": "мир", "pos": "noun", "imageUrl": "" },
-	{ "id": "w248", "word": "ynkelig", "value": "жалкий", "pos": "adj", "imageUrl": "" },
-	{ "id": "w249", "word": "mener", "value": "считает", "pos": "verb", "imageUrl": "" },
-	{ "id": "w250", "word": "vantittig", "value": "безумный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w251", "word": "verdensberømt", "value": "всемирно известный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w252", "word": "bidskede", "value": "злобный, кусачий", "pos": "adj", "imageUrl": "" },
-	{ "id": "w253", "word": "skuespiller", "value": "актёр", "pos": "noun", "imageUrl": "" },
-	{ "id": "w254", "word": "loyale", "value": "преданные", "pos": "adj", "imageUrl": "" },
-	{ "id": "w255", "word": "operationen", "value": "операция", "pos": "noun", "imageUrl": "" },
-	{ "id": "w256", "word": "overagtig", "value": "высокомерный, надменный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w257", "word": "trist", "value": "печальный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w258", "word": "befri", "value": "освободить", "pos": "verb", "imageUrl": "" },
-	{ "id": "w259", "word": "mobbet", "value": "травил, издевался", "pos": "verb", "imageUrl": "" },
-	{ "id": "w260", "word": "piggende", "value": "колючий", "pos": "adj", "imageUrl": "" },
-	{ "id": "w261", "word": "deprimeret", "value": "подавленный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w262", "word": "titlen", "value": "титул", "pos": "noun", "imageUrl": "" },
-	{ "id": "w263", "word": "sad", "value": "сидел", "pos": "verb", "imageUrl": "" },
-	{ "id": "w264", "word": "stringente", "value": "строгие, чёткие", "pos": "adj", "imageUrl": "" },
-	{ "id": "w265", "word": "lagde", "value": "положил", "pos": "verb", "imageUrl": "" },
-	{ "id": "w266", "word": "inkluderer", "value": "включает", "pos": "verb", "imageUrl": "" },
-	{ "id": "w267", "word": "bl.a. (blandt andet)", "value": "в том числе", "pos": "adv", "imageUrl": "" },
-	{ "id": "w268", "word": "blanding", "value": "смесь", "pos": "noun", "imageUrl": "" },
-	{ "id": "w269", "word": "ødelagt", "value": "разрушенный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w270", "word": "pragtfuld", "value": "великолепный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w271", "word": "stjålet", "value": "украденный", "pos": "adj", "imageUrl": "" },
-	{ "id": "w272", "word": "snegle", "value": "улитки", "pos": "noun", "imageUrl": "" },
-	{ "id": "w273", "word": "enten", "value": "либо", "pos": "adv", "imageUrl": "" },
-	{ "id": "w274", "word": "nærværende", "value": "присутствующий", "pos": "adj", "imageUrl": "" },
-	{ "id": "w275", "word": "sejler", "value": "плывёт", "pos": "verb", "imageUrl": "" },
-	{ "id": "w276", "word": "agtpågivenhed", "value": "бдительность", "pos": "noun", "imageUrl": "" },
-	{ "id": "w277", "word": "født", "value": "рождённый", "pos": "adj", "imageUrl": "" },
-	{ "id": "w278", "word": "brød / desillusionsbesvær", "value": "хлеб / трудности разочарования", "pos": "noun", "imageUrl": "" },
-	{ "id": "w279", "word": "støtter", "value": "поддерживает", "pos": "verb", "imageUrl": "" },
-	{ "id": "w280", "word": "skete", "value": "случилось", "pos": "verb", "imageUrl": "" },
-	{ "id": "w281", "word": "understreg", "value": "подчеркни", "pos": "verb", "imageUrl": "" },
-	{ "id": "w282", "word": "mindreårige", "value": "несовершеннолетние", "pos": "noun", "imageUrl": "" },
-	{ "id": "w283", "word": "nøgleordene", "value": "ключевые слова", "pos": "noun", "imageUrl": "" },
-	{ "id": "w284", "word": "benytter", "value": "использует", "pos": "verb", "imageUrl": "" },
-	{ "id": "w285", "word": "tal", "value": "числа / речь", "pos": "noun", "imageUrl": "" }
+  {
+    "id": "w94",
+    "word": "afhører",
+    "value": "допрашивает / допрашивать",
+    "pos": "verb",
+    "imageUrl": "jpg/afhoerer.jpg"
+  },
+  {
+    "id": "w95",
+    "word": "vidner",
+    "value": "свидетели",
+    "pos": "noun",
+    "imageUrl": "jpg/vidner.jpg"
+  },
+  {
+    "id": "w96",
+    "word": "afspærring",
+    "value": "оцепление / ограждение",
+    "pos": "noun",
+    "imageUrl": "jpg/afspaerring.jpg"
+  },
+  {
+    "id": "w97",
+    "word": "rekvirerer",
+    "value": "запрашивает / привлекает",
+    "pos": "verb",
+    "imageUrl": "jpg/rekvirerer.jpg"
+  },
+  {
+    "id": "w98",
+    "word": "håndtere",
+    "value": "справляться / управлять",
+    "pos": "verb",
+    "imageUrl": "jpg/haandtere.jpg"
+  },
+  {
+    "id": "w99",
+    "word": "ødelagte",
+    "value": "разрушенные / повреждённые",
+    "pos": "adj",
+    "imageUrl": "jpg/oedelagte.jpg"
+  },
+  {
+    "id": "w100",
+    "word": "indløb",
+    "value": "подъезд / вход",
+    "pos": "noun",
+    "imageUrl": "jpg/indloeb.jpg"
+  },
+  {
+    "id": "w101",
+    "word": "gerningsmanden",
+    "value": "преступник / виновник",
+    "pos": "noun",
+    "imageUrl": "jpg/gerningsmanden.jpg"
+  },
+  {
+    "id": "w102",
+    "word": "stak",
+    "value": "убежал / сбежал",
+    "pos": "verb",
+    "imageUrl": "jpg/stak.jpg"
+  },
+  {
+    "id": "w103",
+    "word": "ægtepar",
+    "value": "супружеская пара",
+    "pos": "noun",
+    "imageUrl": "jpg/aegtepar.jpg"
+  },
+  {
+    "id": "w104",
+    "word": "afsløre",
+    "value": "раскрывать / разоблачать",
+    "pos": "verb",
+    "imageUrl": "jpg/afsloere.jpg"
+  },
+  {
+    "id": "w105",
+    "word": "mændene",
+    "value": "мужчины / эти мужчины",
+    "pos": "noun",
+    "imageUrl": "jpg/maendene.jpg"
+  },
+  {
+    "id": "w106",
+    "word": "blodigt",
+    "value": "кроваво / кровавый",
+    "pos": "adv/adj",
+    "imageUrl": "jpg/blodigt.jpg"
+  },
+  {
+    "id": "w107",
+    "word": "kilder",
+    "value": "источники",
+    "pos": "noun",
+    "imageUrl": "jpg/kilder.jpg"
+  },
+  {
+    "id": "w108",
+    "word": "bør",
+    "value": "следует / должен (рекомендация)",
+    "pos": "modal",
+    "imageUrl": "jpg/boer.jpg"
+  },
+  {
+    "id": "w109",
+    "word": "flot",
+    "value": "красивый / отличный",
+    "pos": "adj",
+    "imageUrl": "jpg/flot.jpg"
+  },
+  {
+    "id": "w110",
+    "word": "mødte",
+    "value": "встретил / встретили",
+    "pos": "verb",
+    "imageUrl": "jpg/moedte.jpg"
+  },
+  {
+    "id": "w111",
+    "word": "roligt",
+    "value": "спокойно / спокойный",
+    "pos": "adv/adj",
+    "imageUrl": "jpg/roligt.jpg"
+  },
+  {
+    "id": "w112",
+    "word": "høflig",
+    "value": "вежливый",
+    "pos": "adj",
+    "imageUrl": "jpg/hoeflig.jpg"
+  },
+  {
+    "id": "w113",
+    "word": "alligevel",
+    "value": "всё же / тем не менее",
+    "pos": "adv",
+    "imageUrl": "jpg/alligevel.jpg"
+  },
+  {
+    "id": "w114",
+    "word": "oplære",
+    "value": "обучать / вводить в курс",
+    "pos": "verb",
+    "imageUrl": "jpg/oplaere.jpg"
+  },
+  {
+    "id": "w115",
+    "word": "ved",
+    "value": "у / при / знает",
+    "pos": "prep/verb",
+    "imageUrl": "jpg/ved.jpg"
+  },
+  {
+    "id": "w116",
+    "word": "må",
+    "value": "можно / должен / вероятно",
+    "pos": "modal",
+    "imageUrl": "jpg/maa.jpg"
+  },
+  {
+    "id": "w117",
+    "word": "været",
+    "value": "был / находился",
+    "pos": "verb",
+    "imageUrl": "jpg/vaeret.jpg"
+  },
+  {
+    "id": "w118",
+    "word": "sikkert",
+    "value": "наверняка / безопасно",
+    "pos": "adv/adj",
+    "imageUrl": "jpg/sikkert.jpg"
+  },
+  {
+    "id": "w119",
+    "word": "savner",
+    "value": "скучает / испытывает нехватку",
+    "pos": "verb",
+    "imageUrl": "jpg/savner.jpg"
+  },
+  {
+    "id": "w120",
+    "word": "grund",
+    "value": "причина / основание",
+    "pos": "noun",
+    "imageUrl": "jpg/grund.jpg"
+  },
+  {
+    "id": "w121",
+    "word": "besluttet",
+    "value": "решивший / принятое решение",
+    "pos": "adj",
+    "imageUrl": "jpg/besluttet.jpg"
+  },
+  {
+    "id": "w122",
+    "word": "selskab",
+    "value": "компания / общество",
+    "pos": "noun",
+    "imageUrl": "jpg/selskab.jpg"
+  },
+  {
+    "id": "w123",
+    "word": "heller",
+    "value": "тоже не / скорее",
+    "pos": "adv",
+    "imageUrl": "jpg/heller.jpg"
+  },
+  {
+    "id": "w124",
+    "word": "sælgeren",
+    "value": "продавец",
+    "pos": "noun",
+    "imageUrl": "jpg/saelgeren.jpg"
+  },
+  {
+    "id": "w125",
+    "word": "blød",
+    "value": "мягкий",
+    "pos": "adj",
+    "imageUrl": "jpg/bloed.jpg"
+  },
+  {
+    "id": "w126",
+    "word": "forsigtigt",
+    "value": "осторожно",
+    "pos": "adv",
+    "imageUrl": "jpg/forsigtigt.jpg"
+  },
+  {
+    "id": "w127",
+    "word": "ret",
+    "value": "довольно / право / правильно",
+    "pos": "adv/noun",
+    "imageUrl": "jpg/ret.jpg"
+  },
+  {
+    "id": "w128",
+    "word": "bero",
+    "value": "зависеть",
+    "pos": "verb",
+    "imageUrl": "jpg/bero.jpg"
+  },
+  {
+    "id": "w129",
+    "word": "selvstændig",
+    "value": "самостоятельный / независимый",
+    "pos": "adj",
+    "imageUrl": "jpg/selvstaendig.jpg"
+  },
+  {
+    "id": "w130",
+    "word": "efterhånden",
+    "value": "постепенно / со временем",
+    "pos": "adv",
+    "imageUrl": "jpg/efterhaanden.jpg"
+  },
+  {
+    "id": "w131",
+    "word": "bevægede",
+    "value": "двигались / перемещались",
+    "pos": "verb",
+    "imageUrl": "jpg/bevaegede.jpg"
+  },
+  {
+    "id": "w132",
+    "word": "bøjede",
+    "value": "согнули / наклонили",
+    "pos": "verb",
+    "imageUrl": "jpg/boejede.jpg"
+  },
+  {
+    "id": "w133",
+    "word": "tørrede",
+    "value": "вытерли / высушили",
+    "pos": "verb",
+    "imageUrl": "jpg/toerrede.jpg"
+  },
+  {
+    "id": "w134",
+    "word": "snydt",
+    "value": "обманутый / обманули",
+    "pos": "adj/verb",
+    "imageUrl": "jpg/snydt.jpg"
+  },
+  {
+    "id": "w135",
+    "word": "krukken",
+    "value": "банка / горшок",
+    "pos": "noun",
+    "imageUrl": "jpg/krukken.jpg"
+  },
+  {
+    "id": "w136",
+    "word": "fremmed",
+    "value": "чужой / незнакомый",
+    "pos": "adj",
+    "imageUrl": "jpg/fremmed.jpg"
+  },
+  {
+    "id": "w137",
+    "word": "plukke",
+    "value": "срывать / выбирать",
+    "pos": "verb",
+    "imageUrl": "jpg/plukke.jpg"
+  },
+  {
+    "id": "w138",
+    "word": "sandhed",
+    "value": "правда / истина",
+    "pos": "noun",
+    "imageUrl": "jpg/sandhed.jpg"
+  },
+  {
+    "id": "w139",
+    "word": "slagterforretning",
+    "value": "мясная лавка",
+    "pos": "noun",
+    "imageUrl": "jpg/slagterforretning.jpg"
+  },
+  {
+    "id": "w140",
+    "word": "snart",
+    "value": "скоро",
+    "pos": "adv",
+    "imageUrl": "jpg/snart.jpg"
+  },
+  {
+    "id": "w141",
+    "word": "fleksibelt",
+    "value": "гибко / гибкий",
+    "pos": "adj/adv",
+    "imageUrl": "jpg/fleksibelt.jpg"
+  },
+  {
+    "id": "w142",
+    "word": "hjemmerøveri",
+    "value": "домашнее ограбление",
+    "pos": "noun",
+    "imageUrl": "jpg/hjemmeroeveri.jpg"
+  },
+  {
+    "id": "w143",
+    "word": "fredelig",
+    "value": "мирный / спокойный",
+    "pos": "adj",
+    "imageUrl": "jpg/fredelig.jpg"
+  },
+  {
+    "id": "w144",
+    "word": "fulde",
+    "value": "пьяные / полные",
+    "pos": "adj",
+    "imageUrl": "jpg/fulde.jpg"
+  },
+  {
+    "id": "w145",
+    "word": "omdrejninger",
+    "value": "обороты",
+    "pos": "noun",
+    "imageUrl": "jpg/omdrejninger.jpg"
+  },
+  {
+    "id": "w146",
+    "word": "rette",
+    "value": "исправлять / правильные",
+    "pos": "verb/adj",
+    "imageUrl": "jpg/rette.jpg"
+  },
+  {
+    "id": "w147",
+    "word": "kalde",
+    "value": "называть / звать",
+    "pos": "verb",
+    "imageUrl": "jpg/kalde.jpg"
+  },
+  {
+    "id": "w148",
+    "word": "allerede",
+    "value": "уже",
+    "pos": "adv",
+    "imageUrl": "jpg/allerede.jpg"
+  },
+  {
+    "id": "w149",
+    "word": "bred vifte",
+    "value": "широкий спектр",
+    "pos": "noun",
+    "imageUrl": "jpg/bred_vifte.jpg"
+  },
+  {
+    "id": "w150",
+    "word": "tør",
+    "value": "сухой / осмеливается",
+    "pos": "adj/verb",
+    "imageUrl": "jpg/toer.jpg"
+  },
+  {
+    "id": "w151",
+    "word": "øget",
+    "value": "увеличенный / возросший",
+    "pos": "adj",
+    "imageUrl": "jpg/oeget.jpg"
+  },
+  {
+    "id": "w152",
+    "word": "pårørende",
+    "value": "родственники / близкие",
+    "pos": "noun",
+    "imageUrl": "jpg/paaroerende.jpg"
+  },
+  {
+    "id": "w153",
+    "word": "gælder",
+    "value": "касается / относится",
+    "pos": "verb",
+    "imageUrl": "jpg/gaelder.jpg"
+  },
+  {
+    "id": "w154",
+    "word": "mulige",
+    "value": "возможные",
+    "pos": "adj",
+    "imageUrl": "jpg/mulige.jpg"
+  },
+  {
+    "id": "w155",
+    "word": "bivirkning",
+    "value": "побочный эффект",
+    "pos": "noun",
+    "imageUrl": "jpg/bivirkning.jpg"
+  },
+  {
+    "id": "w156",
+    "word": "indberetning",
+    "value": "отчёт / сообщение (официальное)",
+    "pos": "noun",
+    "imageUrl": "jpg/indberetning.jpg"
+  },
+  {
+    "id": "w157",
+    "word": "brænder",
+    "value": "жжёт / горит",
+    "pos": "verb",
+    "imageUrl": "jpg/braender.jpg"
+  },
+  {
+    "id": "w158",
+    "word": "opløsning",
+    "value": "раствор / растворение",
+    "pos": "noun",
+    "imageUrl": "jpg/oploesning.jpg"
+  },
+  {
+    "id": "w159",
+    "word": "slimhinder",
+    "value": "слизистые оболочки",
+    "pos": "noun",
+    "imageUrl": "jpg/slimhinder.jpg"
+  },
+  {
+    "id": "w160",
+    "word": "irriterer",
+    "value": "раздражает",
+    "pos": "verb",
+    "imageUrl": "jpg/irriterer.jpg"
+  },
+  {
+    "id": "w161",
+    "word": "svie",
+    "value": "жжение / резь",
+    "pos": "noun",
+    "imageUrl": "jpg/svie.jpg"
+  },
+  {
+    "id": "w162",
+    "word": "høres",
+    "value": "слышно / слышится",
+    "pos": "verb",
+    "imageUrl": "jpg/hoeres.jpg"
+  },
+  {
+    "id": "w163",
+    "word": "stærkt",
+    "value": "сильно / крепко",
+    "pos": "adv/adj",
+    "imageUrl": "jpg/staerkt.jpg"
+  },
+  {
+    "id": "w164",
+    "word": "akut",
+    "value": "острый / срочный",
+    "pos": "adj",
+    "imageUrl": "jpg/akut.jpg"
+  },
+  {
+    "id": "w165",
+    "word": "kvalme",
+    "value": "тошнота",
+    "pos": "noun",
+    "imageUrl": "jpg/kvalme.jpg"
+  },
+  {
+    "id": "w166",
+    "word": "renset",
+    "value": "очищенный",
+    "pos": "adj",
+    "imageUrl": "jpg/renset.jpg"
+  },
+  {
+    "id": "w167",
+    "word": "smide",
+    "value": "выбросить / бросить",
+    "pos": "verb",
+    "imageUrl": "jpg/smide.jpg"
+  },
+  {
+    "id": "w168",
+    "word": "pakningen",
+    "value": "упаковка",
+    "pos": "noun",
+    "imageUrl": "jpg/pakningen.jpg"
+  },
+  {
+    "id": "w169",
+    "word": "lægemiddel",
+    "value": "лекарственный препарат",
+    "pos": "noun",
+    "imageUrl": "jpg/laegemiddel.jpg"
+  },
+  {
+    "id": "w170",
+    "word": "binyren",
+    "value": "надпочечник",
+    "pos": "noun",
+    "imageUrl": "jpg/binyren.jpg"
+  },
+  {
+    "id": "w171",
+    "word": "tumor",
+    "value": "опухоль",
+    "pos": "noun",
+    "imageUrl": "jpg/tumor.jpg"
+  },
+  {
+    "id": "w172",
+    "word": "fremskaffe",
+    "value": "добывать, получать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w173",
+    "word": "mellitus",
+    "value": "сахарный (о болезни)",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w174",
+    "word": "vandladningsproblemer",
+    "value": "проблемы с мочеиспусканием",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w175",
+    "word": "ens",
+    "value": "одинаковый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w176",
+    "word": "faglig",
+    "value": "профессиональный, учебный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w177",
+    "word": "omklædningsrum",
+    "value": "раздевалка",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w178",
+    "word": "doven",
+    "value": "ленивый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w179",
+    "word": "tabe",
+    "value": "терять, проигрывать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w180",
+    "word": "formelt",
+    "value": "официально",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w181",
+    "word": "nødt",
+    "value": "вынужденно, необходимо",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w182",
+    "word": "lynede",
+    "value": "блискавично, молниеносно",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w183",
+    "word": "hjemad",
+    "value": "домой",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w184",
+    "word": "besværligt",
+    "value": "трудно, неудобно",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w185",
+    "word": "luft",
+    "value": "воздух",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w186",
+    "word": "rødt",
+    "value": "красный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w187",
+    "word": "derhen",
+    "value": "туда",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w188",
+    "word": "derud",
+    "value": "вон туда",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w189",
+    "word": "griner",
+    "value": "смеётся",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w190",
+    "word": "græder",
+    "value": "плачет",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w191",
+    "word": "inviterer",
+    "value": "приглашает",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w192",
+    "word": "fællesspisning",
+    "value": "совместная трапеза",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w193",
+    "word": "fælleshuset",
+    "value": "общее помещение, клуб",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w194",
+    "word": "besøg",
+    "value": "визит, посещение",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w195",
+    "word": "skælder",
+    "value": "ругать, бранить",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w196",
+    "word": "blandt",
+    "value": "среди",
+    "pos": "prep",
+    "imageUrl": ""
+  },
+  {
+    "id": "w197",
+    "word": "rart",
+    "value": "приятно",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w198",
+    "word": "rørt",
+    "value": "тронутый, растроганный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w199",
+    "word": "dyrke",
+    "value": "заниматься, выращивать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w200",
+    "word": "kamp",
+    "value": "борьба, бой",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w201",
+    "word": "frem",
+    "value": "вперёд",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w202",
+    "word": "straks",
+    "value": "сразу",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w203",
+    "word": "tilpas",
+    "value": "комфортно, удобно",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w204",
+    "word": "bevæge",
+    "value": "двигать(ся)",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w205",
+    "word": "skønt",
+    "value": "прекрасно, хотя",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w206",
+    "word": "melder",
+    "value": "сообщает",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w207",
+    "word": "øjeblik",
+    "value": "момент, мгновение",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w208",
+    "word": "imens",
+    "value": "тем временем",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w209",
+    "word": "sløret",
+    "value": "туманно, размыто",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w210",
+    "word": "gøre",
+    "value": "делать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w211",
+    "word": "opspillede",
+    "value": "наигранный, переигранный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w212",
+    "word": "angreb",
+    "value": "нападение",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w213",
+    "word": "frygt",
+    "value": "страх",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w214",
+    "word": "tikkede",
+    "value": "тикал, стучал, щёлкал",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w215",
+    "word": "ilter",
+    "value": "вспыльчивый, раздражительный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w216",
+    "word": "højlydt",
+    "value": "громко",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w217",
+    "word": "farligere",
+    "value": "более опасные",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w218",
+    "word": "stramt",
+    "value": "туго, строго",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w219",
+    "word": "ondskabsfuldt",
+    "value": "злобно, жестоко",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w220",
+    "word": "rimelig",
+    "value": "разумный, справедливый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w221",
+    "word": "ormehale",
+    "value": "хвост червя",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w222",
+    "word": "fælde",
+    "value": "ловушка",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w223",
+    "word": "aflevinen",
+    "value": "львёнок",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w224",
+    "word": "bar",
+    "value": "нёс",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w225",
+    "word": "lovede",
+    "value": "пообещал",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w226",
+    "word": "uafhængig",
+    "value": "независимый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w227",
+    "word": "streng",
+    "value": "строгий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w228",
+    "word": "kæledyr",
+    "value": "домашнее животное",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w229",
+    "word": "hastigt",
+    "value": "поспешно, быстро",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w230",
+    "word": "bevæger",
+    "value": "движется",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w231",
+    "word": "mundfuld",
+    "value": "глоток, полный рот",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w232",
+    "word": "overfor",
+    "value": "напротив, по отношению к",
+    "pos": "prep",
+    "imageUrl": ""
+  },
+  {
+    "id": "w233",
+    "word": "trættende",
+    "value": "утомительный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w234",
+    "word": "forbudt",
+    "value": "запрещённый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w235",
+    "word": "takt",
+    "value": "такт",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w236",
+    "word": "tænkt",
+    "value": "задуманный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w237",
+    "word": "blussede",
+    "value": "вспыхнул, разгорелся",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w238",
+    "word": "egen",
+    "value": "собственный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w239",
+    "word": "sænkede",
+    "value": "опустил",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w240",
+    "word": "spredte",
+    "value": "распространял",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w241",
+    "word": "læret",
+    "value": "наученный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w242",
+    "word": "verden",
+    "value": "мир",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w243",
+    "word": "ynkelig",
+    "value": "жалкий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w244",
+    "word": "vantittig",
+    "value": "безумный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w245",
+    "word": "verdensberømt",
+    "value": "всемирно известный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w246",
+    "word": "bidskede",
+    "value": "злобный, кусачий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w247",
+    "word": "skuespiller",
+    "value": "актёр",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w248",
+    "word": "loyale",
+    "value": "преданные",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w249",
+    "word": "operationen",
+    "value": "операция",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w250",
+    "word": "overagtig",
+    "value": "высокомерный, надменный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w251",
+    "word": "trist",
+    "value": "печальный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w252",
+    "word": "befri",
+    "value": "освободить",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w253",
+    "word": "mobbet",
+    "value": "травил, издевался",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w254",
+    "word": "piggende",
+    "value": "колючий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w255",
+    "word": "deprimeret",
+    "value": "подавленный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w256",
+    "word": "titlen",
+    "value": "титул",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w257",
+    "word": "sad",
+    "value": "сидел",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w258",
+    "word": "stringente",
+    "value": "строгие, чёткие",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w259",
+    "word": "lagde",
+    "value": "положил",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w260",
+    "word": "inkluderer",
+    "value": "включает",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w261",
+    "word": "bl.a. (blandt andet)",
+    "value": "в том числе",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w262",
+    "word": "blanding",
+    "value": "смесь",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w263",
+    "word": "ødelagt",
+    "value": "разрушенный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w264",
+    "word": "pragtfuld",
+    "value": "великолепный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w265",
+    "word": "stjålet",
+    "value": "украденный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w266",
+    "word": "snegle",
+    "value": "улитки",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w267",
+    "word": "enten",
+    "value": "либо",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w268",
+    "word": "nærværende",
+    "value": "присутствующий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w269",
+    "word": "sejler",
+    "value": "плывёт",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w270",
+    "word": "agtpågivenhed",
+    "value": "бдительность",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w271",
+    "word": "født",
+    "value": "рождённый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w272",
+    "word": "brød / desillusionsbesvær",
+    "value": "хлеб / трудности разочарования",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w273",
+    "word": "støtter",
+    "value": "поддерживает",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w274",
+    "word": "skete",
+    "value": "случилось",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w275",
+    "word": "understreg",
+    "value": "подчеркни",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w276",
+    "word": "mindreårige",
+    "value": "несовершеннолетние",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w277",
+    "word": "nøgleordene",
+    "value": "ключевые слова",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w278",
+    "word": "benytter",
+    "value": "использует",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w279",
+    "word": "tal",
+    "value": "числа / речь",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w280",
+    "word": "udsigt",
+    "value": "вид, перспектива",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w281",
+    "word": "vælge",
+    "value": "выбирать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w282",
+    "word": "beskrev",
+    "value": "описал",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w283",
+    "word": "exlibris",
+    "value": "экслибрис",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w284",
+    "word": "bogejermærker",
+    "value": "книжные знаки",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w285",
+    "word": "nutilskunstnere",
+    "value": "современные художники",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w286",
+    "word": "udenlandske",
+    "value": "иностранные",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w287",
+    "word": "bagværk",
+    "value": "выпечка",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w288",
+    "word": "opleve",
+    "value": "испытывать, переживать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w289",
+    "word": "nær",
+    "value": "близко, рядом",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w290",
+    "word": "forbindelse",
+    "value": "связь, соединение",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w291",
+    "word": "omgivende",
+    "value": "окружающий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w292",
+    "word": "samlinger",
+    "value": "коллекции",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w293",
+    "word": "billedjagt",
+    "value": "поиск изображений",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w294",
+    "word": "yderligere",
+    "value": "дополнительный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w295",
+    "word": "hestestalden",
+    "value": "конюшня",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w296",
+    "word": "herregården",
+    "value": "усадьба, поместье",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w297",
+    "word": "skitser",
+    "value": "эскизы",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w298",
+    "word": "en busk",
+    "value": "куст",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w299",
+    "word": "hårtab",
+    "value": "выпадение волос",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w300",
+    "word": "issen",
+    "value": "макушка",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w301",
+    "word": "grundene",
+    "value": "причины",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w302",
+    "word": "toupeen",
+    "value": "парик, тупе",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w303",
+    "word": "fordøren",
+    "value": "входная дверь",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w304",
+    "word": "grenene",
+    "value": "ветви",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w305",
+    "word": "mister",
+    "value": "теряет",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w306",
+    "word": "almindelig",
+    "value": "обычный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w307",
+    "word": "kræft",
+    "value": "рак",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w308",
+    "word": "bivirkningerne",
+    "value": "побочные эффекты",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w309",
+    "word": "årsager",
+    "value": "причины",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w310",
+    "word": "relativ",
+    "value": "относительный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w311",
+    "word": "dyb",
+    "value": "глубокий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w312",
+    "word": "fortvivlelse",
+    "value": "отчаяние",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w313",
+    "word": "skaldet",
+    "value": "лысый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w314",
+    "word": "fulgtes",
+    "value": "шли вместе",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w315",
+    "word": "forskellen",
+    "value": "разница",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w316",
+    "word": "begrænset",
+    "value": "ограниченный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w317",
+    "word": "hvorimod",
+    "value": "тогда как",
+    "pos": "conj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w318",
+    "word": "hovedbunden",
+    "value": "кожа головы",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w319",
+    "word": "overbevist",
+    "value": "убеждён",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w320",
+    "word": "bedømmelse",
+    "value": "оценка",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w321",
+    "word": "forsvundet",
+    "value": "исчез",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w322",
+    "word": "lede",
+    "value": "вести",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w323",
+    "word": "trådte",
+    "value": "ступил, вошёл",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w324",
+    "word": "stod",
+    "value": "стоял",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w325",
+    "word": "ivrig",
+    "value": "рьяный, увлечённый",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w326",
+    "word": "hududslæt",
+    "value": "кожная сыпь",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w327",
+    "word": "afvekslende",
+    "value": "разнообразный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w328",
+    "word": "fleksibel",
+    "value": "гибкий",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w329",
+    "word": "gengæld",
+    "value": "взамен",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w330",
+    "word": "køen",
+    "value": "очередь",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w331",
+    "word": "rettigheder",
+    "value": "права",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w332",
+    "word": "varmeudgifter",
+    "value": "расходы на отопление",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w333",
+    "word": "beliggenhed",
+    "value": "расположение",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w334",
+    "word": "putte",
+    "value": "класть, прижимать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w335",
+    "word": "frue",
+    "value": "госпожа, жена",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w336",
+    "word": "udadvendt",
+    "value": "общительный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w337",
+    "word": "netværk",
+    "value": "сеть, круг знакомств",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w338",
+    "word": "skrue",
+    "value": "винт; крутить",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w339",
+    "word": "lænke",
+    "value": "цепь, ссылка",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w340",
+    "word": "eventuelt",
+    "value": "возможно",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w341",
+    "word": "smalltalk",
+    "value": "светская беседа",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w342",
+    "word": "strikker",
+    "value": "вяжет",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w343",
+    "word": "gyser",
+    "value": "ужастик",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w344",
+    "word": "ærgerligt",
+    "value": "досадно",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w345",
+    "word": "udsendelsen",
+    "value": "передача, выпуск",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w346",
+    "word": "skybrud",
+    "value": "ливень",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w347",
+    "word": "herlig",
+    "value": "прекрасный",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w348",
+    "word": "stige",
+    "value": "лестница",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w349",
+    "word": "strejke",
+    "value": "забастовка",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w350",
+    "word": "splittede",
+    "value": "разделили",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w351",
+    "word": "skellige",
+    "value": "разные",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w352",
+    "word": "drivvåd",
+    "value": "промокший насквозь",
+    "pos": "adj",
+    "imageUrl": ""
+  },
+  {
+    "id": "w353",
+    "word": "bortset",
+    "value": "за исключением",
+    "pos": "prep",
+    "imageUrl": ""
+  },
+  {
+    "id": "w354",
+    "word": "øsregnede",
+    "value": "лило как из ведра",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w355",
+    "word": "mistede",
+    "value": "потерял",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w356",
+    "word": "afdelingen",
+    "value": "отдел",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w357",
+    "word": "frygteligt",
+    "value": "ужасно",
+    "pos": "adv",
+    "imageUrl": ""
+  },
+  {
+    "id": "w358",
+    "word": "brag",
+    "value": "грохот",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w359",
+    "word": "lyve",
+    "value": "лгать",
+    "pos": "verb",
+    "imageUrl": ""
+  },
+  {
+    "id": "w360",
+    "word": "kondisko",
+    "value": "кроссовки",
+    "pos": "noun",
+    "imageUrl": ""
+  },
+  {
+    "id": "w361",
+    "word": "nærmere",
+    "value": "ближе, подробнее",
+    "pos": "adv",
+    "imageUrl": ""
+  }
 ]
