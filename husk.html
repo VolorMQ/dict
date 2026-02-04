@@ -258,10 +258,19 @@ async function speakWithPunctuationPauses(originalText, lang, rate = 1) {
 
 /* ===== POSITION ===== */
 function randomPosition(el) {
-  const menuHeight = document.getElementById('dictionaryControls').offsetHeight + 10;
-  const containerHeight = window.innerHeight - el.offsetHeight - menuHeight;
+  const topOffset = 12; // минимальный отступ сверху (можно увеличить, если надо)
+  const bottomControls = document.getElementById('controls');
+  const bottomMenu = document.getElementById('dictionaryControls');
+
+  // вычисляем нижнюю границу для слов: отступ + высота меню
+  const bottomLimit = Math.max(bottomControls.offsetHeight, bottomMenu.offsetHeight) + 12; 
+
+  // доступная высота для слов
+  const containerHeight = window.innerHeight - el.offsetHeight - bottomLimit - topOffset;
+
   const x = Math.random() * (window.innerWidth - el.offsetWidth);
-  const y = Math.random() * containerHeight;
+  const y = topOffset + Math.random() * containerHeight;
+
   return { x, y };
 }
 
