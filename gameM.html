@@ -668,19 +668,42 @@ function makeOptions(correct){
 
 function endGame(){
   stopTimers();
-  // disable option buttons
-  document.querySelectorAll('#options button').forEach(b => b.disabled = true);
-  // show result modal instead of alert
+
+  // Показываем модальное окно с результатом
   const resultText = document.getElementById('resultText');
-  if(resultText) resultText.innerHTML = `Правильных: <strong>${correctCount}</strong><br>Неправильных: <strong>${wrongCount}</strong><br>Пропущенных: <strong>${skippedCount}</strong><br>Очки: <strong>${score}</strong>`;
+  if(resultText) resultText.innerHTML = `
+    Правильных: <strong>${correctCount}</strong><br>
+    Неправильных: <strong>${wrongCount}</strong><br>
+    Пропущенных: <strong>${skippedCount}</strong><br>
+    Очки: <strong>${score}</strong>
+  `;
   openModal(document.getElementById('resultModal'));
-  // show start button and restore UI so user can change settings for next run
+
+  // Скрываем игровой левый контейнер с вопросом/изображением
+  const questionEl = document.getElementById('question');
+  if(questionEl) questionEl.style.display = 'none';
+
+  // Скрываем контейнер с вариантами ответов
+  const optionsEl = document.getElementById('options');
+  if(optionsEl) optionsEl.style.display = 'none';
+
+  // Внутри gameControls скрываем все кроме кнопки "Начать игру"
+  const gameControlsEl = document.getElementById('gameControls');
+  if(gameControlsEl){
+    Array.from(gameControlsEl.children).forEach(child => {
+      if(child.id !== 'startBtn'){
+        child.style.display = 'none'; // скрываем restartBtn и другие элементы
+      } else {
+        child.style.display = 'inline-block'; // кнопка "Начать игру" видна
+      }
+    });
+  }
+
+  // Восстанавливаем UI меню (выбор уровня и прочее)
   restoreUI();
-  const startBtnEl = document.getElementById('startBtn');
-  const restartBtnEl = document.getElementById('restartBtn');
-  if (startBtnEl) startBtnEl.style.display = 'inline-block';
-  if (restartBtnEl) restartBtnEl.style.display = 'none';
 }
+
+
 
 /* when result closed */
 const closeResultBtn = document.getElementById('closeResult');
