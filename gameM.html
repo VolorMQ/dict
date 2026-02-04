@@ -621,16 +621,8 @@ if (startBtn) startBtn.addEventListener('click', ()=>{
   closeModal(loadModal);
 }, {passive:true});
 
-if (restartBtn) restartBtn.addEventListener('click', ()=>{
-  // when user restarts, hide UI again
-  hideUIOnPlay();
-
-  stopTimers();
-  score = 0; combo = 1;
-  correctCount = 0; wrongCount = 0; skippedCount = 0;
-  showScore();
-  resetRemainingSentences(); resetRemainingWords();
-  nextQuestion();
+if (restartBtn) restartBtn.addEventListener('click', () => {
+  endGame();  // при нажатии просто вызываем функцию окончания игры
 }, {passive:true});
 
 /* Stop and clear timers cleanly */
