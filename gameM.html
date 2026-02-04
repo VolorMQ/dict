@@ -633,13 +633,29 @@ function stopTimers(){
 
 /* GAME FLOW */
 function startGame(){
+  // показать контейнеры для игры
+  const questionEl = document.getElementById('question');
+  const optionsEl = document.getElementById('options');
+  if(questionEl) questionEl.style.display = 'flex';
+  if(optionsEl) optionsEl.style.display = 'grid';
+
+  // скрыть стартовую кнопку
+  const startBtnEl = document.getElementById('startBtn');
+  if (startBtnEl) startBtnEl.style.display = 'none';
+
+  // скрыть элементы выбора уровня
+  hideUIOnPlay();
+
+  // сброс счетчиков и состояний
   score = 0; combo = 1;
   correctCount = 0; wrongCount = 0; skippedCount = 0;
   showScore();
-  resetRemainingSentences();
-  resetRemainingWords();
+  resetRemainingSentences(); resetRemainingWords();
+
+  // запускаем первый вопрос
   nextQuestion();
 }
+
 
 function pickWord(){ return remainingWords.length>0 ? remainingWords.pop() : null; }
 function pickSentence(){ return remainingSentences.length>0 ? remainingSentences.pop() : null; }
@@ -657,11 +673,19 @@ function makeOptions(correct){
   }
   return opts;
 }
-
 function endGame(){
   stopTimers();
 
-  // Показываем модальное окно с результатом
+  // Скрываем игровые элементы (вопрос, картинки, варианты)
+  const questionEl = document.getElementById('question');
+  const optionsEl = document.getElementById('options');
+  if(questionEl) questionEl.style.display = 'none';
+  if(optionsEl) optionsEl.style.display = 'none';
+
+  // disable option buttons
+  document.querySelectorAll('#options button').forEach(b => b.disabled = true);
+
+  // show result modal
   const resultText = document.getElementById('resultText');
   if(resultText) resultText.innerHTML = `
     Правильных: <strong>${correctCount}</strong><br>
@@ -671,30 +695,22 @@ function endGame(){
   `;
   openModal(document.getElementById('resultModal'));
 
-  // Скрываем игровой левый контейнер с вопросом/изображением
-  const questionEl = document.getElementById('question');
-  if(questionEl) questionEl.style.display = 'none';
-
-  // Скрываем контейнер с вариантами ответов
-  const optionsEl = document.getElementById('options');
-  if(optionsEl) optionsEl.style.display = 'none';
-
-  // Внутри gameControls скрываем все кроме кнопки "Начать игру"
-  const gameControlsEl = document.getElementById('gameControls');
-  if(gameControlsEl){
-    Array.from(gameControlsEl.children).forEach(child => {
-      if(child.id !== 'startBtn'){
-        child.style.display = 'none'; // скрываем restartBtn и другие элементы
-      } else {
-        child.style.display = 'inline-block'; // кнопка "Начать игру" видна
-      }
-    });
-  }
-
-  // Восстанавливаем UI меню (выбор уровня и прочее)
+  // restore UI (выбор уровня и прочее)
   restoreUI();
+
+  // показать только стартовую кнопку
+  const startBtnEl = document.getElementById('startBtn');
+  if(startBtnEl) startBtnEl.style.display = 'inline-block';
+
+  // спрятать кнопку "Начать новую игру"
+  const restartBtnEl = document.getElementById('restartBtn');
+  if(restartBtnEl) restartBtnEl.style.display = 'none';
 }
 
+// Кнопка "Начать новую игру" теперь просто завершает текущую игру
+if (restartBtn) restartBtn.addEventListener('click', ()=>{
+  endGame();
+}, {passive:true});
 
 
 /* when result closed */
