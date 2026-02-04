@@ -230,6 +230,36 @@ function speak(text, lang, rate = 1) {
   });
 }
 
+// Новая функция: произношение с паузами на основе пунктуации.
+// Для каждой группы знаков (не букв, не пробелов) добавляется пауза PAUSE_MS_PER_SIGN миллисекунд * количество знаков.
+const PAUSE_MS_PER_SIGN = 50;
+
+async function speakWithPunctuationPauses(originalText, lang, rate = 1) {
+  if (!originalText || !originalText.trim()) return;
+
+  // Резервный простой: если в тексте вообще нет "знаков" — просто говорим целиком.
+  const hasPunct = /[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s]/.test(originalText);
+  if (!hasPunct) {
+    await speak(originalText, lang, rate);
+    return;
+  }
+
+  // Разбиваем текст на части: либо последовательность слов (включая пробелы внутри), либо последовательность "знаков/пунктуации".
+  // Регекс: захватываем группу слов/пробелов или группу символов, не являющихся буквами и пробелами.
+  const parts = originalText.match(/([A-Za-zА-Яа-яЁёÆØÅæøå]+(?:\s+[A-Za-zА-Яа-яЁёÆØÅæøå]+)*)|([^A-Za-zА-Яа-яЁёÆØÅæøå\s]+)/g) || [];
+
+  for (const part of parts) {
+    // Если часть содержит буквы -> произносим (весь блок слов одним обращением к TTS).
+    if (/[A-Za-zА-Яа-яЁёÆØÅæøå]/.test(part)) {
+      await speak(part, lang, rate);
+    } else {
+      // Это блок пунктуации/знаков — считаем количество знаков (без пробелов) и делаем паузу 1с на знак.
+      const signsCount = part.replace(/\s/g, '').length;
+      if (signsCount > 0) await new Promise(r => setTimeout(r, PAUSE_MS_PER_SIGN * signsCount));
+    }
+  }
+}
+
 /* ===== POSITION ===== */
 function randomPosition(el) {
   const x = Math.random() * (window.innerWidth - el.offsetWidth);
@@ -248,22 +278,22 @@ async function showWordWithQueue(word) {
   moveTo(el, randomPosition(el));
   
   // Первый показ: перевод сначала
-  await speak(cleanTextForTTS(word.translation), 'ru-RU');
-  await speak(cleanTextForTTS(word.danish), 'da-DK', 0.3); // медленно
+  await speakWithPunctuationPauses(word.translation, 'ru-RU');
+  await speakWithPunctuationPauses(word.danish, 'da-DK', 0.3); // медленно
 
   // Повторные показы (2,3)
   const rates = [0.5, 0.7, 1.0]; // 2,3 медленнее, 4,5 нормальная
   for (let i = 1; i < MAX_REPEATS - 1; i++) {
     await new Promise(r => setTimeout(r, 1500));
     moveTo(el, randomPosition(el));
-    await speak(cleanTextForTTS(word.danish), 'da-DK', rates[Math.min(i - 1, rates.length - 1)]);
+    await speakWithPunctuationPauses(word.danish, 'da-DK', rates[Math.min(i - 1, rates.length - 1)]);
   }
 
   // Последний показ (5)
   await new Promise(r => setTimeout(r, 1500));
   moveTo(el, randomPosition(el));
-  await speak(cleanTextForTTS(word.translation), 'ru-RU');
-  await speak(cleanTextForTTS(word.danish), 'da-DK', 1.0); // нормальная скорость
+  await speakWithPunctuationPauses(word.translation, 'ru-RU');
+  await speakWithPunctuationPauses(word.danish, 'da-DK', 1.0); // нормальная скорость
 
   el.remove();
   showingWord = false;
