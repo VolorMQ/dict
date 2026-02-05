@@ -15,15 +15,68 @@ body {
   font-family: 'Comic Neue', cursive;
   min-height: 100vh;
   overflow: hidden;
-  background: linear-gradient(270deg, #1a1a2e, #23233a, #2b2b44, #1f1c2c);
-  background-size: 800% 800%;
-  animation: gradientBG 70s ease infinite;
+
+  /* ★ расширенная тёмная палитра */
+  background: linear-gradient(
+    135deg,
+    #1a1a2e, /* тёмно-синий */
+    #2b1b3d, /* фиолетовый */
+    #1f2b3a, /* холодный серо-синий */
+    #2e2a1f, /* тёмный оливковый */
+    #1f2c28  /* тёмный бирюзовый */
+  );
+  background-size: 900% 900%;
+
+  animation:
+    gradientBG 90s linear infinite,
+    brightnessPulse 45s ease-in-out infinite;
+
+  position: relative;
 }
 
+/* движение по диагонали + по кругу */
 @keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0%   { background-position:   0% 0%; }
+  25%  { background-position: 100% 0%; }
+  50%  { background-position: 100% 100%; }
+  75%  { background-position:   0% 100%; }
+  100% { background-position:   0% 0%; }
+}
+
+/* мягкая пульсация яркости */
+@keyframes brightnessPulse {
+  0%   { filter: brightness(0.85); }
+  50%  { filter: brightness(1.05); }
+  100% { filter: brightness(0.85); }
+}
+
+/* мягкий свет / тень */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  background: radial-gradient(
+    ellipse at 30% 30%,
+    rgba(255,255,255,0.1),
+    rgba(0,0,0,0.5)
+  );
+
+  animation: lightBreath 55s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes lightBreath {
+  0%   { opacity: 0.35; }
+  50%  { opacity: 0.5; }
+  100% { opacity: 0.35; }
+}
+
+/* контент поверх */
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ===== ЛЕТАЮЩИЕ СЛОВА ===== */
@@ -60,7 +113,7 @@ body {
 /* ===== ЦЕНТРАЛЬНЫЕ КОНТРОЛЫ ===== */
 #controls {
   position: fixed;
-  bottom: 12px; /* стандартно низ */
+  bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -129,13 +182,11 @@ body {
 }
 
 /* ===== АДАПТИВНОСТЬ ===== */
-
-/* Планшеты и ниже — разрешаем перенос и немного поднимаем центр */
 @media (max-width: 600px) {
   #controls {
     flex-wrap: wrap;
     justify-content: center;
-    bottom: 72px; /* подняли центр только на узких экранах */
+    bottom: 72px;
   }
 
   .input-group {
@@ -148,7 +199,6 @@ body {
   }
 }
 
-/* Телефоны */
 @media (max-width: 420px) {
   #controls input {
     width: 100px;
@@ -162,10 +212,9 @@ body {
   }
 }
 
-/* Очень узкие экраны */
 @media (max-width: 360px) {
   #controls {
-    bottom: 96px; /* ещё выше, чтобы не налезал */
+    bottom: 96px;
   }
 
   #dictionaryControls {
