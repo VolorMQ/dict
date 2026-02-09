@@ -1,6 +1,6 @@
 [
   {
-    "dialog": [
+    "dialog0": [
       {"danish":"Hej! Hvordan går det med dig?", "translation":"Привет! Как у тебя дела?"},
       {"danish":"Hej! Jeg har det godt, tak. Hvad med dig?", "translation":"Привет! У меня всё хорошо, спасибо. А у тебя?"},
       {"danish":"Det går også godt. Har du forberedt dig til eksamen?", "translation":"Тоже хорошо. Ты подготовился к экзамену?"},
@@ -12,7 +12,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog1": [
       {"danish":"Hej! Har du set den nye film?", "translation":"Привет! Ты видел новый фильм?"},
       {"danish":"Ja, jeg så den i går. Den var spændende!", "translation":"Да, я посмотрел его вчера. Было захватывающе!"},
       {"danish":"Hvem spiller hovedrollen?", "translation":"Кто играет главную роль?"},
@@ -24,7 +24,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog2": [
       {"danish":"Godmorgen! Hvordan sover du for tiden?", "translation":"Доброе утро! Как ты спишь в последнее время?"},
       {"danish":"Godmorgen! Jeg sover godt, men vågner tidligt.", "translation":"Доброе утро! Сплю хорошо, но рано просыпаюсь."},
       {"danish":"Drikker du kaffe om morgenen?", "translation":"Ты пьёшь кофе утром?"},
@@ -36,7 +36,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog3": [
       {"danish":"Skal vi tage på ferie i sommer?", "translation":"Поедем в отпуск летом?"},
       {"danish":"Ja, jeg tænker på Italien.", "translation":"Да, я думаю об Италии."},
       {"danish":"Hvilken by vil du besøge først?", "translation":"Какой город хочешь посетить первым?"},
@@ -48,7 +48,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog4": [
       {"danish":"Hvilken sport kan du bedst lide?", "translation":"Какой спорт тебе больше всего нравится?"},
       {"danish":"Jeg elsker fodbold.", "translation":"Я люблю футбол."},
       {"danish":"Spiller du i en klub?", "translation":"Ты играешь в клубе?"},
@@ -60,7 +60,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog5": [
       {"danish":"Hvad spiste du til morgenmad?", "translation":"Что ты ел на завтрак?"},
       {"danish":"Jeg spiste havregrød med frugt.", "translation":"Я ел овсянку с фруктами."},
       {"danish":"Drikker du te eller kaffe?", "translation":"Ты пьёшь чай или кофе?"},
@@ -72,7 +72,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog6": [
       {"danish":"Hvilken musik kan du bedst lide?", "translation":"Какую музыку тебе больше всего нравится?"},
       {"danish":"Jeg kan godt lide pop og rock.", "translation":"Мне нравятся поп и рок."},
       {"danish":"Har du en yndlingssanger?", "translation":"У тебя есть любимый певец?"},
@@ -84,7 +84,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog7": [
       {"danish":"Hvordan går det med dine venner?", "translation":"Как у тебя дела с друзьями?"},
       {"danish":"Det går godt, vi mødes tit.", "translation":"Хорошо, мы часто встречаемся."},
       {"danish":"Hvad kan I godt lide at lave sammen?", "translation":"Что вам нравится делать вместе?"},
@@ -96,7 +96,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog8": [
       {"danish":"Er du nogensinde rejst til udlandet?", "translation":"Ты когда-нибудь ездил за границу?"},
       {"danish":"Ja, jeg har været i Tyskland og Frankrig.", "translation":"Да, я был в Германии и Франции."},
       {"danish":"Hvilket land kunne du bedst lide?", "translation":"Какая страна тебе понравилась больше всего?"},
@@ -108,7 +108,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog9": [
       {"danish":"Hvordan har du det med matematik?", "translation":"Как у тебя дела с математикой?"},
       {"danish":"Det går okay, men nogle opgaver er svære.", "translation":"Нормально, но некоторые задания сложные."},
       {"danish":"Hvilken formel kan du bedst lide?", "translation":"Какая формула тебе нравится больше всего?"},
@@ -120,7 +120,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog10": [
       {"danish":"Hej! Hvordan har du det i dag?", "translation":"Привет! Как ты сегодня?"},
       {"danish":"Hej! Jeg har det godt, men lidt træt.", "translation":"Привет! Всё хорошо, но немного устал."},
       {"danish":"Har du sovet nok i nat?", "translation":"Ты достаточно спал ночью?"},
@@ -132,7 +132,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog11": [
       {"danish":"Hej! Skal vi shoppe i weekenden?", "translation":"Привет! Пойдем за покупками на выходных?"},
       {"danish":"Ja, det lyder sjovt!", "translation":"Да, звучит весело!"},
       {"danish":"Hvilket center vil du gå til?", "translation":"В какой торговый центр хочешь пойти?"},
@@ -144,7 +144,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog12": [
       {"danish":"Hvordan kommer du normalt til skole?", "translation":"Как ты обычно добираешься до школы?"},
       {"danish":"Jeg tager bussen.", "translation":"Я езжу на автобусе."},
       {"danish":"Hvor lang tid tager det?", "translation":"Сколько времени это занимает?"},
@@ -156,7 +156,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog13": [
       {"danish":"Hvordan er vejret i dag?", "translation":"Какая сегодня погода?"},
       {"danish":"Det er solrigt og varmt.", "translation":"Солнечно и тепло."},
       {"danish":"Skal vi gå en tur i parken?", "translation":"Пойдем гулять в парк?"},
@@ -168,7 +168,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog14": [
       {"danish":"Hej! Bruger du meget teknologi?", "translation":"Привет! Ты часто пользуешься технологиями?"},
       {"danish":"Ja, jeg bruger computer og smartphone hver dag.", "translation":"Да, я пользуюсь компьютером и смартфоном каждый день."},
       {"danish":"Hvilken app bruger du mest?", "translation":"Какое приложение используешь больше всего?"},
@@ -180,7 +180,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog15": [
       {"danish":"Hvilke hobbyer har du?", "translation":"Какие у тебя хобби?"},
       {"danish":"Jeg kan godt lide at male og læse bøger.", "translation":"Мне нравится рисовать и читать книги."},
       {"danish":"Hvilken type bøger læser du?", "translation":"Какие книги ты читаешь?"},
@@ -192,7 +192,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog16": [
       {"danish":"Har du nogen kulturelle interesser?", "translation":"У тебя есть культурные интересы?"},
       {"danish":"Ja, jeg elsker teater og museum.", "translation":"Да, я люблю театр и музеи."},
       {"danish":"Hvornår var du sidst på museum?", "translation":"Когда ты в последний раз был в музее?"},
@@ -204,7 +204,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog17": [
       {"danish":"Hvad kan du bedst lide at spise?", "translation":"Что тебе больше всего нравится есть?"},
       {"danish":"Jeg elsker pizza og sushi.", "translation":"Я люблю пиццу и суши."},
       {"danish":"Laver du mad derhjemme?", "translation":"Ты готовишь дома?"},
@@ -216,7 +216,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog18": [
       {"danish":"Hvordan har din familie det?", "translation":"Как твоя семья?"},
       {"danish":"De har det godt, tak.", "translation":"У них всё хорошо, спасибо."},
       {"danish":"Har du søskende?", "translation":"У тебя есть братья или сестры?"},
@@ -228,7 +228,7 @@
     ]
   },
   {
-    "dialog": [
+    "dialog19": [
       {"danish":"Hvad laver du i din fritid?", "translation":"Что ты делаешь в свободное время?"},
       {"danish":"Jeg går ture og læser bøger.", "translation":"Я гуляю и читаю книги."},
       {"danish":"Spiller du spil på computeren?", "translation":"Ты играешь в игры на компьютере?"},
