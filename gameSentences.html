@@ -5,329 +5,275 @@
 <title>Vælg den rigtige sætning</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: 'Poppins', sans-serif;
-  overflow-x: hidden;
-  text-align: center;
-  color: #fff;
-  background: linear-gradient(135deg, #1c1c1c, #2a2a2a, #3a3a3a);
-  transition: background 2s ease;
-  position: relative;
+body, html {margin:0; padding:0; height:100%; font-family:'Poppins', sans-serif; overflow-x:hidden; text-align:center; color:#fff; background: linear-gradient(135deg,#1c1c1c,#2a2a2a,#3a3a3a); transition: background 2s ease; position:relative;}
+#game-container, #level-end, #question-count {position:relative; z-index:1; padding:20px;}
+h1,h2 {font-weight:700; color:#ffd700; text-shadow:0 0 6px #ffd700,0 0 12px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.4);}
+h1{font-size:32px;margin-bottom:20px; animation:pulse 2s infinite;} 
+h2{font-size:36px;margin-bottom:20px; animation:pulse 2s infinite;}
+@keyframes pulse {0%,100%{text-shadow:0 0 6px #ffd700,0 0 12px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.4);}50%{text-shadow:0 0 12px #ffd700,0 0 24px rgba(255,215,0,0.8),0 0 40px rgba(255,215,0,0.6);}}
+#status, #score, #remaining, #total-sentences, #end-score, #end-wrong, #end-time {margin-bottom:15px;font-size:18px;color:#fff;text-shadow:0 0 4px #000;}
+button.option, button.level-btn, button#back-btn, button#start-level-btn, button#back-to-levels, button#try-again, button#back-to-levels-end {
+  display:block;margin:12px auto;padding:16px 20px;font-size:16px;font-weight:600;
+  background:linear-gradient(145deg,#2e2e2e,#1f1f1f);
+  border:2px solid #555;border-radius:12px;color:#fff;cursor:pointer;
+  transition:all 0.3s ease,box-shadow 0.3s ease;
+  white-space:normal; word-wrap:break-word; text-align:center; line-height:1.5;
 }
-
-#game-container {
-  position: relative;
-  z-index: 2;
-  padding: 20px;
+button.option:hover, button.level-btn:hover, button#back-btn:hover, button#start-level-btn:hover, button#back-to-levels:hover, button#try-again:hover, button#back-to-levels-end:hover {
+  transform:translateY(-3px) scale(1.03);
+  box-shadow:0 10px 25px rgba(0,0,0,0.7),0 0 12px #ffd700,0 0 10px rgba(255,255,255,0.2) inset;
+  background:linear-gradient(145deg,#3a3a3a,#2b2b2b);
 }
-
-/* Заголовок */
-h1 {
-  font-size: 32px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  color: #ffd700;
-  text-shadow: 0 0 6px #ffd700,0 0 12px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.4);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%,100% { text-shadow: 0 0 6px #ffd700,0 0 12px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.4);}
-  50% { text-shadow: 0 0 12px #ffd700,0 0 24px rgba(255,215,0,0.8),0 0 40px rgba(255,215,0,0.6);}
-}
-
-/* Статус и прогресс */
-#status, #score, #level {
-  margin-bottom: 15px;
-  font-size: 16px;
-  color: #fff;
-  text-shadow: 0 0 4px #000;
-}
-
-/* Кнопки выбора вариантов и уровней */
-button.option, button.level-btn {
-  display: block;
-  margin: 14px auto;
-  padding: 16px 18px;
-  font-size: 16px;
-  font-weight: 600;
-  background: linear-gradient(145deg, #2e2e2e, #1f1f1f);
-  border: 2px solid #555;
-  border-radius: 12px;
-  color: #fff;
-  cursor: pointer;
-  transition: all 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.5),0 0 10px rgba(255,255,255,0.1) inset;
-
-  /* Длинный текст внутри кнопок */
-  white-space: normal;
-  word-wrap: break-word;
-  text-align: center;
-  line-height: 1.5;
-}
-
-button.option:hover, button.level-btn:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 0 12px #ffd700, 0 0 10px rgba(255,255,255,0.2) inset;
-  background: linear-gradient(145deg, #3a3a3a, #2b2b2b);
-}
-
-button.option.correct {
-  background: linear-gradient(45deg, #4caf50, #80e27e);
-  border-color: #4caf50;
-  box-shadow: 0 0 25px #4caf50, 0 0 50px #80e27e;
-  animation: glow 0.6s ease forwards;
-}
-
-button.option.wrong {
-  background: linear-gradient(45deg, #f44336, #ff7961);
-  border-color: #f44336;
-  box-shadow: 0 0 15px #f44336;
-  animation: shake 0.3s;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0); }
-  20% { transform: translateX(-5px); }
-  40% { transform: translateX(5px); }
-  60% { transform: translateX(-5px); }
-  80% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
-}
-
-@keyframes glow {
-  0% { box-shadow: 0 0 0 #4caf50; }
-  100% { box-shadow: 0 0 25px #4caf50, 0 0 50px #80e27e; }
-}
-
-/* Canvas для фейерверков */
-#fireworks, #particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Адаптация под маленькие экраны */
-@media (max-width: 400px) {
-  h1 { font-size: 26px; }
-  button.option, button.level-btn { padding: 14px 16px; font-size: 14px; }
-}
+button.option.correct {background:linear-gradient(45deg,#4caf50,#80e27e);border-color:#4caf50;box-shadow:0 0 25px #4caf50,0 0 50px #80e27e;}
+button.option.wrong {background:linear-gradient(45deg,#f44336,#ff7961);border-color:#f44336;box-shadow:0 0 15px #f44336;}
+#fireworks, #particles {position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none; z-index:0;}
+@media(max-width:400px){h1{font-size:26px;} h2{font-size:28px;} button.option, button.level-btn, button#back-btn, button#start-level-btn, button#back-to-levels, button#try-again, button#back-to-levels-end {padding:14px 16px;font-size:14px;} input#num-questions {width:50px;font-size:14px;}}
 </style>
 </head>
 <body>
 
-<div id="game-container">
+<div id="level-select"></div>
+
+<div id="question-count" style="display:none;">
+  <p id="total-sentences">Всего предложений в модуле: 0</p>
+  <label>Сколько предложений пройти?</label>
+  <input type="number" id="num-questions" min="1" value="5"/>
+  <button id="start-level-btn">Начать уровень</button>
+  <button id="back-btn">Вернуться к выбору модуля</button>
+</div>
+
+<div id="game-container" style="display:none">
   <h1>Vælg den rigtige sætning</h1>
-  <p id="status">Выберите уровень для начала игры</p>
-  <p id="score" style="display:none">Правильных: 0</p>
-  <div id="level-select"></div>
+  <p id="status"></p>
+  <p id="score" style="display:none">Правильных: 0 | Неправильных: 0</p>
+  <p id="remaining" style="display:none">Осталось предложений: 0</p>
   <div id="options"></div>
   <canvas id="fireworks"></canvas>
-  <canvas id="particles"></canvas>
+</div>
+
+<div id="level-end" style="display:none;">
+  <h2>Уровень завершён!</h2>
+  <p id="end-score"></p>
+  <p id="end-wrong"></p>
+  <p id="end-time"></p>
+  <button id="try-again">Попробовать снова</button>
+  <button id="back-to-levels-end">Вернуться к выбору модуля</button>
 </div>
 
 <script>
-let sentences = [];
-let score = 0;
-let currentLevel = 1;
+let sentences=[], score=0, wrongScore=0, currentLevel=1;
+let totalQuestions=5, remainingQuestions=0, levelStartTime=0;
 
-const scoreEl = document.getElementById("score");
-const levelSelect = document.getElementById("level-select");
-const statusEl = document.getElementById("status");
+const scoreEl=document.getElementById("score");
+const remainingEl=document.getElementById("remaining");
+const levelSelect=document.getElementById("level-select");
+const questionCountDiv=document.getElementById("question-count");
+const statusEl=document.getElementById("status");
+const totalSentencesEl=document.getElementById("total-sentences");
+const numQuestionsInput=document.getElementById("num-questions");
+const startLevelBtn=document.getElementById("start-level-btn");
+const backBtn=document.getElementById("back-btn");
+const gameContainer=document.getElementById("game-container");
+const levelEnd=document.getElementById("level-end");
+const endScoreEl=document.getElementById("end-score");
+const endWrongEl=document.getElementById("end-wrong");
+const endTimeEl=document.getElementById("end-time");
+const tryAgainBtn=document.getElementById("try-again");
+const backToLevelsEndBtn=document.getElementById("back-to-levels-end");
 
-/* Анимированный фон */
-let hue = 200;
-function animateBackground() {
-  hue += 0.1;
-  document.body.style.background = `linear-gradient(135deg, hsl(${hue},60%,15%), hsl(${hue+30},60%,25%), hsl(${hue+60},60%,35%))`;
-  requestAnimationFrame(animateBackground);
-}
+// фон
+let hue=200;
+function animateBackground(){hue+=0.1;document.body.style.background=`linear-gradient(135deg,hsl(${hue},60%,15%),hsl(${hue+30},60%,25%),hsl(${hue+60},60%,35%))`;requestAnimationFrame(animateBackground);}
 animateBackground();
 
-/* ================================
-   Выбор уровня
-================================ */
+// выбор уровня
 for(let i=1;i<=6;i++){
-  const btn = document.createElement("button");
-  btn.textContent = `Уровень ${i}`;
-  btn.className = "level-btn";
-  btn.onclick = () => startLevel(i);
+  const btn=document.createElement("button");
+  btn.textContent=`Уровень ${i}`;
+  btn.className="level-btn";
+  btn.onclick=()=>showQuestionCount(i);
   levelSelect.appendChild(btn);
 }
 
-function startLevel(level){
-  currentLevel = level;
-  score = 0;
-  scoreEl.style.display = "block";
-  levelSelect.style.display = "none";
-  statusEl.textContent = `Загрузка уровня ${currentLevel}...`;
-
-  fetch(`module${level}.json`)
-    .then(r => {
-      if(!r.ok) throw new Error("Файл не найден");
-      return r.json();
-    })
-    .then(data => {
-      if(!Array.isArray(data)) throw new Error("JSON должен быть массивом строк");
-      sentences = data;
-      updateUI();
-      startRound();
-    })
-    .catch(err => {
-      statusEl.textContent = "Файл модуля не найден. Выберите JSON вручную:";
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = ".json";
-      fileInput.onchange = e => {
-        const file = e.target.files[0];
-        if(!file) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          try {
-            const data = JSON.parse(reader.result);
-            if(!Array.isArray(data)) throw new Error("JSON должен быть массивом строк");
-            sentences = data;
-            updateUI();
-            startRound();
-          } catch(err){
-            alert("Ошибка JSON: " + err.message);
-          }
-        };
-        reader.readAsText(file, "utf-8");
-        fileInput.remove();
+function showQuestionCount(level){
+  currentLevel=level;
+  levelSelect.style.display="none";
+  questionCountDiv.style.display="block";
+  statusEl.textContent=`Загрузка уровня ${level}...`;
+  fetch(`module${level}.json`).then(r=>{
+    if(!r.ok)throw new Error("Файл не найден");return r.json();
+  }).then(data=>{
+    if(!Array.isArray(data))throw new Error("JSON должен быть массивом строк");
+    sentences=data;
+    totalSentencesEl.textContent=`Всего предложений в модуле: ${sentences.length}`;
+    numQuestionsInput.max=sentences.length;
+    numQuestionsInput.value=Math.min(5,sentences.length);
+  }).catch(err=>{
+    statusEl.textContent="Файл модуля не найден. Выберите JSON вручную:";
+    const fileInput=document.createElement("input");
+    fileInput.type="file"; fileInput.accept=".json";
+    fileInput.onchange=e=>{
+      const file=e.target.files[0]; if(!file)return;
+      const reader=new FileReader();
+      reader.onload=()=>{
+        try{
+          const data=JSON.parse(reader.result);
+          if(!Array.isArray(data))throw new Error("JSON должен быть массивом строк");
+          sentences=data;
+          totalSentencesEl.textContent=`Всего предложений в модуле: ${sentences.length}`;
+          numQuestionsInput.max=sentences.length;
+          numQuestionsInput.value=Math.min(5,sentences.length);
+          fileInput.remove();
+          statusEl.textContent="JSON загружен. Выберите количество предложений и нажмите Начать.";
+        }catch(err){alert("Ошибка JSON: "+err.message);}
       };
-      document.getElementById("game-container").appendChild(fileInput);
-    });
-}
-
-function updateUI() {
-  scoreEl.textContent = `Правильных: ${score}`;
-  statusEl.textContent = `Уровень: ${currentLevel}`;
-}
-
-/* ================================
-   Варианты и клики
-================================ */
-function startRound() {
-  const container = document.getElementById("options");
-  container.innerHTML = "";
-
-  if (!sentences.length) {
-    if(currentLevel < 6){
-      currentLevel++;
-      startLevel(currentLevel);
-    } else {
-      alert("Поздравляем! Вы прошли все уровни!");
-      location.reload();
-    }
-    return;
-  }
-
-  const correct = sentences[Math.floor(Math.random() * sentences.length)];
-  const options = generateOptions(correct);
-
-  options.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.textContent = opt;
-    btn.className = "option";
-    btn.onclick = () => handleClick(btn, opt, correct);
-    container.appendChild(btn);
+      reader.readAsText(file,"utf-8");
+    };
+    questionCountDiv.appendChild(fileInput);
   });
 }
 
-function handleClick(btn, selected, correct) {
-  if (selected === correct) {
-    btn.classList.add("correct");
-    score++;
-    updateUI();
-    launchFireworksMassive(500,20,()=>startRound());
-  } else {
-    btn.classList.add("wrong");
-  }
+// старт уровня
+startLevelBtn.onclick=()=>{
+  let num=parseInt(numQuestionsInput.value);
+  if(isNaN(num)||num<1)num=1;
+  if(num>sentences.length)num=sentences.length;
+  totalQuestions=num; remainingQuestions=totalQuestions;
+  score=0; wrongScore=0; levelStartTime=Date.now();
+  questionCountDiv.style.display="none"; gameContainer.style.display="block";
+  scoreEl.style.display="block"; remainingEl.style.display="block";
+  updateUI(); startRound();
+};
+
+backBtn.onclick=()=>{
+  gameContainer.style.display="none"; questionCountDiv.style.display="none"; levelSelect.style.display="block";
+  statusEl.textContent="Выберите уровень для начала игры"; remainingQuestions=0;
+};
+
+function updateUI(){
+  scoreEl.textContent=`Правильных: ${score} | Неправильных: ${wrongScore}`;
+  remainingEl.textContent=`Осталось предложений: ${remainingQuestions}`;
+  statusEl.textContent=`Уровень: ${currentLevel}`;
 }
 
-/* ================================
-   Генерация случайных вариантов
-================================ */
-function generateOptions(correct){
-  const opts = [correct];
-  while(opts.length<4){
-    let rand = sentences[Math.floor(Math.random()*sentences.length)];
-    if(!opts.includes(rand)) opts.push(rand);
+// --- Game Logic ---
+function startRound(){
+  const container=document.getElementById("options");
+  container.innerHTML="";
+  if(remainingQuestions<=0){endLevel(); return;}
+  remainingQuestions--;
+  const correct=sentences[Math.floor(Math.random()*sentences.length)];
+  const options=generateOptionsFromSentence(correct);
+  options.forEach(opt=>{
+    const btn=document.createElement("button");
+    btn.textContent=opt;
+    btn.className="option";
+    btn.onclick=()=>handleClick(btn,opt,correct);
+    container.appendChild(btn);
+  });
+  updateUI();
+}
+
+function handleClick(btn, selected, correct){
+  if(selected === correct){
+    btn.classList.add("correct");
+    score++;
+    createParticles(); // частицы при правильном ответе
+  } else {
+    btn.classList.add("wrong");
+    wrongScore++;
   }
+  setTimeout(startRound, 300);
+  updateUI();
+}
+
+// защита от зависания
+function generateOptionsFromSentence(correct){
+  const opts = [correct];
+  let attempts = 0;
+  while(opts.length < 4 && attempts < 10){
+    const wrong = createWrongFrom(correct);
+    if(!opts.includes(wrong)) opts.push(wrong);
+    attempts++;
+  }
+  while(opts.length < 4) opts.push(correct);
   return opts.sort(()=>Math.random()-0.5);
 }
 
-/* ================================
-   Фейерверки
-================================ */
+function createWrongFrom(sentence){
+  const wordRegex=/[\p{L}0-9]+/gu;
+  const words=sentence.match(wordRegex)||[];
+  if(words.length>2){
+    const toShuffle=words.slice(1);
+    for(let i=toShuffle.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [toShuffle[i],toShuffle[j]]=[toShuffle[j],toShuffle[i]];
+    }
+    let index=0;
+    sentence=sentence.replace(wordRegex,(match)=>{if(index===0){index++; return match;} return toShuffle[index++-1];});
+  }
+  return sentence;
+}
+
+// --- Particles ---
 const canvas = document.getElementById('fireworks');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+window.addEventListener('resize', ()=>{canvas.width=window.innerWidth; canvas.height=window.innerHeight;});
 
-window.addEventListener('resize',()=>{
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
+let particlesAll = [];
+const MAX_PARTICLES = 200;
 
-function launchFireworksMassive(duration=500, intervalMs=20, callback){
-  const startTime = Date.now();
-  const allParticles = [];
-  const timer = setInterval(()=>{
-    const now = Date.now();
-    if(now-startTime>duration){
-      clearInterval(timer);
-      animateParticles(allParticles,callback);
-      return;
-    }
-    const x = Math.random()*canvas.width;
-    const y = Math.random()*canvas.height/2;
-    for(let i=0;i<20;i++){
-      allParticles.push({
-        x,y,
-        dx:(Math.random()-0.5)*6,
-        dy:(Math.random()-0.5)*6,
-        r: Math.random()*3+1,
-        color:`hsl(${Math.random()*360},80%,60%)`,
-        life:0
-      });
-    }
-  },intervalMs);
-}
-
-function animateParticles(particles, callback){
-  function step(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    let alive=false;
-    particles.forEach(p=>{
-      if(p.life<100){
-        p.x+=p.dx;
-        p.y+=p.dy;
-        p.life++;
-        const alpha=Math.max(1-p.life/100,0);
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle=p.color.replace('hsl','hsla').replace(')',`,${alpha})`);
-        ctx.fill();
-        alive=true;
-      }
+function createParticles(count = 12){
+  for(let i=0;i<count;i++){
+    particlesAll.push({
+      x: Math.random()*canvas.width,
+      y: Math.random()*canvas.height/2,
+      dx: (Math.random()-0.5)*4,
+      dy: (Math.random()-0.5)*4,
+      r: Math.random()*3+1,
+      color: `hsl(${Math.random()*360},80%,60%)`,
+      life:0,
+      maxLife:100
     });
-    if(alive) requestAnimationFrame(step);
-    else {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      if(callback) callback();
-    }
+    if(particlesAll.length > MAX_PARTICLES) particlesAll.shift();
   }
-  step();
 }
+
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particlesAll.forEach(p=>{
+    p.x+=p.dx; p.y+=p.dy; p.life++;
+    const alpha=Math.max(1-p.life/p.maxLife,0);
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=p.color.replace('hsl','hsla').replace(')',`,${alpha})`); ctx.fill();
+  });
+  particlesAll=particlesAll.filter(p=>p.life<p.maxLife);
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// --- End Level ---
+function endLevel(){
+  const levelEndTime = Date.now();
+  const elapsedSeconds = Math.floor((levelEndTime - levelStartTime)/1000);
+  gameContainer.style.display="none";
+  levelEnd.style.display="block";
+  endScoreEl.textContent=`Правильных: ${score}`;
+  endWrongEl.textContent=`Неправильных: ${wrongScore}`;
+  endTimeEl.textContent=`Время: ${elapsedSeconds} секунд`;
+}
+
+tryAgainBtn.onclick=()=>{
+  levelEnd.style.display="none";
+  remainingQuestions=totalQuestions; score=0; wrongScore=0; gameContainer.style.display="block";
+  updateUI(); startRound();
+};
+
+backToLevelsEndBtn.onclick=()=>{
+  levelEnd.style.display="none"; levelSelect.style.display="block";
+  questionCountDiv.style.display="none"; statusEl.textContent="Выберите уровень для начала игры";
+};
 </script>
 </body>
 </html>
