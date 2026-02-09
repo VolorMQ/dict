@@ -1,0 +1,106 @@
+/* Игровой фон и шрифты */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Контейнер */
+#game-container {
+  position: relative;
+  z-index: 2;
+  padding: 30px;
+}
+
+/* Заголовок */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #ffdd57;
+  text-shadow: 2px 2px 8px #000;
+}
+
+/* Статус загрузки */
+#status {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #fff;
+  text-shadow: 1px 1px 4px #000;
+}
+
+/* Кнопки */
+button.option {
+  display: block;
+  margin: 12px auto;
+  padding: 16px 24px;
+  font-size: 14px;
+  background: linear-gradient(45deg, #444, #222);
+  border: 2px solid #555;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Наведение */
+button.option:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+  background: linear-gradient(45deg, #666, #333);
+}
+
+/* Правильный ответ */
+button.option.correct {
+  background: linear-gradient(45deg, #4caf50, #80e27e);
+  border-color: #4caf50;
+  box-shadow: 0 0 20px #4caf50, 0 0 40px #80e27e;
+  animation: glow 0.6s ease forwards;
+}
+
+/* Неправильный ответ */
+button.option.wrong {
+  background: linear-gradient(45deg, #f44336, #ff7961);
+  border-color: #f44336;
+  box-shadow: 0 0 10px #f44336;
+  animation: shake 0.3s;
+}
+
+/* Анимации */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 0 #4caf50; }
+  100% { box-shadow: 0 0 20px #4caf50, 0 0 40px #80e27e; }
+}
+
+/* Заблокированная кнопка */
+button.option:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Canvas для частиц */
+#particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}

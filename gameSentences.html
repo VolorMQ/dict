@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<title>Vælg den rigtige sætning</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(135deg, #1c1c1c, #2a2a2a, #3a3a3a);
+  transition: background 2s ease;
+  position: relative;
+}
+
+#game-container {
+  position: relative;
+  z-index: 2;
+  padding: 40px;
+}
+
+/* Заголовок */
+h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: #ffd700;
+  text-shadow: 0 0 6px #ffd700,0 0 12px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.4);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { text-shadow: 0 0 6px #ffd700,0 0 12px rgba(255,215,0,0.6),0 0 20px rgba(255,215,0,0.4);}
+  50% { text-shadow: 0 0 12px #ffd700,0 0 24px rgba(255,215,0,0.8),0 0 40px rgba(255,215,0,0.6);}
+}
+
+/* Статус и прогресс */
+#status, #score, #level {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #fff;
+  text-shadow: 0 0 4px #000;
+}
+
+/* Кнопки */
+button.option, button.level-btn {
+  display: block;
+  margin: 14px auto;
+  padding: 18px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(145deg, #2e2e2e, #1f1f1f);
+  border: 2px solid #555;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5),0 0 10px rgba(255,255,255,0.1) inset;
+}
+
+button.option:hover, button.level-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 0 12px #ffd700, 0 0 10px rgba(255,255,255,0.2) inset;
+  background: linear-gradient(145deg, #3a3a3a, #2b2b2b);
+}
+
+button.option.correct {
+  background: linear-gradient(45deg, #4caf50, #80e27e);
+  border-color: #4caf50;
+  box-shadow: 0 0 25px #4caf50, 0 0 50px #80e27e;
+  animation: glow 0.6s ease forwards;
+}
+
+button.option.wrong {
+  background: linear-gradient(45deg, #f44336, #ff7961);
+  border-color: #f44336;
+  box-shadow: 0 0 15px #f44336;
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 0 #4caf50; }
+  100% { box-shadow: 0 0 25px #4caf50, 0 0 50px #80e27e; }
+}
+
+/* Canvas для фейерверков */
+#fireworks, #particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+</style>
+</head>
+<body>
+
+<div id="game-container">
+  <h1>Vælg den rigtige sætning</h1>
+  <p id="status">Выберите уровень для начала игры</p>
+  <div id="level-select"></div>
+  <p id="score" style="display:none">Правильных: 0</p>
+  <div id="options"></div>
+  <canvas id="fireworks"></canvas>
+  <canvas id="particles"></canvas>
+</div>
+
+<script src="logic.js"></script>
+<script>
+let sentences = [];
+let score = 0;
+let currentLevel = 1;
+const scoreEl = document.getElementById("score");
+const levelSelect = document.getElementById("level-select");
+const statusEl = document.getElementById("status");
+
+/* Анимированный фон */
+let hue = 200;
+function animateBackground() {
+  hue += 0.1;
+  document.body.style.background = `linear-gradient(135deg, hsl(${hue},60%,15%), hsl(${hue+30},60%,25%), hsl(${hue+60},60%,35%))`;
+  requestAnimationFrame(animateBackground);
+}
+animateBackground();
+
+/* ================================
+   Выбор уровня
+================================ */
+for(let i=1;i<=6;i++){
+  const btn = document.createElement("button");
+  btn.textContent = `Уровень ${i}`;
+  btn.className = "level-btn";
+  btn.onclick = () => startLevel(i);
+  levelSelect.appendChild(btn);
+}
+
+function startLevel(level){
+  currentLevel = level;
+  score = 0;
+  scoreEl.style.display = "block";
+  levelSelect.style.display = "none";
+  statusEl.textContent = `Загрузка уровня ${currentLevel}...`;
+  
+  // Пытаемся загрузить JSON по умолчанию
+  fetch(`module${level}.json`)
+    .then(r => {
+      if(!r.ok) throw new Error("Файл не найден");
+      return r.json();
+    })
+    .then(data => {
+      if(!Array.isArray(data)) throw new Error("JSON должен быть массивом строк");
+      sentences = data;
+      updateUI();
+      startRound();
+    })
+    .catch(err => {
+      // Если ошибка — показываем выбор файла
+      statusEl.textContent = "Файл модуля не найден. Выберите JSON вручную:";
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = ".json";
+      fileInput.onchange = e => {
+        const file = e.target.files[0];
+        if(!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const data = JSON.parse(reader.result);
+            if(!Array.isArray(data)) throw new Error("JSON должен быть массивом строк");
+            sentences = data;
+            updateUI();
+            startRound();
+          } catch(err){
+            alert("Ошибка JSON: " + err.message);
+          }
+        };
+        reader.readAsText(file, "utf-8");
+        fileInput.remove(); // убираем input после загрузки
+      };
+      document.getElementById("game-container").appendChild(fileInput);
+    });
+}
+
+
+function loadLevel(level) {
+  fetch(`module${level}.json`)
+    .then(r => r.json())
+    .then(data => {
+      if (!Array.isArray(data)) throw new Error("JSON должен быть массивом строк");
+      sentences = data;
+      updateUI();
+      startRound();
+    })
+    .catch(err => alert("Не удалось загрузить модуль: " + err.message));
+}
+
+/* ================================
+   UI обновление
+================================ */
+function updateUI() {
+  scoreEl.textContent = `Правильных: ${score}`;
+  statusEl.textContent = `Уровень: ${currentLevel}`;
+}
+
+/* ================================
+   Варианты и клики
+================================ */
+function startRound() {
+  const container = document.getElementById("options");
+  container.innerHTML = "";
+  if (!sentences.length) {
+    if(currentLevel < 6){
+      currentLevel++;
+      startLevel(currentLevel);
+    } else {
+      alert("Поздравляем! Вы прошли все уровни!");
+      location.reload(); // возвращаем выбор уровня
+    }
+    return;
+  }
+  const correct = sentences[Math.floor(Math.random() * sentences.length)];
+  const options = generateOptions(correct);
+  options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.className = "option";
+    btn.onclick = () => handleClick(btn, opt, correct);
+    container.appendChild(btn);
+  });
+}
+
+function handleClick(btn, selected, correct) {
+  if (selected === correct) {
+    btn.classList.add("correct");
+    score++;
+    updateUI();
+    launchFireworksMassive(500,20,()=>startRound());
+  } else {
+    btn.classList.add("wrong");
+  }
+}
+
+/* ================================
+   Фейерверки
+================================ */
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener('resize',()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+function launchFireworksMassive(duration=500, intervalMs=20, callback){
+  const startTime = Date.now();
+  const allParticles = [];
+  const timer = setInterval(()=>{
+    const now = Date.now();
+    if(now-startTime>duration){
+      clearInterval(timer);
+      animateParticles(allParticles,callback);
+      return;
+    }
+    const x = Math.random()*canvas.width;
+    const y = Math.random()*canvas.height/2;
+    for(let i=0;i<20;i++){
+      allParticles.push({
+        x,y,
+        dx:(Math.random()-0.5)*6,
+        dy:(Math.random()-0.5)*6,
+        r: Math.random()*3+1,
+        color:`hsl(${Math.random()*360},80%,60%)`,
+        life:0
+      });
+    }
+  },intervalMs);
+}
+
+function animateParticles(particles, callback){
+  function step(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    particles.forEach(p=>{
+      if(p.life<100){
+        p.x+=p.dx;
+        p.y+=p.dy;
+        p.life++;
+        const alpha=Math.max(1-p.life/100,0);
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle=p.color.replace('hsl','hsla').replace(')',`,${alpha})`);
+        ctx.fill();
+        alive=true;
+      }
+    });
+    if(alive) requestAnimationFrame(step);
+    else {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      if(callback) callback();
+    }
+  }
+  step();
+}
+</script>
+</body>
+</html>
