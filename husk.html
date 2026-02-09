@@ -442,39 +442,40 @@ document.querySelectorAll('input[name="dict"]').forEach(radio => {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
-	function stackControls() {
-	  const dict = document.getElementById('dictionaryControls');
-	  const controls = document.getElementById('controls');
-	  if (!dict || !controls) return;
+  // Ставит dictionaryControls на базовый отступ, а controls — над ним (без перекрытия)
+  function stackControls() {
+    const dict = document.getElementById('dictionaryControls');
+    const controls = document.getElementById('controls');
+    if (!dict || !controls) return;
 
-	  const baseBottom = 12; // нижняя панель (теперь controls)
-	  controls.style.bottom = baseBottom + 'px';
+    const baseBottom = 12; // словарь внизу
+    dict.style.bottom = baseBottom + 'px';
 
-	  const gap = 12; // отступ сверху нижней панели
-	  dict.style.bottom = baseBottom + controls.offsetHeight + gap + 'px';
+    const controlsGap = 12; // отступ сверху словаря
+    controls.style.bottom = baseBottom + dict.offsetHeight + controlsGap + 'px';
 
-	  // делаем видимыми
-	  controls.style.visibility = 'visible';
-	  dict.style.visibility = 'visible';
-	}
+    controls.style.visibility = 'visible';
+    dict.style.visibility = 'visible';
+  }
 
-  // Комбинация для выполнения при загрузке и изменении размеров
-  function refreshAll() {
+  // Ждём полной загрузки всех шрифтов и рендеринга DOM
+  async function refreshAll() {
     updateVH();
-    // маленькая задержка для случаев, когда шрифт/контент меняют размеры
-    // 50ms — минимально, не заметно пользователю, но стабилизирует вычисления
+
+    // Ждём шрифты, если они есть
+    if (document.fonts && document.fonts.ready) {
+      await document.fonts.ready.catch(()=>{/*ignore*/});
+    }
+
+    // Ждём следующий frame, чтобы DOM успел перерисоваться
+    await new Promise(r => requestAnimationFrame(r));
+
+    // Немного задержки, чтобы учесть финальные размеры (особенно на мобильных)
     setTimeout(stackControls, 50);
   }
 
   window.addEventListener('load', refreshAll);
   window.addEventListener('resize', refreshAll);
-  // если у тебя динамическая загрузка шрифтов, можно также вызвать при их готовности:
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(refreshAll).catch(()=>{/*ignore*/});
-  }
-
-  // Выполнить прямо сейчас (если скрипт подключен внизу)
-  refreshAll();
 })();
 
 function loadDictionary(file) {
