@@ -105,7 +105,7 @@ body::before {
 /* ===== ЦЕНТРАЛЬНЫЕ КОНТРОЛЫ ===== */
 #controls {
   position: fixed;
-  bottom: 12px;
+  bottom: 12px; /* теперь внизу */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -162,7 +162,7 @@ body::before {
 /* ===== ЛЕВЫЙ НИЖНИЙ БЛОК ===== */
 #dictionaryControls {
   position: fixed;
-  bottom: 12px;
+  bottom: 72px; /* сдвинут выше */
   left: 12px;
   display: flex;
   gap: 6px;
@@ -208,7 +208,10 @@ body::before {
 
 <body>
 
-<!-- 1️⃣ Сначала панели управления -->
+<!-- 1️⃣ Канвас для слов на заднем плане -->
+<div id="particleContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+
+<!-- 2️⃣ Панели управления поверх канваса -->
 <div id="controls">
   <input id="searchInput" placeholder="Слово (DA / RU)">
   <button id="searchBtn">OK</button>
@@ -225,9 +228,6 @@ body::before {
   <button id="startBtn">Старт</button>
   <button id="stopBtn">Стоп</button>
 </div>
-
-<!-- 2️⃣ Канвас для слов -->
-<div id="particleContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
 
 <script>
 const MAX_REPEATS = 5;
@@ -442,34 +442,21 @@ document.querySelectorAll('input[name="dict"]').forEach(radio => {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
-  // Ставит dictionaryControls на базовый отступ, а controls — над ним (без перекрытия)
-  function stackControls() {
-    const dict = document.getElementById('dictionaryControls');
-    const controls = document.getElementById('controls');
-    if (!dict || !controls) return;
+	function stackControls() {
+	  const dict = document.getElementById('dictionaryControls');
+	  const controls = document.getElementById('controls');
+	  if (!dict || !controls) return;
 
-    // базовый отступ (мы используем 2 * --vh как в твоих правках)
-    const vhPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vh')) || (window.innerHeight * 0.01);
-    const baseBottom = Math.round(vhPx * 2); // px
+	  const baseBottom = 12; // нижняя панель (теперь controls)
+	  controls.style.bottom = baseBottom + 'px';
 
-    // ставим dictionaryControls
-    dict.style.bottom = baseBottom + 'px';
+	  const gap = 12; // отступ сверху нижней панели
+	  dict.style.bottom = baseBottom + controls.offsetHeight + gap + 'px';
 
-    // небольшой gap между панелями
-    const gap = 8;
-
-    // вычисляем итоговый bottom для controls: baseBottom + высота dict + gap
-    // dict.offsetHeight уже в px и учитывает wrap/адаптивность
-    const controlsBottom = baseBottom + dict.offsetHeight + gap;
-    controls.style.bottom = controlsBottom + 'px';
-
-    // на всякий случай форсим repaint (решает случаи, когда браузер не перерисовал)
-    // лёгкий, безопасный прием:
-    controls.style.transform = controls.style.transform || 'translateX(-50%)';
-    requestAnimationFrame(() => {
-      // no-op, просто второй кадр
-    });
-  }
+	  // делаем видимыми
+	  controls.style.visibility = 'visible';
+	  dict.style.visibility = 'visible';
+	}
 
   // Комбинация для выполнения при загрузке и изменении размеров
   function refreshAll() {
