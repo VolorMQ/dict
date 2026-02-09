@@ -8,10 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 
 <style>
-html, body {
-  height: 100%;
-}
-
 /* ===== ОСНОВА ===== */
 body {
   margin: 0;
@@ -20,13 +16,14 @@ body {
   min-height: 100vh;
   overflow: hidden;
 
+  /* ★ расширенная тёмная палитра */
   background: linear-gradient(
     135deg,
-    #1a1a2e,
-    #2b1b3d,
-    #1f2b3a,
-    #2e2a1f,
-    #1f2c28
+    #1a1a2e, /* тёмно-синий */
+    #2b1b3d, /* фиолетовый */
+    #1f2b3a, /* холодный серо-синий */
+    #2e2a1f, /* тёмный оливковый */
+    #1f2c28  /* тёмный бирюзовый */
   );
   background-size: 900% 900%;
 
@@ -37,6 +34,7 @@ body {
   position: relative;
 }
 
+/* движение по диагонали + по кругу */
 @keyframes gradientBG {
   0%   { background-position:   0% 0%; }
   25%  { background-position: 100% 0%; }
@@ -45,22 +43,26 @@ body {
   100% { background-position:   0% 0%; }
 }
 
+/* мягкая пульсация яркости */
 @keyframes brightnessPulse {
   0%   { filter: brightness(0.85); }
   50%  { filter: brightness(1.05); }
   100% { filter: brightness(0.85); }
 }
 
+/* мягкий свет / тень */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
+
   background: radial-gradient(
     ellipse at 30% 30%,
     rgba(255,255,255,0.1),
     rgba(0,0,0,0.5)
   );
+
   animation: lightBreath 55s ease-in-out infinite;
   z-index: 0;
 }
@@ -75,6 +77,7 @@ body::before {
 .particle {
   position: absolute;
   font-weight: bold;
+  text-align: center;
   pointer-events: none;
   user-select: none;
   font-size: clamp(2rem, 6vw, 4rem);
@@ -104,11 +107,23 @@ body::before {
 /* ===== ЦЕНТРАЛЬНЫЕ КОНТРОЛЫ ===== */
 #controls {
   position: fixed;
-  bottom: calc(var(--vh, 1vh) * 2);
+  bottom: 12px;
   left: 50%;
-  transform: translate(-50%, calc(-100% - 8px));
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  z-index: 100;
 }
 
+/* input + кнопка — всегда вместе */
+.input-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+/* Поля ввода */
 #controls input {
   background: rgba(0,0,0,0.45);
   border: none;
@@ -116,67 +131,127 @@ body::before {
   padding: 8px 10px;
   color: #fff;
   font-size: 1rem;
+  outline: none;
+  text-align: center;
   width: 140px;
 }
 
-#controls button {
+/* Кнопки */
+#controls button,
+#dictionaryControls input,
+#dictionaryControls button {
   background: rgba(0,0,0,0.45);
   border: none;
   border-radius: 12px;
   padding: 8px 14px;
   color: #fff;
   font-size: 1rem;
+  outline: none;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#controls input::placeholder {
+  color: #bbb;
+}
+
+#controls button:hover,
+#dictionaryControls button:hover {
+  background: rgba(0,0,0,0.65);
+  cursor: pointer;
 }
 
 /* ===== ЛЕВЫЙ НИЖНИЙ БЛОК ===== */
 #dictionaryControls {
   position: fixed;
-  bottom: calc(var(--vh, 1vh) * 2);
+  bottom: 12px;
   left: 12px;
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
   align-items: center;
-  z-index: 1000;
+  z-index: 100;
   font-size: 0.85rem;
   color: #fff;
 }
 
-#particleContainer {
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:1;
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 600px) {
+  #controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    bottom: 72px;
+  }
+
+  .input-group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #controls input {
+    width: 120px;
+  }
+}
+
+@media (max-width: 420px) {
+  #controls input {
+    width: 100px;
+  }
+
+  #controls button,
+  #dictionaryControls button,
+  #dictionaryControls input {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  #controls {
+    bottom: 96px;
+  }
+
+  #dictionaryControls {
+    bottom: 12px;
+    left: 6px;
+    gap: 4px;
+    font-size: 0.8rem;
+  }
 }
 </style>
+
+
 </head>
 
 <body>
 
+<!-- Центральная панель -->
 <div id="controls">
   <input id="searchInput" placeholder="Слово (DA / RU)">
   <button id="searchBtn">OK</button>
-  <input id="stepInput" type="number" min="1" value="1">
+  <input id="stepInput" type="number" min="1" value="1" placeholder="N">
   <button id="stepBtn">OK</button>
 </div>
 
+<!-- Левый нижний угол: словарь, загрузка, Старт/Стоп -->
 <div id="dictionaryControls">
-  <label><input type="radio" name="dict" value="dic.json"> Dic</label>
-  <label><input type="radio" name="dict" value="word.json" checked> Word</label>
-  <input type="file" id="localFileInput" accept=".json">
+  <div style="display: flex; gap:4px; align-items: center;">
+    <label><input type="radio" name="dict" value="dic.json"> Dic</label>
+    <label><input type="radio" name="dict" value="word.json" checked> Word</label>
+  </div>
+
+  <label>
+    <input type="file" id="localFileInput" accept=".json" style="width:90px">
+  </label>
+
   <button id="startBtn">Старт</button>
   <button id="stopBtn">Стоп</button>
 </div>
 
-<div id="particleContainer"></div>
+<!-- Контейнер для слов -->
+<div id="particleContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
 
 <script>
-function updateVH() {
-  const vh = window.innerHeight * 0.01;
-  document.documentElement.style.setProperty('--vh', `${vh}px`);
-}
-updateVH();
-window.addEventListener('resize', updateVH);
-
 const MAX_REPEATS = 5;
 let words = [];
 let currentIndex = 0;
@@ -381,6 +456,61 @@ document.getElementById('localFileInput').addEventListener('change', e => {
 document.querySelectorAll('input[name="dict"]').forEach(radio => {
   radio.addEventListener('change', e => { if(e.target.checked) loadDictionary(e.target.value); });
 });
+
+(function() {
+  // Обновляет CSS-переменную --vh (реальная 1vh в px)
+  function updateVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+
+  // Ставит dictionaryControls на базовый отступ, а controls — над ним (без перекрытия)
+  function stackControls() {
+    const dict = document.getElementById('dictionaryControls');
+    const controls = document.getElementById('controls');
+    if (!dict || !controls) return;
+
+    // базовый отступ (мы используем 2 * --vh как в твоих правках)
+    const vhPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--vh')) || (window.innerHeight * 0.01);
+    const baseBottom = Math.round(vhPx * 2); // px
+
+    // ставим dictionaryControls
+    dict.style.bottom = baseBottom + 'px';
+
+    // небольшой gap между панелями
+    const gap = 8;
+
+    // вычисляем итоговый bottom для controls: baseBottom + высота dict + gap
+    // dict.offsetHeight уже в px и учитывает wrap/адаптивность
+    const controlsBottom = baseBottom + dict.offsetHeight + gap;
+    controls.style.bottom = controlsBottom + 'px';
+
+    // на всякий случай форсим repaint (решает случаи, когда браузер не перерисовал)
+    // лёгкий, безопасный прием:
+    controls.style.transform = controls.style.transform || 'translateX(-50%)';
+    requestAnimationFrame(() => {
+      // no-op, просто второй кадр
+    });
+  }
+
+  // Комбинация для выполнения при загрузке и изменении размеров
+  function refreshAll() {
+    updateVH();
+    // маленькая задержка для случаев, когда шрифт/контент меняют размеры
+    // 50ms — минимально, не заметно пользователю, но стабилизирует вычисления
+    setTimeout(stackControls, 50);
+  }
+
+  window.addEventListener('load', refreshAll);
+  window.addEventListener('resize', refreshAll);
+  // если у тебя динамическая загрузка шрифтов, можно также вызвать при их готовности:
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(refreshAll).catch(()=>{/*ignore*/});
+  }
+
+  // Выполнить прямо сейчас (если скрипт подключен внизу)
+  refreshAll();
+})();
 
 function loadDictionary(file) {
   fetch(file)
