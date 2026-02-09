@@ -10,7 +10,7 @@ body, html {
   padding: 0;
   height: 100%;
   font-family: 'Poppins', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
   text-align: center;
   color: #fff;
   background: linear-gradient(135deg, #1c1c1c, #2a2a2a, #3a3a3a);
@@ -21,7 +21,7 @@ body, html {
 #game-container {
   position: relative;
   z-index: 2;
-  padding: 40px;
+  padding: 20px;
 }
 
 /* Заголовок */
@@ -47,11 +47,11 @@ h1 {
   text-shadow: 0 0 4px #000;
 }
 
-/* Кнопки */
+/* Кнопки выбора вариантов и уровней */
 button.option, button.level-btn {
   display: block;
   margin: 14px auto;
-  padding: 18px 30px;
+  padding: 16px 18px;
   font-size: 16px;
   font-weight: 600;
   background: linear-gradient(145deg, #2e2e2e, #1f1f1f);
@@ -61,10 +61,16 @@ button.option, button.level-btn {
   cursor: pointer;
   transition: all 0.3s ease, box-shadow 0.3s ease;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5),0 0 10px rgba(255,255,255,0.1) inset;
+
+  /* Длинный текст внутри кнопок */
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: center;
+  line-height: 1.5;
 }
 
 button.option:hover, button.level-btn:hover {
-  transform: translateY(-4px) scale(1.05);
+  transform: translateY(-3px) scale(1.03);
   box-shadow: 0 10px 25px rgba(0,0,0,0.7), 0 0 12px #ffd700, 0 0 10px rgba(255,255,255,0.2) inset;
   background: linear-gradient(145deg, #3a3a3a, #2b2b2b);
 }
@@ -107,6 +113,12 @@ button.option.wrong {
   pointer-events: none;
   z-index: 1;
 }
+
+/* Адаптация под маленькие экраны */
+@media (max-width: 400px) {
+  h1 { font-size: 26px; }
+  button.option, button.level-btn { padding: 14px 16px; font-size: 14px; }
+}
 </style>
 </head>
 <body>
@@ -114,18 +126,18 @@ button.option.wrong {
 <div id="game-container">
   <h1>Vælg den rigtige sætning</h1>
   <p id="status">Выберите уровень для начала игры</p>
-  <div id="level-select"></div>
   <p id="score" style="display:none">Правильных: 0</p>
+  <div id="level-select"></div>
   <div id="options"></div>
   <canvas id="fireworks"></canvas>
   <canvas id="particles"></canvas>
 </div>
 
-<script src="logic.js"></script>
 <script>
 let sentences = [];
 let score = 0;
 let currentLevel = 1;
+
 const scoreEl = document.getElementById("score");
 const levelSelect = document.getElementById("level-select");
 const statusEl = document.getElementById("status");
@@ -156,8 +168,7 @@ function startLevel(level){
   scoreEl.style.display = "block";
   levelSelect.style.display = "none";
   statusEl.textContent = `Загрузка уровня ${currentLevel}...`;
-  
-  // Пытаемся загрузить JSON по умолчанию
+
   fetch(`module${level}.json`)
     .then(r => {
       if(!r.ok) throw new Error("Файл не найден");
@@ -170,7 +181,6 @@ function startLevel(level){
       startRound();
     })
     .catch(err => {
-      // Если ошибка — показываем выбор файла
       statusEl.textContent = "Файл модуля не найден. Выберите JSON вручную:";
       const fileInput = document.createElement("input");
       fileInput.type = "file";
@@ -191,28 +201,12 @@ function startLevel(level){
           }
         };
         reader.readAsText(file, "utf-8");
-        fileInput.remove(); // убираем input после загрузки
+        fileInput.remove();
       };
       document.getElementById("game-container").appendChild(fileInput);
     });
 }
 
-
-function loadLevel(level) {
-  fetch(`module${level}.json`)
-    .then(r => r.json())
-    .then(data => {
-      if (!Array.isArray(data)) throw new Error("JSON должен быть массивом строк");
-      sentences = data;
-      updateUI();
-      startRound();
-    })
-    .catch(err => alert("Не удалось загрузить модуль: " + err.message));
-}
-
-/* ================================
-   UI обновление
-================================ */
 function updateUI() {
   scoreEl.textContent = `Правильных: ${score}`;
   statusEl.textContent = `Уровень: ${currentLevel}`;
@@ -224,18 +218,21 @@ function updateUI() {
 function startRound() {
   const container = document.getElementById("options");
   container.innerHTML = "";
+
   if (!sentences.length) {
     if(currentLevel < 6){
       currentLevel++;
       startLevel(currentLevel);
     } else {
       alert("Поздравляем! Вы прошли все уровни!");
-      location.reload(); // возвращаем выбор уровня
+      location.reload();
     }
     return;
   }
+
   const correct = sentences[Math.floor(Math.random() * sentences.length)];
   const options = generateOptions(correct);
+
   options.forEach(opt => {
     const btn = document.createElement("button");
     btn.textContent = opt;
@@ -254,6 +251,18 @@ function handleClick(btn, selected, correct) {
   } else {
     btn.classList.add("wrong");
   }
+}
+
+/* ================================
+   Генерация случайных вариантов
+================================ */
+function generateOptions(correct){
+  const opts = [correct];
+  while(opts.length<4){
+    let rand = sentences[Math.floor(Math.random()*sentences.length)];
+    if(!opts.includes(rand)) opts.push(rand);
+  }
+  return opts.sort(()=>Math.random()-0.5);
 }
 
 /* ================================
