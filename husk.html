@@ -442,43 +442,44 @@ document.querySelectorAll('input[name="dict"]').forEach(radio => {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
-	function stackControls() {
-	  const dict = document.getElementById('dictionaryControls');
-	  const controls = document.getElementById('controls');
-	  if (!dict || !controls) return;
+function stackControls() {
+  const dict = document.getElementById('dictionaryControls');
+  const controls = document.getElementById('controls');
+  if (!dict || !controls) return;
 
-	  const baseBottom = 12; // словарь внизу
-	  dict.style.bottom = baseBottom + 'px';
+  const baseBottom = 12; // базовый отступ для словаря
+  let dictBottom = baseBottom;
 
-	  const controlsGap = 12; // отступ сверху словаря
-	  controls.style.bottom = baseBottom + dict.offsetHeight + controlsGap + 'px';
+  // мобильная версия — поднимаем словарь на одну строку
+  if (window.innerWidth <= 600) {
+    dictBottom += 50; // регулируем высоту подъёма
+  }
 
-	  controls.style.visibility = 'visible';
-	  dict.style.visibility = 'visible';
-	}
+  dict.style.bottom = dictBottom + 'px';
 
-	// Ждём полной загрузки шрифтов и DOM
-	function refreshAll() {
-	  if (document.fonts && document.fonts.ready) {
-		document.fonts.ready.then(() => {
-		  // несколько кадров подряд, чтобы DOM точно прорисовался
-		  requestAnimationFrame(() => {
-			requestAnimationFrame(() => {
-			  stackControls();
-			});
-		  });
-		}).catch(() => stackControls());
-	  } else {
-		requestAnimationFrame(() => {
-		  requestAnimationFrame(() => {
-			stackControls();
-		  });
-		});
-	  }
-	}
+  const controlsGap = 12; // отступ для панели controls
+  controls.style.bottom = dictBottom + dict.offsetHeight + controlsGap + 'px';
 
-	window.addEventListener('load', refreshAll);
-	window.addEventListener('resize', refreshAll);
+  controls.style.visibility = 'visible';
+  dict.style.visibility = 'visible';
+}
+
+// двойной RAF для корректной отрисовки
+function refreshAll() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      stackControls();
+    });
+  });
+}
+
+window.addEventListener('load', refreshAll);
+window.addEventListener('resize', refreshAll);
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(refreshAll).catch(() => {/*ignore*/});
+}
+
 })();
 
 function loadDictionary(file) {
