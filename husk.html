@@ -19,11 +19,11 @@ body {
   /* ★ расширенная тёмная палитра */
   background: linear-gradient(
     135deg,
-    #1a1a2e, /* тёмно-синий */
-    #2b1b3d, /* фиолетовый */
-    #1f2b3a, /* холодный серо-синий */
-    #2e2a1f, /* тёмный оливковый */
-    #1f2c28  /* тёмный бирюзовый */
+    #1a1a2e,
+    #2b1b3d,
+    #1f2b3a,
+    #2e2a1f,
+    #1f2c28
   );
   background-size: 900% 900%;
 
@@ -56,13 +56,11 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-
   background: radial-gradient(
     ellipse at 30% 30%,
     rgba(255,255,255,0.1),
     rgba(0,0,0,0.5)
   );
-
   animation: lightBreath 55s ease-in-out infinite;
   z-index: 0;
 }
@@ -182,22 +180,12 @@ body::before {
     justify-content: center;
     bottom: 72px;
   }
-
-  .input-group {
-    width: 100%;
-    justify-content: center;
-  }
-
-  #controls input {
-    width: 120px;
-  }
+  .input-group { width: 100%; justify-content: center; }
+  #controls input { width: 120px; }
 }
 
 @media (max-width: 420px) {
-  #controls input {
-    width: 100px;
-  }
-
+  #controls input { width: 100px; }
   #controls button,
   #dictionaryControls button,
   #dictionaryControls input {
@@ -207,31 +195,20 @@ body::before {
 }
 
 @media (max-width: 360px) {
-  #controls {
-    bottom: 96px;
-  }
-
-  #dictionaryControls {
-    bottom: 12px;
-    left: 6px;
-    gap: 4px;
-    font-size: 0.8rem;
-  }
+  #controls { bottom: 96px; }
+  #dictionaryControls { bottom: 12px; left: 6px; gap: 4px; font-size: 0.8rem; }
 }
 
 #controls,
 #dictionaryControls {
-  visibility: hidden;
+  visibility: hidden; /* скрываем до полной отрисовки */
 }
-
 </style>
-
-
 </head>
 
 <body>
 
-<!-- Центральная панель -->
+<!-- 1️⃣ Сначала панели управления -->
 <div id="controls">
   <input id="searchInput" placeholder="Слово (DA / RU)">
   <button id="searchBtn">OK</button>
@@ -239,22 +216,17 @@ body::before {
   <button id="stepBtn">OK</button>
 </div>
 
-<!-- Левый нижний угол: словарь, загрузка, Старт/Стоп -->
 <div id="dictionaryControls">
   <div style="display: flex; gap:4px; align-items: center;">
     <label><input type="radio" name="dict" value="dic.json"> Dic</label>
     <label><input type="radio" name="dict" value="word.json" checked> Word</label>
   </div>
-
-  <label>
-    <input type="file" id="localFileInput" accept=".json" style="width:90px">
-  </label>
-
+  <label><input type="file" id="localFileInput" accept=".json" style="width:90px"></label>
   <button id="startBtn">Старт</button>
   <button id="stopBtn">Стоп</button>
 </div>
 
-<!-- Контейнер для слов -->
+<!-- 2️⃣ Канвас для слов -->
 <div id="particleContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
 
 <script>
@@ -546,14 +518,17 @@ async function startSession() {
 /* ===== LOAD DEFAULT DICTIONARY ===== */
 loadDictionary('word.json'); // теперь по умолчанию word.json
 
+// ==== Показ панелей сразу после загрузки ====
 window.addEventListener('load', () => {
   const controls = document.getElementById('controls');
   const dict = document.getElementById('dictionaryControls');
 
-  requestAnimationFrame(() => {
-    controls.style.visibility = 'visible';
-    dict.style.visibility = 'visible';
-  });
+  // форсируем reflow, чтобы браузер сразу корректно отрисовал панели
+  controls.offsetHeight;
+  dict.offsetHeight;
+
+  controls.style.visibility = 'visible';
+  dict.style.visibility = 'visible';
 });
 </script>
 
