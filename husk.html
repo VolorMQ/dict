@@ -442,40 +442,43 @@ document.querySelectorAll('input[name="dict"]').forEach(radio => {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
-  // Ставит dictionaryControls на базовый отступ, а controls — над ним (без перекрытия)
-  function stackControls() {
-    const dict = document.getElementById('dictionaryControls');
-    const controls = document.getElementById('controls');
-    if (!dict || !controls) return;
+	function stackControls() {
+	  const dict = document.getElementById('dictionaryControls');
+	  const controls = document.getElementById('controls');
+	  if (!dict || !controls) return;
 
-    const baseBottom = 12; // словарь внизу
-    dict.style.bottom = baseBottom + 'px';
+	  const baseBottom = 12; // словарь внизу
+	  dict.style.bottom = baseBottom + 'px';
 
-    const controlsGap = 12; // отступ сверху словаря
-    controls.style.bottom = baseBottom + dict.offsetHeight + controlsGap + 'px';
+	  const controlsGap = 12; // отступ сверху словаря
+	  controls.style.bottom = baseBottom + dict.offsetHeight + controlsGap + 'px';
 
-    controls.style.visibility = 'visible';
-    dict.style.visibility = 'visible';
-  }
+	  controls.style.visibility = 'visible';
+	  dict.style.visibility = 'visible';
+	}
 
-  // Ждём полной загрузки всех шрифтов и рендеринга DOM
-  async function refreshAll() {
-    updateVH();
+	// Ждём полной загрузки шрифтов и DOM
+	function refreshAll() {
+	  if (document.fonts && document.fonts.ready) {
+		document.fonts.ready.then(() => {
+		  // несколько кадров подряд, чтобы DOM точно прорисовался
+		  requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+			  stackControls();
+			});
+		  });
+		}).catch(() => stackControls());
+	  } else {
+		requestAnimationFrame(() => {
+		  requestAnimationFrame(() => {
+			stackControls();
+		  });
+		});
+	  }
+	}
 
-    // Ждём шрифты, если они есть
-    if (document.fonts && document.fonts.ready) {
-      await document.fonts.ready.catch(()=>{/*ignore*/});
-    }
-
-    // Ждём следующий frame, чтобы DOM успел перерисоваться
-    await new Promise(r => requestAnimationFrame(r));
-
-    // Немного задержки, чтобы учесть финальные размеры (особенно на мобильных)
-    setTimeout(stackControls, 50);
-  }
-
-  window.addEventListener('load', refreshAll);
-  window.addEventListener('resize', refreshAll);
+	window.addEventListener('load', refreshAll);
+	window.addEventListener('resize', refreshAll);
 })();
 
 function loadDictionary(file) {
