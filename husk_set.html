@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FlashDialogs</title>
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ===== ОСНОВА ===== */
+body {
+  margin: 0; 
+  padding: 0;
+  font-family: 'Comic Neue', cursive;
+  min-height: 100vh; 
+  overflow: hidden;
+  position: relative;
+
+  /* 🎨 Тёмный пастельный фон */
+  background: linear-gradient(
+    135deg,
+    #2e1a3f,   /* тёмный фиолетовый */
+    #3a1f2c,   /* тёмный бордовый */
+    #1f2a3a,   /* тёмный синий */
+    #1f3a2c,   /* тёмный зелёный */
+    #3a1f1f    /* тёмный красный */
+  );
+  background-size: 1200% 1200%;
+  animation: darkPastelBG 90s ease infinite, brightnessPulse 60s ease-in-out infinite;
+}
+
+/* плавный градиент */
+@keyframes darkPastelBG {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 50% 100%; }
+  50%  { background-position: 100% 50%; }
+  75%  { background-position: 50% 0%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes brightnessPulse {
+  0%   { filter: brightness(0.85); }
+  50%  { filter: brightness(1.0); }
+  100% { filter: brightness(0.85); }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 30% 30%, 
+    rgba(255,255,255,0.05), 
+    rgba(0,0,0,0.3)
+  );
+  animation: lightBreath 70s ease-in-out infinite;
+  z-index: 0;
+}
+
+@keyframes lightBreath {
+  0%   { opacity: 0.2; }
+  50%  { opacity: 0.3; }
+  100% { opacity: 0.2; }
+}
+
+/* ===== ЛЕТАЮЩИЕ СЛОВА ===== */
+.particle {
+  position: absolute;
+  font-weight: bold;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  font-size: clamp(2rem, 6vw, 4rem);
+  background: linear-gradient(45deg, #ff9a9e,#fad0c4,#ffd700,#6fd6ff,#ff6f61);
+  background-size: 400% 400%;
+  animation: gradientText 5s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:0 0 10px rgba(0,0,0,0.6);
+  transition:left 3s ease, top 3s ease;
+}
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.translation {
+  display:block;
+  font-size:0.5em;
+  margin-top:0.2em;
+  color:#fff;
+  text-shadow:0 0 6px rgba(0,0,0,0.9);
+}
+
+/* ===== ЦЕНТРАЛЬНЫЕ КОНТРОЛЫ ===== */
+#controls {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  z-index: 100;
+}
+
+/* ===== ПАНЕЛЬ ЗАГРУЗКИ ФАЙЛА РЯДОМ С КНОПКАМИ ===== */
+#dictionaryControls {
+  position: fixed;
+  bottom: 12px;  /* теперь на одном уровне с controls */
+  left: calc(50% + 180px); /* смещение вправо от центра */
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+  z-index: 100;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+/* Кнопки и input */
+#controls button,
+#dictionaryControls button,
+#dictionaryControls input {
+  background: rgba(0,0,0,0.45);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  text-align: center;
+  white-space: nowrap;
+}
+#controls button:hover,
+#dictionaryControls button:hover {
+  background: rgba(0,0,0,0.65);
+  cursor: pointer;
+}
+
+#controls input {
+  background: rgba(0,0,0,0.45);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 10px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  text-align: center;
+  width: 140px;
+}
+#controls input::placeholder { color: #bbb; }
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 600px) {
+  #controls { flex-wrap: wrap; justify-content: center; bottom: 72px; }
+  #controls input { width: 120px; }
+  #dictionaryControls { bottom: 96px; left: 50%; transform: translateX(-50%); }
+}
+@media (max-width: 420px) {
+  #controls input { width: 100px; }
+  #controls button,#dictionaryControls button,#dictionaryControls input { padding:6px 10px; font-size:0.9rem; }
+}
+@media (max-width: 360px) {
+  #controls { bottom: 96px; }
+  #dictionaryControls { bottom: 72px; left: 6px; gap:4px; font-size:0.8rem; }
+}
+
+#controls,
+#dictionaryControls { visibility: visible; }
+
+</style>
+</head>
+<body>
+
+<div id="particleContainer" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+
+<!-- Панели управления -->
+<div id="controls">
+  <input id="stepInput" type="number" min="1" value="1" placeholder="N">
+  <button id="stepBtn">OK</button>
+  <button id="startBtn">Старт</button>
+  <button id="stopBtn">Стоп</button>
+</div>
+
+<div id="dictionaryControls">
+  <label><input type="file" id="localFileInput" accept=".json" style="width:90px"></label>
+</div>
+
+<script>
+const MAX_REPEATS = 3; // повторяем предложение
+let dialogs = [];
+let currentIndex = 0; // текущий диалог
+let stepN = 1;        // шаг по диалогам
+let showingSentence = false;
+let sessionRunning = false;
+let sessionStarted = false;
+let sentenceIndex = 0; // текущее предложение в диалоге
+
+const PAUSE_MS_PER_SIGN = 50;
+
+function cleanTextForTTS(text) {
+  return text.replace(/[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s]/g,'').trim();
+}
+
+function speak(text, lang, rate=1){
+  return new Promise(resolve=>{
+    const u = new SpeechSynthesisUtterance(cleanTextForTTS(text));
+    u.lang=lang; u.rate=rate; u.onend=resolve;
+    speechSynthesis.speak(u);
+  });
+}
+
+async function speakWithPunctuationPauses(text, lang, rate=1){
+  if(!text?.trim()) return;
+  const parts = text.match(/([A-Za-zА-Яа-яЁёÆØÅæøå]+(?:\s+[A-Za-zА-Яа-яЁёÆØÅæøå]+)*)|([^A-Za-zА-Яа-яЁёÆØÅæøå\s]+)/g)||[];
+  for(const part of parts){
+    if(/[A-Za-zА-Яа-яЁёÆØÅæøå]/.test(part)) await speak(part, lang, rate);
+    else { const signs = part.replace(/\s/g,'').length; if(signs>0) await new Promise(r=>setTimeout(r, PAUSE_MS_PER_SIGN*signs)); }
+  }
+}
+
+function randomPosition(el){
+  const topOffset = 12;
+  const bottomControls = document.getElementById('controls');
+  const bottomMenu = document.getElementById('dictionaryControls');
+  const bottomLimit = Math.max(bottomControls.offsetHeight,bottomMenu.offsetHeight)+12;
+  const containerHeight = window.innerHeight - el.offsetHeight - bottomLimit - topOffset;
+  return { x: Math.random()*(window.innerWidth-el.offsetWidth), y: topOffset+Math.random()*containerHeight };
+}
+
+function moveTo(el,pos){ el.style.left=pos.x+'px'; el.style.top=pos.y+'px'; }
+
+// ===== показываем одно предложение =====
+async function showSentence(sentence){
+  showingSentence=true;
+  const el = document.createElement('div'); el.className='particle';
+  el.style.position='absolute';
+  el.innerHTML = `${sentence.danish}<span class="translation">${sentence.translation}</span>`;
+  document.getElementById('particleContainer').appendChild(el);
+  moveTo(el, randomPosition(el));
+
+  // сначала перевод
+  await speakWithPunctuationPauses(sentence.translation,'ru-RU');
+
+  // потом датский вариант с повтором
+  const rates = [0.5,0.7,1.0];
+  for(let i=0;i<MAX_REPEATS;i++){
+    if(i>0) await new Promise(r=>setTimeout(r,1500));
+    moveTo(el, randomPosition(el));
+    await speakWithPunctuationPauses(sentence.danish,'da-DK', rates[Math.min(i,rates.length-1)]);
+  }
+
+  el.remove();
+  showingSentence=false;
+}
+
+// ===== показываем диалог по предложениям =====
+async function showDialog(dialog){
+  const sentences = dialog.dialog;
+  for(sentenceIndex=0; sentenceIndex<sentences.length; sentenceIndex++){
+    await showSentence(sentences[sentenceIndex]);
+  }
+  sentenceIndex=0;
+  currentIndex = (currentIndex + stepN) % dialogs.length; // следующий диалог
+}
+
+// ===== START/STOP =====
+document.getElementById('startBtn').addEventListener('click',()=>{
+  sessionRunning=true;
+  if(!sessionStarted){ sessionStarted=true; startSession(); }
+});
+document.getElementById('stopBtn').addEventListener('click',()=>{ sessionRunning=false; });
+
+// ===== LOAD FILE =====
+document.getElementById('localFileInput').addEventListener('change', e=>{
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=event=>{
+    try{
+      const data=JSON.parse(event.target.result);
+      dialogs=data.map(d=>({dialog:d.dialog}));
+      currentIndex=0; showingSentence=false;
+      console.log("Диалоги загружены:", file.name);
+    }catch(err){ console.error("Ошибка:", err); alert("Неверный формат JSON"); }
+  };
+  reader.readAsText(file);
+});
+
+// ===== LOAD DEFAULT DICTIONARY =====
+function loadDictionary(file){
+  fetch(file).then(r=>r.json()).then(data=>{
+    dialogs=data.map(d=>({dialog:d.dialog}));
+    currentIndex=0; showingSentence=false;
+    console.log("Диалоги загружены с сервера:", file);
+  }).catch(err=>console.error("Ошибка загрузки словаря:", err));
+}
+
+async function startSession(){
+  while(true){
+    if(sessionRunning && dialogs.length>0){
+      await showDialog(dialogs[currentIndex]);
+    } else await new Promise(r=>setTimeout(r,500));
+  }
+}
+
+loadDictionary('dialogs.json');
+
+window.addEventListener('load',()=>{
+  const controls=document.getElementById('controls'), dict=document.getElementById('dictionaryControls');
+  controls.offsetHeight; dict.offsetHeight;
+  controls.style.visibility='visible'; dict.style.visibility='visible';
+});
+
+</script>
+
+</body>
+</html>

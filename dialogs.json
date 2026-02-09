@@ -1,0 +1,243 @@
+[
+  {
+    "dialog": [
+      {"danish":"Hej! Hvordan går det med dig?", "translation":"Привет! Как у тебя дела?"},
+      {"danish":"Hej! Jeg har det godt, tak. Hvad med dig?", "translation":"Привет! У меня всё хорошо, спасибо. А у тебя?"},
+      {"danish":"Det går også godt. Har du forberedt dig til eksamen?", "translation":"Тоже хорошо. Ты подготовился к экзамену?"},
+      {"danish":"Ja, jeg har øvet mig hele ugen.", "translation":"Да, я тренировался всю неделю."},
+      {"danish":"Hvilken del synes du er sværest?", "translation":"Какая часть тебе кажется самой сложной?"},
+      {"danish":"Jeg synes grammatik er sværest.", "translation":"Мне кажется, грамматика самая сложная."},
+      {"danish":"Skal vi lave gruppearbejde i morgen?", "translation":"Будем делать групповую работу завтра?"},
+      {"danish":"Ja, det lyder som en god idé!", "translation":"Да, звучит как хорошая идея!"}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hej! Har du set den nye film?", "translation":"Привет! Ты видел новый фильм?"},
+      {"danish":"Ja, jeg så den i går. Den var spændende!", "translation":"Да, я посмотрел его вчера. Было захватывающе!"},
+      {"danish":"Hvem spiller hovedrollen?", "translation":"Кто играет главную роль?"},
+      {"danish":"Anna spiller hovedrollen.", "translation":"Главную роль играет Анна."},
+      {"danish":"Hvilken genre er det?", "translation":"Какой жанр у фильма?"},
+      {"danish":"Det er en actionkomedie.", "translation":"Это экшн-комедия."},
+      {"danish":"Vil du se den sammen med mig?", "translation":"Хочешь посмотреть её вместе со мной?"},
+      {"danish":"Ja, det ville være sjovt!", "translation":"Да, это было бы весело!"}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Godmorgen! Hvordan sover du for tiden?", "translation":"Доброе утро! Как ты спишь в последнее время?"},
+      {"danish":"Godmorgen! Jeg sover godt, men vågner tidligt.", "translation":"Доброе утро! Сплю хорошо, но рано просыпаюсь."},
+      {"danish":"Drikker du kaffe om morgenen?", "translation":"Ты пьёшь кофе утром?"},
+      {"danish":"Ja, jeg kan ikke starte dagen uden kaffe.", "translation":"Да, я не могу начать день без кофе."},
+      {"danish":"Hvilken type kaffe kan du bedst lide?", "translation":"Какой тип кофе тебе нравится больше всего?"},
+      {"danish":"Jeg kan bedst lide cappuccino.", "translation":"Мне больше всего нравится капучино."},
+      {"danish":"Har du prøvet espresso?", "translation":"Ты пробовал эспрессо?"},
+      {"danish":"Ja, men det er lidt stærkt for mig.", "translation":"Да, но для меня это немного крепко."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Skal vi tage på ferie i sommer?", "translation":"Поедем в отпуск летом?"},
+      {"danish":"Ja, jeg tænker på Italien.", "translation":"Да, я думаю об Италии."},
+      {"danish":"Hvilken by vil du besøge først?", "translation":"Какой город хочешь посетить первым?"},
+      {"danish":"Vi kan starte i Rom.", "translation":"Мы можем начать с Рима."},
+      {"danish":"Hvad vil du se der?", "translation":"Что хочешь там посмотреть?"},
+      {"danish":"Colosseum og Vatikanet.", "translation":"Колизей и Ватикан."},
+      {"danish":"Skal vi tage toget til Firenze bagefter?", "translation":"Мы поедем поездом во Флоренцию потом?"},
+      {"danish":"Ja, det lyder som en god plan.", "translation":"Да, звучит как хороший план."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvilken sport kan du bedst lide?", "translation":"Какой спорт тебе больше всего нравится?"},
+      {"danish":"Jeg elsker fodbold.", "translation":"Я люблю футбол."},
+      {"danish":"Spiller du i en klub?", "translation":"Ты играешь в клубе?"},
+      {"danish":"Ja, jeg træner to gange om ugen.", "translation":"Да, я тренируюсь два раза в неделю."},
+      {"danish":"Hvilken position spiller du?", "translation":"На какой позиции ты играешь?"},
+      {"danish":"Jeg er midtbanespiller.", "translation":"Я полузащитник."},
+      {"danish":"Har du vundet nogen kampe for nylig?", "translation":"Ты недавно выигрывал какие-нибудь матчи?"},
+      {"danish":"Ja, vi vandt sidste weekend.", "translation":"Да, мы победили на прошлых выходных."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvad spiste du til morgenmad?", "translation":"Что ты ел на завтрак?"},
+      {"danish":"Jeg spiste havregrød med frugt.", "translation":"Я ел овсянку с фруктами."},
+      {"danish":"Drikker du te eller kaffe?", "translation":"Ты пьёшь чай или кофе?"},
+      {"danish":"Jeg drikker te.", "translation":"Я пью чай."},
+      {"danish":"Hvilken frugt kan du bedst lide?", "translation":"Какие фрукты тебе больше всего нравятся?"},
+      {"danish":"Jeg elsker jordbær.", "translation":"Я люблю клубнику."},
+      {"danish":"Spiser du frokost hjemme eller på skolen?", "translation":"Ты обедаешь дома или в школе?"},
+      {"danish":"Jeg spiser på skolen med mine venner.", "translation":"Я обедаю в школе с друзьями."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvilken musik kan du bedst lide?", "translation":"Какую музыку тебе больше всего нравится?"},
+      {"danish":"Jeg kan godt lide pop og rock.", "translation":"Мне нравятся поп и рок."},
+      {"danish":"Har du en yndlingssanger?", "translation":"У тебя есть любимый певец?"},
+      {"danish":"Ja, jeg elsker Adele.", "translation":"Да, я люблю Адель."},
+      {"danish":"Går du til koncerter ofte?", "translation":"Ты часто ходишь на концерты?"},
+      {"danish":"Ikke så ofte, men nogle gange.", "translation":"Не так часто, но иногда."},
+      {"danish":"Hvilken koncert vil du helst se?", "translation":"На какой концерт ты хотел бы пойти?"},
+      {"danish":"Jeg vil gerne se Coldplay.", "translation":"Я хотел бы пойти на Coldplay."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvordan går det med dine venner?", "translation":"Как у тебя дела с друзьями?"},
+      {"danish":"Det går godt, vi mødes tit.", "translation":"Хорошо, мы часто встречаемся."},
+      {"danish":"Hvad kan I godt lide at lave sammen?", "translation":"Что вам нравится делать вместе?"},
+      {"danish":"Vi spiller spil og ser film.", "translation":"Мы играем в игры и смотрим фильмы."},
+      {"danish":"Har I nogle planer i weekenden?", "translation":"У вас есть планы на выходные?"},
+      {"danish":"Ja, vi skal på picnic i parken.", "translation":"Да, мы идем на пикник в парк."},
+      {"danish":"Bliver det solskin?", "translation":"Будет солнечно?"},
+      {"danish":"Ja, vejrudsigten siger klart vejr.", "translation":"Да, прогноз говорит о ясной погоде."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Er du nogensinde rejst til udlandet?", "translation":"Ты когда-нибудь ездил за границу?"},
+      {"danish":"Ja, jeg har været i Tyskland og Frankrig.", "translation":"Да, я был в Германии и Франции."},
+      {"danish":"Hvilket land kunne du bedst lide?", "translation":"Какая страна тебе понравилась больше всего?"},
+      {"danish":"Jeg elskede Frankrig.", "translation":"Мне очень понравилась Франция."},
+      {"danish":"Hvad besøgte du der?", "translation":"Что ты там посетил?"},
+      {"danish":"Jeg så Eiffeltårnet og Louvre.", "translation":"Я видел Эйфелеву башню и Лувр."},
+      {"danish":"Vil du rejse igen snart?", "translation":"Ты собираешься скоро поехать снова?"},
+      {"danish":"Ja, jeg planlægger en tur til Italien.", "translation":"Да, я планирую поездку в Италию."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvordan har du det med matematik?", "translation":"Как у тебя дела с математикой?"},
+      {"danish":"Det går okay, men nogle opgaver er svære.", "translation":"Нормально, но некоторые задания сложные."},
+      {"danish":"Hvilken formel kan du bedst lide?", "translation":"Какая формула тебе нравится больше всего?"},
+      {"danish":"Jeg kan godt lide Pythagoras' sætning.", "translation":"Мне нравится теорема Пифагора."},
+      {"danish":"Laver du lektier hver dag?", "translation":"Ты делаешь домашку каждый день?"},
+      {"danish":"Ja, jeg prøver at lave lidt hver aften.", "translation":"Да, я стараюсь делать немного каждый вечер."},
+      {"danish":"Hjælper dine forældre dig?", "translation":"Твои родители помогают тебе?"},
+      {"danish":"Ja, især min mor hjælper med matematik.", "translation":"Да, особенно мама помогает с математикой."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hej! Hvordan har du det i dag?", "translation":"Привет! Как ты сегодня?"},
+      {"danish":"Hej! Jeg har det godt, men lidt træt.", "translation":"Привет! Всё хорошо, но немного устал."},
+      {"danish":"Har du sovet nok i nat?", "translation":"Ты достаточно спал ночью?"},
+      {"danish":"Nej, kun seks timer.", "translation":"Нет, всего шесть часов."},
+      {"danish":"Måske skal du tage en kort lur senere.", "translation":"Может, тебе стоит вздремнуть позже."},
+      {"danish":"Ja, det vil hjælpe mig.", "translation":"Да, это мне поможет."},
+      {"danish":"Drikker du nok vand?", "translation":"Ты пьешь достаточно воды?"},
+      {"danish":"Jeg prøver, men nogle gange glemmer jeg.", "translation":"Я стараюсь, но иногда забываю."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hej! Skal vi shoppe i weekenden?", "translation":"Привет! Пойдем за покупками на выходных?"},
+      {"danish":"Ja, det lyder sjovt!", "translation":"Да, звучит весело!"},
+      {"danish":"Hvilket center vil du gå til?", "translation":"В какой торговый центр хочешь пойти?"},
+      {"danish":"Lad os tage City Shopping.", "translation":"Давай пойдем в City Shopping."},
+      {"danish":"Skal vi købe tøj eller sko?", "translation":"Будем покупать одежду или обувь?"},
+      {"danish":"Jeg har brug for begge dele.", "translation":"Мне нужны и то, и другое."},
+      {"danish":"Skal vi spise frokost der?", "translation":"Будем там обедать?"},
+      {"danish":"Ja, jeg vil gerne prøve den nye café.", "translation":"Да, я хочу попробовать новое кафе."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvordan kommer du normalt til skole?", "translation":"Как ты обычно добираешься до школы?"},
+      {"danish":"Jeg tager bussen.", "translation":"Я езжу на автобусе."},
+      {"danish":"Hvor lang tid tager det?", "translation":"Сколько времени это занимает?"},
+      {"danish":"Ca. 20 minutter.", "translation":"Около 20 минут."},
+      {"danish":"Er bussen altid til tiden?", "translation":"Автобус всегда приходит вовремя?"},
+      {"danish":"Nej, nogle gange er der forsinkelser.", "translation":"Нет, иногда бывают задержки."},
+      {"danish":"Bruger du cyklen nogensinde?", "translation":"Ты иногда пользуешься велосипедом?"},
+      {"danish":"Ja, når vejret er godt.", "translation":"Да, когда погода хорошая."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvordan er vejret i dag?", "translation":"Какая сегодня погода?"},
+      {"danish":"Det er solrigt og varmt.", "translation":"Солнечно и тепло."},
+      {"danish":"Skal vi gå en tur i parken?", "translation":"Пойдем гулять в парк?"},
+      {"danish":"Ja, det vil jeg gerne.", "translation":"Да, я бы хотел."},
+      {"danish":"Skal vi tage solcreme med?", "translation":"Нам брать солнцезащитный крем?"},
+      {"danish":"Ja, det er vigtigt.", "translation":"Да, это важно."},
+      {"danish":"Vil du tage en picnic med?", "translation":"Возьмешь с собой пикник?"},
+      {"danish":"Ja, jeg laver sandwiches.", "translation":"Да, я сделаю сэндвичи."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hej! Bruger du meget teknologi?", "translation":"Привет! Ты часто пользуешься технологиями?"},
+      {"danish":"Ja, jeg bruger computer og smartphone hver dag.", "translation":"Да, я пользуюсь компьютером и смартфоном каждый день."},
+      {"danish":"Hvilken app bruger du mest?", "translation":"Какое приложение используешь больше всего?"},
+      {"danish":"Jeg bruger sociale medier mest.", "translation":"Я чаще всего пользуюсь социальными сетями."},
+      {"danish":"Hvad synes du om AI?", "translation":"Что ты думаешь об искусственном интеллекте?"},
+      {"danish":"Det er spændende, men nogle gange skræmmende.", "translation":"Это интересно, но иногда страшно."},
+      {"danish":"Bruger du AI til skolearbejde?", "translation":"Ты используешь ИИ для учёбы?"},
+      {"danish":"Ja, det hjælper mig med research.", "translation":"Да, это помогает мне с исследованием."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvilke hobbyer har du?", "translation":"Какие у тебя хобби?"},
+      {"danish":"Jeg kan godt lide at male og læse bøger.", "translation":"Мне нравится рисовать и читать книги."},
+      {"danish":"Hvilken type bøger læser du?", "translation":"Какие книги ты читаешь?"},
+      {"danish":"Jeg læser mest romaner og fantasy.", "translation":"Я читаю в основном романы и фэнтези."},
+      {"danish":"Malede du noget for nylig?", "translation":"Ты недавно что-нибудь рисовал?"},
+      {"danish":"Ja, et landskab af stranden.", "translation":"Да, пейзаж с пляжем."},
+      {"danish":"Deltager du i hobbyklubber?", "translation":"Ты участвуешь в клубах по интересам?"},
+      {"danish":"Ja, i en maleklub.", "translation":"Да, в клубе рисования."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Har du nogen kulturelle interesser?", "translation":"У тебя есть культурные интересы?"},
+      {"danish":"Ja, jeg elsker teater og museum.", "translation":"Да, я люблю театр и музеи."},
+      {"danish":"Hvornår var du sidst på museum?", "translation":"Когда ты в последний раз был в музее?"},
+      {"danish":"Forrige weekend besøgte jeg Nationalmuseet.", "translation":"На прошлых выходных я посетил Национальный музей."},
+      {"danish":"Hvilken udstilling var din favorit?", "translation":"Какая выставка тебе понравилась больше всего?"},
+      {"danish":"Den om vikingetiden.", "translation":"Выставка о викингах."},
+      {"danish":"Går du til teater ofte?", "translation":"Ты часто ходишь в театр?"},
+      {"danish":"Ja, mindst en gang om måneden.", "translation":"Да, как минимум раз в месяц."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvad kan du bedst lide at spise?", "translation":"Что тебе больше всего нравится есть?"},
+      {"danish":"Jeg elsker pizza og sushi.", "translation":"Я люблю пиццу и суши."},
+      {"danish":"Laver du mad derhjemme?", "translation":"Ты готовишь дома?"},
+      {"danish":"Ja, især pasta retter.", "translation":"Да, особенно пасту."},
+      {"danish":"Hvilken dessert kan du bedst lide?", "translation":"Какой десерт тебе нравится больше всего?"},
+      {"danish":"Jeg elsker chokoladekage.", "translation":"Я люблю шоколадный торт."},
+      {"danish":"Spiser du sundt normalt?", "translation":"Ты обычно питаешься здорово?"},
+      {"danish":"Ja, jeg prøver at spise frugt og grøntsager hver dag.", "translation":"Да, я стараюсь есть фрукты и овощи каждый день."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvordan har din familie det?", "translation":"Как твоя семья?"},
+      {"danish":"De har det godt, tak.", "translation":"У них всё хорошо, спасибо."},
+      {"danish":"Har du søskende?", "translation":"У тебя есть братья или сестры?"},
+      {"danish":"Ja, jeg har en bror og en søster.", "translation":"Да, у меня есть брат и сестра."},
+      {"danish":"Bor dine forældre i nærheden?", "translation":"Твои родители живут рядом?"},
+      {"danish":"Ja, kun 10 minutters gang fra mig.", "translation":"Да, всего в 10 минутах ходьбы."},
+      {"danish":"Mødes I ofte?", "translation":"Вы часто встречаетесь?"},
+      {"danish":"Ja, vi spiser middag sammen hver weekend.", "translation":"Да, мы ужинаем вместе каждые выходные."}
+    ]
+  },
+  {
+    "dialog": [
+      {"danish":"Hvad laver du i din fritid?", "translation":"Что ты делаешь в свободное время?"},
+      {"danish":"Jeg går ture og læser bøger.", "translation":"Я гуляю и читаю книги."},
+      {"danish":"Spiller du spil på computeren?", "translation":"Ты играешь в игры на компьютере?"},
+      {"danish":"Ja, jeg spiller især strategi spil.", "translation":"Да, я играю особенно в стратегические игры."},
+      {"danish":"Ser du film i fritiden?", "translation":"Смотришь ли ты фильмы в свободное время?"},
+      {"danish":"Ja, helst komedier.", "translation":"Да, лучше всего комедии."},
+      {"danish":"Mødes du med venner ofte?", "translation":"Ты часто встречаешься с друзьями?"},
+      {"danish":"Ja, mindst en gang om ugen.", "translation":"Да, как минимум раз в неделю."}
+    ]
+  }
+  
+]

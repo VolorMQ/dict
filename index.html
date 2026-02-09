@@ -85,18 +85,28 @@
   <button class="button" onclick="openModeSelect('mobile')">Start Game from Mobile</button>
   <button class="button" onclick="location.href='setupSentences.html'">Setup Sentences</button>
   <button class="button" onclick="location.href='setupWord.html'">Setup Words</button>
-  <button class="button" onclick="location.href='husk.html'">Husker ny oret</button>
+  <button class="button" onclick="openHuskSelect()">Husker ny oret</button>
 </div>
 
 <div id="particles-container"></div>
 
-<!-- Модальное окно выбора режима -->
+<!-- ===== MODAL GAME ===== -->
 <div id="modeModal" class="modal">
   <div class="modal-content">
     <h2>🎮 Choose game mode</h2>
     <button class="button" onclick="startGame('words')">🧠 Words</button>
     <button class="button" onclick="startGame('sentences')">📘 Sentences</button>
     <button class="button close-btn" onclick="closeModal()">❌ Cancel</button>
+  </div>
+</div>
+
+<!-- ===== MODAL HUSK ===== -->
+<div id="huskModal" class="modal">
+  <div class="modal-content">
+    <h2>📖 Vælg Husk-side</h2>
+    <button class="button" onclick="openHuskPage('husk.html')">Words</button>
+    <button class="button" onclick="openHuskPage('husk_set.html')">Dialog</button>
+    <button class="button close-btn" onclick="closeHuskModal()">❌ Cancel</button>
   </div>
 </div>
 
@@ -130,17 +140,15 @@ const numParticles = 20;
 const particles = [];
 const container = document.getElementById('particles-container');
 
+// ===== GAME MODAL =====
 let selectedPlatform = 'pc';
-
 function openModeSelect(platform){
   selectedPlatform = platform;
   document.getElementById('modeModal').style.display = 'flex';
 }
-
 function closeModal(){
   document.getElementById('modeModal').style.display = 'none';
 }
-
 function startGame(mode){
   closeModal();
   if(selectedPlatform === 'pc'){
@@ -150,18 +158,28 @@ function startGame(mode){
   }
 }
 
-// Цвета и анимация
+// ===== HUSK MODAL =====
+function openHuskSelect(){
+  document.getElementById('huskModal').style.display = 'flex';
+}
+function closeHuskModal(){
+  document.getElementById('huskModal').style.display = 'none';
+}
+function openHuskPage(page){
+  closeHuskModal();
+  location.href = page;
+}
+
+// ===== COLORS & PARTICLES =====
 function randomColor() {
   const r = Math.floor(Math.random()*256);
   const g = Math.floor(Math.random()*256);
   const b = Math.floor(Math.random()*256);
   return {r, g, b};
 }
-
 function colorToString(c){
   return `rgb(${c.r},${c.g},${c.b})`;
 }
-
 function lerpColor(a, b, t){
   return { r: a.r + (b.r - a.r)*t, g: a.g + (b.g - a.g)*t, b: a.b + (b.b - a.b)*t };
 }
@@ -298,5 +316,6 @@ window.addEventListener('resize', () => {
 });
 </script>
 </body>
+
 
 </html>
