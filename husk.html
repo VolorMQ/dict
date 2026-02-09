@@ -218,6 +218,12 @@ body::before {
     font-size: 0.8rem;
   }
 }
+
+#controls,
+#dictionaryControls {
+  visibility: hidden;
+}
+
 </style>
 
 
@@ -540,6 +546,15 @@ async function startSession() {
 /* ===== LOAD DEFAULT DICTIONARY ===== */
 loadDictionary('word.json'); // теперь по умолчанию word.json
 
+window.addEventListener('load', () => {
+  const controls = document.getElementById('controls');
+  const dict = document.getElementById('dictionaryControls');
+
+  requestAnimationFrame(() => {
+    controls.style.visibility = 'visible';
+    dict.style.visibility = 'visible';
+  });
+});
 </script>
 
 </body>
