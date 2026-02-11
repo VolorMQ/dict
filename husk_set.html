@@ -18,11 +18,11 @@ body {
   /* 🎨 Тёмный пастельный фон */
   background: linear-gradient(
     135deg,
-    #2e1a3f,   /* тёмный фиолетовый */
-    #3a1f2c,   /* тёмный бордовый */
-    #1f2a3a,   /* тёмный синий */
-    #1f3a2c,   /* тёмный зелёный */
-    #3a1f1f    /* тёмный красный */
+    #2e1a3f,
+    #3a1f2c,
+    #1f2a3a,
+    #1f3a2c,
+    #3a1f1f
   );
   background-size: 1200% 1200%;
   animation: darkPastelBG 90s ease infinite, brightnessPulse 60s ease-in-out infinite;
@@ -78,14 +78,33 @@ body::before {
   -webkit-text-fill-color: transparent;
   text-shadow:0 0 10px rgba(0,0,0,0.6);
   transition:left 3s ease, top 3s ease;
+  padding: 18px;
+  border-radius: 12px;
+  z-index: 10;
 }
 
-@keyframes gradientText {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* токены датского текста (по-умолчанию берут градиент родителя) */
+.da-token {
+  display: inline-block;
+  white-space: pre;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 120ms ease, text-shadow 120ms ease;
 }
 
+/* подсветка текущего слова (датского) */
+.da-token.highlight {
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  -webkit-background-clip: initial !important;
+  background: none !important;
+  transform: translateY(-3px) scale(1.05);
+  text-shadow: 0 0 14px rgba(255,215,0,0.95), 0 0 6px rgba(0,0,0,0.6);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+/* маленький перевод под датским текст */
 .translation {
   display:block;
   font-size:0.5em;
@@ -109,8 +128,8 @@ body::before {
 /* ===== ПАНЕЛЬ ЗАГРУЗКИ ФАЙЛА РЯДОМ С КНОПКАМИ ===== */
 #dictionaryControls {
   position: fixed;
-  bottom: 12px;  /* теперь на одном уровне с controls */
-  left: calc(50% + 180px); /* смещение вправо от центра */
+  bottom: 12px;
+  left: calc(50% + 180px);
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
@@ -153,7 +172,6 @@ body::before {
 }
 #controls input::placeholder { color: #bbb; }
 
-/* ===== АДАПТИВНОСТЬ ===== */
 @media (max-width: 600px) {
   #controls { flex-wrap: wrap; justify-content: center; bottom: 72px; }
   #controls input { width: 120px; }
@@ -233,8 +251,8 @@ initVoices();
 
 async function speakDa(text, rate=1){
   if(daVoices.length === 0) return speak(text, "da-DK", rate); // fallback
-  const voice = daVoices[lastDaVoice];
-  lastDaVoice = 1 - lastDaVoice; // чередуем 0↔1
+  const voice = daVoices[lastDaVoice % daVoices.length];
+  lastDaVoice = (lastDaVoice + 1) % daVoices.length;
   return new Promise(resolve=>{
     const u = new SpeechSynthesisUtterance(cleanTextForTTS(text));
     u.lang = "da-DK";
@@ -245,17 +263,46 @@ async function speakDa(text, rate=1){
   });
 }
 
-// ---------- TTS с паузами ----------
-async function speakWithPunctuationPauses(text, lang, rate=1, isDa=false){
+// ---------- Токенизация (слова / пункты / пробелы) ----------
+function tokenizePreserve(text){
+  // захватываем слова (латинские и скандинавские буквы), всё прочее как отдельные токены, и пробелы отдельно
+  const re = /[A-Za-zÆØÅæøåÀ-ÖØ-öø-ÿ]+|[^\sA-Za-zÆØÅæøåÀ-ÖØ-öø-ÿ]+|\s+/g;
+  const raw = text.match(re) || [];
+  return raw.map(t => ({ text: t, isWord: /[A-Za-zÆØÅæøåÀ-ÖØ-öø-ÿ]/.test(t) }));
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ---------- TTS с паузами и опциональной подсветкой (highlightCallback) ----------
+async function speakWithPunctuationPauses(text, lang, rate=1, isDa=false, highlightCallback=null){
   if(!text?.trim()) return;
-  const parts = text.match(/([A-Za-zА-Яа-яЁёÆØÅæøå]+(?:\s+[A-Za-zА-Яа-яЁёÆØÅæøå]+)*)|([^A-Za-zА-Яа-яЁёÆØÅæøå\s]+)/g)||[];
-  for(const part of parts){
-    if(/[A-Za-zА-Яа-яЁёÆØÅæøå]/.test(part)){
-      if(isDa) await speakDa(part, rate);
-      else await speak(part, lang, rate);
+  const tokens = tokenizePreserve(text);
+  let wordIndex = 0;
+  for(const token of tokens){
+    if(token.isWord){
+      // подсветка текущего слова (только для датского)
+      if(isDa && typeof highlightCallback === 'function') highlightCallback(wordIndex);
+      if(isDa){
+        await speakDa(token.text, rate);
+      } else {
+        await speak(token.text, lang, rate);
+      }
+      // убираем подсветку после произнесения слова
+      if(isDa && typeof highlightCallback === 'function') highlightCallback(null);
+      wordIndex++;
     } else {
-      const signs = part.replace(/\s/g,'').length;
-      if(signs>0) await new Promise(r=>setTimeout(r, PAUSE_MS_PER_SIGN*signs));
+      // не-слово: пунктуация или пробел
+      if(/\s+/.test(token.text)){
+        // пробелы — короткая пауза (можем пропустить)
+        // небольшая tiny pause
+        await new Promise(r => setTimeout(r, 80));
+      } else {
+        // пунктуация — пауза пропорциональна знакам
+        const signs = token.text.replace(/\s/g,'').length;
+        if(signs > 0) await new Promise(r => setTimeout(r, PAUSE_MS_PER_SIGN * signs));
+      }
     }
   }
 }
@@ -267,32 +314,58 @@ function randomPosition(el){
   const bottomMenu = document.getElementById('dictionaryControls');
   const bottomLimit = Math.max(bottomControls.offsetHeight,bottomMenu.offsetHeight)+12;
   const containerHeight = window.innerHeight - el.offsetHeight - bottomLimit - topOffset;
-  return { x: Math.random()*(window.innerWidth-el.offsetWidth), y: topOffset+Math.random()*containerHeight };
+  return { x: Math.random()*(window.innerWidth-el.offsetWidth), y: topOffset+Math.random()*Math.max(0,containerHeight) };
 }
 
 function moveTo(el,pos){ el.style.left=pos.x+'px'; el.style.top=pos.y+'px'; }
 
-// ===== показываем одно предложение =====
+// ===== показываем одно предложение с подсветкой датских слов =====
 async function showSentence(sentence){
   showingSentence = true;
   const el = document.createElement('div');
   el.className = 'particle';
   el.style.position = 'absolute';
-  el.innerHTML = `${sentence.danish}<span class="translation">${sentence.translation}</span>`;
+
+  // Разбиваем датский текст на токены и оборачиваем в span'ы
+  const tokens = tokenizePreserve(sentence.danish);
+  let wordCounter = 0;
+  const partsHtml = tokens.map(t => {
+    if(t.isWord){
+      const html = `<span class="da-token" data-word-index="${wordCounter}">${escapeHtml(t.text)}</span>`;
+      wordCounter++;
+      return html;
+    } else {
+      // пробелы и пунктуация — тоже в span для корректного отображения
+      return `<span class="da-token" data-word-index="-">${escapeHtml(t.text)}</span>`;
+    }
+  }).join('');
+
+  el.innerHTML = `${partsHtml}<span class="translation">${escapeHtml(sentence.translation)}</span>`;
   document.getElementById('particleContainer').appendChild(el);
   moveTo(el, randomPosition(el));
 
-  // сначала перевод (русский один голос)
+  // подготовим функцию подсветки, которая управляет span'ами внутри el
+  const tokenSpans = Array.from(el.querySelectorAll('.da-token'));
+  function highlightWord(idx){
+    tokenSpans.forEach(s => s.classList.remove('highlight'));
+    if(idx === null || idx === undefined) return;
+    const target = tokenSpans.find(s => s.dataset.wordIndex === String(idx));
+    if(target) target.classList.add('highlight');
+  }
+
+  // сначала перевод (русский один голос) — без подсветки
   await speakWithPunctuationPauses(sentence.translation, 'ru-RU');
 
-  // потом датский вариант с повтором (чередуем два голоса)
+  // потом датский вариант с повтором (чередуем два голоса) — подсветка включена
   const rates = [0.5, 0.7, 1.0];
   for(let i=0; i<MAX_REPEATS; i++){
     if(i>0) await new Promise(r=>setTimeout(r, 1500));
     moveTo(el, randomPosition(el));
-    await speakWithPunctuationPauses(sentence.danish, 'da-DK', rates[Math.min(i,rates.length-1)], true);
+    await speakWithPunctuationPauses(sentence.danish, 'da-DK', rates[Math.min(i,rates.length-1)], true, highlightWord);
   }
 
+  // Очистим подсветку и удалим элемент
+  highlightWord(null);
   el.remove();
   showingSentence = false;
 }
@@ -305,6 +378,8 @@ async function showDialog(dialog){
   await speak(`Начало диалога ${currentIndex+1}`, "ru-RU");
 
   for(sentenceIndex=0; sentenceIndex<sentences.length; sentenceIndex++){
+    // если пользователь нажал Стоп — прервём прогон
+    if(!sessionRunning) break;
     await showSentence(sentences[sentenceIndex]);
   }
 
@@ -320,7 +395,17 @@ document.getElementById('startBtn').addEventListener('click', ()=>{
   sessionRunning = true;
   if(!sessionStarted){ sessionStarted = true; startSession(); }
 });
-document.getElementById('stopBtn').addEventListener('click', ()=>{ sessionRunning = false; });
+document.getElementById('stopBtn').addEventListener('click', ()=>{
+  sessionRunning = false;
+  // остановим текущую озвучку немедленно
+  try { speechSynthesis.cancel(); } catch(e){}
+});
+
+// изменение шага
+document.getElementById('stepBtn').addEventListener('click', ()=>{
+  const v = parseInt(document.getElementById('stepInput').value, 10);
+  if(!isNaN(v) && v>0) stepN = v;
+});
 
 // ===== LOAD FILE =====
 document.getElementById('localFileInput').addEventListener('change', e=>{
