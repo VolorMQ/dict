@@ -92,7 +92,7 @@ body::before {
   transition: transform 120ms ease, text-shadow 120ms ease;
 }
 
-/* подсветка текущего слова (датского) */
+/* подсветка текущего слова (датский) */
 .da-token.highlight {
   -webkit-text-fill-color: #ffffff !important;
   color: #ffffff !important;
@@ -222,7 +222,7 @@ const PAUSE_MS_PER_SIGN = 50;
 // ---------- TTS ----------
 
 function cleanTextForTTS(text) {
-  return text.replace(/[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s]/g,'').trim();
+  return text.replace(/[^a-zA-Zа-яёА-ЯЁæøåÆØÅ\s,.!?;:—–«»'"]/g,'').trim();
 }
 
 function speak(text, lang, rate=1){
@@ -240,7 +240,7 @@ let daVoices = [];
 let lastDaVoice = 0; // для чередования
 
 function initVoices() {
-  daVoices = speechSynthesis.getVoices().filter(v => v.lang.startsWith("da"));
+  daVoices = speechSynthesis.getVoices().filter(v => v.lang && v.lang.startsWith("da"));
   if(daVoices.length < 2){
     console.warn("Меньше двух датских голосов, будут повторяться");
   }
@@ -249,12 +249,12 @@ function initVoices() {
 speechSynthesis.onvoiceschanged = initVoices;
 initVoices();
 
-async function speakDa(text, rate=1){
+async function speakDaSimple(text, rate=1){
   if(daVoices.length === 0) return speak(text, "da-DK", rate); // fallback
   const voice = daVoices[lastDaVoice % daVoices.length];
   lastDaVoice = (lastDaVoice + 1) % daVoices.length;
   return new Promise(resolve=>{
-    const u = new SpeechSynthesisUtterance(cleanTextForTTS(text));
+    const u = new SpeechSynthesisUtterance(text);
     u.lang = "da-DK";
     u.voice = voice;
     u.rate = rate;
@@ -275,39 +275,108 @@ function escapeHtml(s){
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ---------- TTS с паузами и опциональной подсветкой (highlightCallback) ----------
-async function speakWithPunctuationPauses(text, lang, rate=1, isDa=false, highlightCallback=null){
-  if(!text?.trim()) return;
-  const tokens = tokenizePreserve(text);
-  let wordIndex = 0;
-  for(const token of tokens){
-    if(token.isWord){
-      // подсветка текущего слова (только для датского)
-      if(isDa && typeof highlightCallback === 'function') highlightCallback(wordIndex);
-      if(isDa){
-        await speakDa(token.text, rate);
-      } else {
-        await speak(token.text, lang, rate);
+// ---------- Новый метод: говорим предложение целиком и подсвечиваем слова синхронно ----------
+// Использует SpeechSynthesisUtterance.onboundary, если доступно.
+// В fallback — приближённая оценка времени на слово.
+function speakWithHighlight(fullText, lang, rate=1, isDa=false, highlightCallback=null){
+  return new Promise(resolve => {
+    if(!fullText || !fullText.trim()) { resolve(); return; }
+
+    const tokens = tokenizePreserve(fullText);
+    // создаём массив диапазонов только для "слов" с порядковым wordIndex
+    let pos = 0;
+    const wordRanges = [];
+    let wordCounter = 0;
+    tokens.forEach(tok => {
+      const len = tok.text.length;
+      const start = pos;
+      const end = pos + len; // exclusive
+      if(tok.isWord){
+        wordRanges.push({ start, end, wordIndex: wordCounter });
+        wordCounter++;
       }
-      // убираем подсветку после произнесения слова
-      if(isDa && typeof highlightCallback === 'function') highlightCallback(null);
-      wordIndex++;
-    } else {
-      // не-слово: пунктуация или пробел
-      if(/\s+/.test(token.text)){
-        // пробелы — короткая пауза (можем пропустить)
-        // небольшая tiny pause
-        await new Promise(r => setTimeout(r, 80));
-      } else {
-        // пунктуация — пауза пропорциональна знакам
-        const signs = token.text.replace(/\s/g,'').length;
-        if(signs > 0) await new Promise(r => setTimeout(r, PAUSE_MS_PER_SIGN * signs));
-      }
+      pos = end;
+    });
+
+    // выбираем голос (для датского) или fallback
+    let voice = null;
+    if(isDa && daVoices.length > 0){
+      voice = daVoices[lastDaVoice % daVoices.length];
+      lastDaVoice = (lastDaVoice + 1) % daVoices.length;
     }
-  }
+
+    const utterText = fullText; // не чистим сильно — хотим корректные индексы символов
+    const u = new SpeechSynthesisUtterance(utterText);
+    u.lang = isDa ? "da-DK" : lang;
+    if(voice) u.voice = voice;
+    u.rate = rate;
+
+    // функция которая по charIndex вычисляет wordIndex и вызывает highlightCallback
+    function handleCharIndex(charIndex){
+      if(typeof highlightCallback !== 'function') return;
+      if(charIndex == null) { highlightCallback(null); return; }
+      // найти wordRanges, где charIndex попадает в [start, end)
+      const match = wordRanges.find(w => charIndex >= w.start && charIndex < w.end);
+      if(match) highlightCallback(match.wordIndex);
+    }
+
+    // если браузер поддерживает onboundary — используем его
+    let usedBoundary = false;
+    u.onboundary = (ev) => {
+      // в Chrome/Edge/Firefox иногда ev.name === 'word' или ev.charIndex присутствует
+      const ci = ev.charIndex;
+      if(ci != null){
+        usedBoundary = true;
+        handleCharIndex(ci);
+      }
+    };
+
+    // очистка подсветки в конце
+    u.onend = () => {
+      if(typeof highlightCallback === 'function') highlightCallback(null);
+      resolve();
+    };
+
+    // Если onboundary вообще не сработает (частые случаи в некоторых браузерах),
+    // используем fallback: приблизительное распределение времени по словам.
+    // Для этого стартуем таймер ожидания начала и затем проверим, сработал ли onboundary.
+    let boundaryDetected = false;
+    const boundaryProbeTimeout = setTimeout(() => {
+      if(usedBoundary) { boundaryDetected = true; return; }
+      // fallback logic
+      const wordsCount = wordRanges.length || 1;
+      // средняя скорость ~ 180 слов/мин ~ 3 слов/сек при rate=1
+      const wordsPerSec = 3 * rate;
+      const estimatedTotalSec = Math.max(0.6, wordsCount / wordsPerSec);
+      // распределим времена пропорционально длине слова в символах
+      const lengths = wordRanges.map(w => (w.end - w.start));
+      const totalChars = lengths.reduce((a,b)=>a+b,0) || 1;
+      let acc = 0;
+      wordRanges.forEach((w, idx) => {
+        acc += lengths[idx];
+        const t = (acc / totalChars) * estimatedTotalSec * 1000;
+        setTimeout(() => {
+          if(typeof highlightCallback === 'function') highlightCallback(w.wordIndex);
+        }, t);
+      });
+      // снять подсветку в конце
+      setTimeout(() => {
+        if(typeof highlightCallback === 'function') highlightCallback(null);
+      }, estimatedTotalSec*1000 + 50);
+    }, 120); // подождём 120ms, чтобы понять, начнёт ли работать onboundary
+
+    // по завершении — очистим probe
+    u.onend = () => {
+      clearTimeout(boundaryProbeTimeout);
+      if(typeof highlightCallback === 'function') highlightCallback(null);
+      resolve();
+    };
+
+    speechSynthesis.speak(u);
+  });
 }
 
-// ---------- UI позиции ----------
+// ===== UI позиции =====
 function randomPosition(el){
   const topOffset = 12;
   const bottomControls = document.getElementById('controls');
@@ -335,7 +404,6 @@ async function showSentence(sentence){
       wordCounter++;
       return html;
     } else {
-      // пробелы и пунктуация — тоже в span для корректного отображения
       return `<span class="da-token" data-word-index="-">${escapeHtml(t.text)}</span>`;
     }
   }).join('');
@@ -344,7 +412,6 @@ async function showSentence(sentence){
   document.getElementById('particleContainer').appendChild(el);
   moveTo(el, randomPosition(el));
 
-  // подготовим функцию подсветки, которая управляет span'ами внутри el
   const tokenSpans = Array.from(el.querySelectorAll('.da-token'));
   function highlightWord(idx){
     tokenSpans.forEach(s => s.classList.remove('highlight'));
@@ -353,22 +420,58 @@ async function showSentence(sentence){
     if(target) target.classList.add('highlight');
   }
 
-  // сначала перевод (русский один голос) — без подсветки
-  await speakWithPunctuationPauses(sentence.translation, 'ru-RU');
+  // сначала перевод (русский) — без подсветки
+  await speak(sentence.translation, 'ru-RU');
 
-  // потом датский вариант с повтором (чередуем два голоса) — подсветка включена
-  const rates = [0.5, 0.7, 1.0];
+  // скорости повторов: медленно, быстрее, естественно
+  const rates = [0.3, 0.6, 1.0];
+
+  // три повторения
   for(let i=0; i<MAX_REPEATS; i++){
+    if(!sessionRunning) break;
     if(i>0) await new Promise(r=>setTimeout(r, 1500));
     moveTo(el, randomPosition(el));
-    await speakWithPunctuationPauses(sentence.danish, 'da-DK', rates[Math.min(i,rates.length-1)], true, highlightWord);
+
+    await new Promise(resolve => {
+      const u = new SpeechSynthesisUtterance(sentence.danish);
+      u.lang = 'da-DK';
+      u.rate = rates[Math.min(i, rates.length-1)];
+      if(daVoices.length>0) u.voice = daVoices[lastDaVoice % daVoices.length];
+      lastDaVoice++;
+
+      // подсветка слов через onboundary
+      u.onboundary = ev => {
+        if(ev.charIndex != null){
+          let pos = 0;
+          for(let w=0, idx=0; idx<tokens.length; idx++){
+            const t = tokens[idx];
+            const len = t.text.length;
+            if(t.isWord){
+              if(ev.charIndex >= pos && ev.charIndex < pos+len){
+                highlightWord(w);
+                break;
+              }
+              w++;
+            }
+            pos += len;
+          }
+        }
+      };
+
+      u.onend = () => {
+        highlightWord(null);
+        resolve();
+      };
+
+      speechSynthesis.speak(u);
+    });
   }
 
-  // Очистим подсветку и удалим элемент
-  highlightWord(null);
   el.remove();
   showingSentence = false;
 }
+
+
 
 // ===== показываем диалог с озвучкой начала и конца блока =====
 async function showDialog(dialog){
