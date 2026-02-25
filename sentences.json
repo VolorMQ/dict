@@ -1643,5 +1643,32 @@
     "id": "s329",
     "wordId": "w329",
     "text": "Kan du forklare det {{word}}?"
-  }
+  },
+	{ "id": "s330", "wordId": "w330", "text": "Hun får god {{word}} på arbejdet." },
+	{ "id": "s331", "wordId": "w331", "text": "Han er {{word}} af klubben." },
+	{ "id": "s332", "wordId": "w332", "text": "Alle skal tilhøre en {{word}}." },
+	{ "id": "s333", "wordId": "w333", "text": "Han {{word}} hver dag til byen." },
+	{ "id": "s334", "wordId": "w334", "text": "Græsset blev slået med {{word}}." },
+	{ "id": "s335", "wordId": "w335", "text": "Hun er meget {{word}} i sit arbejde." },
+	{ "id": "s336", "wordId": "w336", "text": "Der kræves {{word}} information." },
+	{ "id": "s337", "wordId": "w337", "text": "Han er {{word}} i projektet." },
+	{ "id": "s338", "wordId": "w338", "text": "Efter konflikten blev han {{word}}." },
+	{ "id": "s339", "wordId": "w339", "text": "Der er et {{word}} job til dig." },
+	{ "id": "s340", "wordId": "w340", "text": "Hun gav mig et godt {{word}}." },
+	{ "id": "s341", "wordId": "w341", "text": "Han vil {{word}} nye færdigheder." },
+	{ "id": "s342", "wordId": "w342", "text": "Vi skal {{word}} dagligt." },
+	{ "id": "s343", "wordId": "w343", "text": "Det er en {{word}} arbejdsstilling." },
+	{ "id": "s344", "wordId": "w344", "text": "Dagen var {{word}} og spændende." },
+	{ "id": "s345", "wordId": "w345", "text": "Der var meget {{word}} i lokalet." },
+	{ "id": "s346", "wordId": "w346", "text": "Byens {{word}} var næsten uudholdelig." },
+	{ "id": "s347", "wordId": "w347", "text": "Jeg vil {{word}} kaffe frem for te." },
+	{ "id": "s348", "wordId": "w348", "text": "Vi blev {{word}} om ændringerne." },
+	{ "id": "s349", "wordId": "w349", "text": "Skolen vil {{word}} faciliteterne." },
+	{ "id": "s350", "wordId": "w350", "text": "Han er meget {{word}} omkring musik." },
+	{ "id": "s351", "wordId": "w351", "text": "Projektet var {{word}} og spændende." },
+	{ "id": "s352", "wordId": "w352", "text": "Husk at {{word}} hovedpunkterne." },
+	{ "id": "s353", "wordId": "w353", "text": "Hun kunne {{word}} sin kuffert til bilen." },
+	{ "id": "s354", "wordId": "w354", "text": "Virksomheden vil {{word}} flere medarbejdere." },
+	{ "id": "s355", "wordId": "w355", "text": "Vi {{word}} en hurtig beslutning." }
+
 ]

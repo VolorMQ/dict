@@ -2301,5 +2301,32 @@
     "value": "ближе, подробнее",
     "pos": "adv",
     "imageUrl": ""
-  }
+  },
+	{ "id": "w330", "word": "oplæring", "value": "обучение, наставничество", "pos": "noun", "imageUrl": "" },
+	{ "id": "w331", "word": "medlem", "value": "член", "pos": "noun", "imageUrl": "" },
+	{ "id": "w332", "word": "fagforening", "value": "профсоюз", "pos": "noun", "imageUrl": "" },
+	{ "id": "w333", "word": "pendler", "value": "ездит на работу", "pos": "verb", "imageUrl": "" },
+	{ "id": "w334", "word": "slåning", "value": "кошение", "pos": "noun", "imageUrl": "" },
+	{ "id": "w335", "word": "selvstændig", "value": "самостоятельный", "pos": "adj", "imageUrl": "" },
+	{ "id": "w336", "word": "yderligere", "value": "дополнительно, далее", "pos": "adv", "imageUrl": "" },
+	{ "id": "w337", "word": "engageret", "value": "вовлечённый, заинтересованный", "pos": "adj", "imageUrl": "" },
+	{ "id": "w338", "word": "fyret", "value": "уволен", "pos": "adj", "imageUrl": "" },
+	{ "id": "w339", "word": "ledigt", "value": "свободный, вакантный", "pos": "adj", "imageUrl": "" },
+	{ "id": "w340", "word": "råd", "value": "совет", "pos": "noun", "imageUrl": "" },
+	{ "id": "w341", "word": "udvikle", "value": "развивать", "pos": "verb", "imageUrl": "" },
+	{ "id": "w342", "word": "øve", "value": "практиковать, тренировать", "pos": "verb", "imageUrl": "" },
+	{ "id": "w343", "word": "stillesidende", "value": "сидячий (малоподвижный)", "pos": "adj", "imageUrl": "" },
+	{ "id": "w344", "word": "afvekslende", "value": "разнообразный, чередующийся", "pos": "adj", "imageUrl": "" },
+	{ "id": "w345", "word": "larm", "value": "шум", "pos": "noun", "imageUrl": "" },
+	{ "id": "w346", "word": "støj", "value": "громкий шум", "pos": "noun", "imageUrl": "" },
+	{ "id": "w347", "word": "foretrække", "value": "предпочитать", "pos": "verb", "imageUrl": "" },
+	{ "id": "w348", "word": "advide", "value": "информировать, предупреждать", "pos": "verb", "imageUrl": "" },
+	{ "id": "w349", "word": "udbygge", "value": "расширять, развивать", "pos": "verb", "imageUrl": "" },
+	{ "id": "w350", "word": "passioneret", "value": "страстный, увлечённый", "pos": "adj", "imageUrl": "" },
+	{ "id": "w351", "word": "udfordrende", "value": "сложный, требующий усилий", "pos": "adj", "imageUrl": "" },
+	{ "id": "w352", "word": "understreg", "value": "подчеркнуть", "pos": "verb", "imageUrl": "" },
+	{ "id": "w353", "word": "bevæge", "value": "двигать, передвигать", "pos": "verb", "imageUrl": "" },
+	{ "id": "w354", "word": "ansætte", "value": "нанимать", "pos": "verb", "imageUrl": "" },
+	{ "id": "w355", "word": "forvente", "value": "ожидать", "pos": "verb", "imageUrl": "" }
+
 ]
